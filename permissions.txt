@@ -1,0 +1,9 @@
+This file is to act as a reference for what permissions we 3rd party devs are not allowed on the holiest of grounds, ios.
+
+9key cannot type into any secure text object, like passwords.
+
+9key cannot type in any apps that the developers of which have disallowed 3rd party keyboards, e.g. bank apps, probably.
+
+9key cannot type entries into the native contacts app.
+
+
