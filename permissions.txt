@@ -6,4 +6,8 @@ This file is to act as a reference for what permissions we 3rd party devs are no
 
 9key cannot type entries into the native contacts app.
 
+9key cannot select text (e.g. copy, paste).
+
+9key cannot use dictation.
+
 
