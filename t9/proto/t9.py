@@ -98,6 +98,7 @@ class Trie:
 				else:
 					prefixExists = False
 					node = None
+					return [node, prefixExists]
 		return [node, prefixExists]
 		
 	def getPrefixNode(self, keySeq):
