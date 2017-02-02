@@ -1,6 +1,10 @@
+from __future__ import division
+from math import log
 import string
 from operator import itemgetter
 import re
+import os
+import shutil
  
 # Sources:
 # http://www.mitchrobb.com/t9-in-javascript-with-a-prefix-tree/
@@ -34,8 +38,9 @@ class TrieNode:
 		self.leaf = True
 
 class Trie:
-	def __init__(self):
+	def __init__(self, filename):
 		self.root = TrieNode()
+		self.filename = filename
 
 	def insert(self, word, frequency):
 		# First, create the path for the word.
@@ -127,9 +132,38 @@ class Trie:
 			for i in prefix[0].words:
 				if i[0] == chosenWord:
 					i[1] += 1
+					self.updateDictionaryFrequency(chosenWord)
 					break
 		else:
 			self.insert(chosenWord, 1)
+			self.insertWordInDictionary(chosenWord)
+			
+	def insertWordInDictionary(self, chosenWord):
+		newFileName = "new" + self.filename
+		with open(self.filename, 'a') as f:
+			f.write('\n1\t' + chosenWord)
+			
+	def updateDictionaryFrequency(self, chosenWord):
+		newFileName = "new" + self.filename
+		with open(self.filename, 'r') as input_file, open(newFileName, 'w') as output_file:
+			for line in input_file:
+				pair = re.split('\s+', line.rstrip('\n'))
+				if pair[1] == chosenWord:
+					output_file.write(str(int(pair[0]) + 1) + '\t' + chosenWord + '\n')
+				else:
+					output_file.write(line)
+		os.rename(newFileName, self.filename)
+	
+	def resetDictionary(self, sourceName):
+		shutil.copy(sourceName, self.filename)
+			
+''' Experimenting with writing a dictionary with a different predictive measure
+def probDict():
+	with open("freqDict.txt", 'r') as input_file, open("out.txt", 'w') as output_file:
+		for line in input_file:
+			pair = re.split('\s+', line.rstrip('\n')) # 85714226
+			output_file.write(str(log(int(pair[0])/1000, 1.1)) + '\t' + pair[1] + '\n')
+'''
 			
 def loadTrie(T, dictFileName):
 	dictFile = open(dictFileName, 'r')
@@ -155,7 +189,7 @@ def getKeySequence(word):
 def texter(T, suggestionDepth, numResults):
 	cmdline = raw_input("> ")
 	word = ""
-	while cmdline != "quit()":
+	while cmdline != "reset()" and cmdline != "quit()":
 		cmdline = cmdline.replace(' ', '')
 		cmdline = cmdline.lower()
 		cmdline = cmdline.translate(None, string.punctuation)
@@ -169,17 +203,20 @@ def texter(T, suggestionDepth, numResults):
 		cmdline = raw_input("> ")
 		word = ""
 	print "Exiting..."
+	if cmdline == "reset()":
+		T.resetDictionary("freqDictOriginal.txt")
 		
 def main():
 	print "----------T9 Prototype----------"
 	print "Enter a word. A list of word predictions will be printed as each letter is read."
 	print "Predictions are returned in an order - by shortest valid words, and then and by an estimated frequency of use."
 	print "Currently, only lower-case ascii chars are supported. No capitals, no spaces or punctuation, no numbers, etc. Will be coming."
-	print "Type 'quit() to quit."
+	print "Type 'reset() to quit without saving changes to dictionary."
 	suggestionDepth = 10
-	numResults = 100
-	T = Trie()
-	loadTrie(T, "freqDict.txt")
+	numResults = 3
+	filename = "freqDict.txt"
+	T = Trie(filename)
+	loadTrie(T, filename)
 	texter(T, suggestionDepth, numResults)
 	print ('|')
 		
