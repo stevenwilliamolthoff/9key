@@ -76,7 +76,7 @@ class Trie:
 		return deepSuggestions
 		
 	def traverse(self, root, depth, maxDepth, deepSuggestions):
-		if (depth < maxDepth and depth > 0):
+		if (depth <= maxDepth and depth > 0):
 			if root.words != None:
 				deepSuggestions[depth-1].extend(root.words)
 		if depth == maxDepth:
@@ -108,6 +108,29 @@ class Trie:
 		else:
 			return None
 			
+	def wordExists(self, word, keySeq):
+		prefix = self.getPrefixLeaf(keySeq)
+		if prefix[0]:
+			if prefix[0].isLeaf():
+				for pairs in prefix[0].words:
+					if pairs[0] == word:
+						return True
+				return False
+			else:
+				return False
+		else:
+			return False
+			
+	def updateFrequency(self, chosenWord, keySeq):
+		prefix = self.getPrefixLeaf(keySeq)
+		if self.wordExists(chosenWord, keySeq):
+			for i in prefix[0].words:
+				if i[0] == chosenWord:
+					i[1] += 1
+					break
+		else:
+			self.insert(chosenWord, 1)
+			
 def loadTrie(T, dictFileName):
 	dictFile = open(dictFileName, 'r')
 	for i, line in enumerate(dictFile):
@@ -129,7 +152,7 @@ def getKeySequence(word):
 		keySeq.append(keys[c])
 	return keySeq
 
-def texter(T):
+def texter(T, suggestionDepth, numResults):
 	cmdline = raw_input("> ")
 	word = ""
 	while cmdline != "quit()":
@@ -139,8 +162,10 @@ def texter(T):
 		for c in cmdline:
 			word += c
 			keySeq = getKeySequence(word)
+			print "Key sequence:", keySeq
 			print "Suggestion for string:", word
-			print T.getSuggestions(keySeq, 3)
+			print T.getSuggestions(keySeq, suggestionDepth)[:numResults]
+		T.updateFrequency(word, keySeq)
 		cmdline = raw_input("> ")
 		word = ""
 	print "Exiting..."
@@ -151,9 +176,11 @@ def main():
 	print "Predictions are returned in an order - by shortest valid words, and then and by an estimated frequency of use."
 	print "Currently, only lower-case ascii chars are supported. No capitals, no spaces or punctuation, no numbers, etc. Will be coming."
 	print "Type 'quit() to quit."
+	suggestionDepth = 10
+	numResults = 100
 	T = Trie()
 	loadTrie(T, "freqDict.txt")
-	texter(T)
+	texter(T, suggestionDepth, numResults)
 	print ('|')
 		
 if __name__ == '__main__':

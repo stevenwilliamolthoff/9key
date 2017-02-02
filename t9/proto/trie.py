@@ -1,12 +1,13 @@
 from string import ascii_lowercase
-from re import split
+from re import *
 
 class TrieNode:
-	def __init__(self):
+	def __init__(self, parent):
 		# Init dict of alphabet. Each letter maps to null
 		self.children = dict.fromkeys(ascii_lowercase, None)
 		self.alphabetSize = 26
 		self.leaf = False
+		self.parent = parent
 	def isLeaf(self):
 		return self.leaf
 	def getBranch(self, c):
@@ -20,12 +21,12 @@ class TrieNode:
 	
 class Trie:
 	def __init__(self):
-		self.root = TrieNode()
+		self.root = TrieNode(None)
 	def insert(self, word):
 		node = self.root
 		for c in word:
 			if not node.hasChildren(c):
-				node.putNode(c, TrieNode())
+				node.putNode(c, TrieNode(node))
 			node = node.getBranch(c)
 		node.setAsLeaf()
 	def getPrefixLeaf(self, word):
@@ -42,10 +43,32 @@ class Trie:
 	def prefixExists(self, prefix):
 		node = self.getPrefixLeaf(prefix)
 		return node != None
+	def getPrefixNode(self, prefix):
+		node = self.getPrefixLeaf(prefix)
+		if node != None:
+			return node
+		else:
+			return None
+		
+def loadTrie(T, dictFileName):
+	dictFile = open(dictFileName, 'r')
+	for i, line in enumerate(dictFile):
+		skip = False
+		word = line.rstrip('\n')
+		for c in word:
+			# For now, cannot handle special chars
+			if not (c in ascii_lowercase):
+				skip = True
+				break
+		if not skip:
+			T.insert(word)
+	dictFile.close()
+	return T
 		
 def main():
 	T = Trie()
-	print "--------------------TRIE--------------------"
+	
+	print "--------------------TRIE-----------------"
 	print "i <word>: insert word into Trie"
 	print "w <word>: True if word in Trie, Else False"
 	print "p <prefix>: True if a word in Trie contains <prefix>, Else False"
@@ -62,6 +85,7 @@ def main():
 		else:
 			pass
 		cmdline = raw_input("> ")
+	
 	
 if __name__ == '__main__':
 	main()
