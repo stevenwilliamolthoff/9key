@@ -41,6 +41,23 @@ class Trie:
 	def __init__(self, filename):
 		self.root = TrieNode()
 		self.filename = filename
+		self.dictionarySize = 0
+		
+	def loadTrie(self, dictFileName):
+		dictFile = open(dictFileName, 'r')
+		for i, line in enumerate(dictFile):
+			self.dictionarySize += 1
+			skip = False
+			pair = re.split('\s+', line.rstrip('\n'))
+			for c in pair[1]:
+				# For now, cannot handle special chars
+				if not (c in string.ascii_lowercase):
+					skip = True
+					break
+			if not skip:
+				self.insert(pair[1], int(pair[0]))
+		dictFile.close()
+		return self.dictionarySize
 
 	def insert(self, word, frequency):
 		# First, create the path for the word.
@@ -141,15 +158,17 @@ class Trie:
 	def insertWordInDictionary(self, chosenWord):
 		newFileName = "new" + self.filename
 		with open(self.filename, 'a') as f:
-			f.write('\n1\t' + chosenWord)
+			f.write('1\t' + chosenWord + '\n')
 			
 	def updateDictionaryFrequency(self, chosenWord):
 		newFileName = "new" + self.filename
 		with open(self.filename, 'r') as input_file, open(newFileName, 'w') as output_file:
-			for line in input_file:
+			for i, line in enumerate(input_file):
 				pair = re.split('\s+', line.rstrip('\n'))
 				if pair[1] == chosenWord:
 					output_file.write(str(int(pair[0]) + 1) + '\t' + chosenWord + '\n')
+					if i < self.dictionarySize - 1:
+						output_file.write('\n')
 				else:
 					output_file.write(line)
 		os.rename(newFileName, self.filename)
@@ -164,21 +183,6 @@ def probDict():
 			pair = re.split('\s+', line.rstrip('\n')) # 85714226
 			output_file.write(str(log(int(pair[0])/1000, 1.1)) + '\t' + pair[1] + '\n')
 '''
-			
-def loadTrie(T, dictFileName):
-	dictFile = open(dictFileName, 'r')
-	for i, line in enumerate(dictFile):
-		skip = False
-		pair = re.split('\s+', line.rstrip('\n'))
-		for c in pair[1]:
-			# For now, cannot handle special chars
-			if not (c in string.ascii_lowercase):
-				skip = True
-				break
-		if not skip:
-			T.insert(pair[1], int(pair[0]))
-	dictFile.close()
-	return T
 	
 def getKeySequence(word):
 	keySeq = []
@@ -216,7 +220,7 @@ def main():
 	numResults = 3
 	filename = "freqDict.txt"
 	T = Trie(filename)
-	loadTrie(T, filename)
+	T.loadTrie(filename)
 	texter(T, suggestionDepth, numResults)
 	print ('|')
 		
