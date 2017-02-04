@@ -1,0 +1,70 @@
+class CacheNode inherits from TrieNode:
+	parentNode = CacheNode()
+	CacheNode(parentNode):
+		self.parentNode = parentNode
+	def setParent(parentNode):
+		self = CacheNode(parentNode)
+
+class CacheTrie inherits from Trie:
+	root = cacheNode(Null)
+
+	// same as Trie.insert() except keeps track of parent node
+	def insert(word, word, frequency):
+		parentNode = Null
+		node = root
+		key = 0
+		for c in word:
+			key = keys[c]
+			if not node.hasChildren(key):
+				node.putNode(key, CacheNode())
+			parentNode = node
+			node = node.getBranch(key)
+		node.setAsLeaf()
+		node.setParent(parentNode)
+		node.words.append([word, frequency])
+		node.words = sorted by frequency
+
+class Cache:
+	Cache(sizeLimit):
+		self.sizeLimit = sizeLimit
+		self.cacheList = []
+		self.cacheTrie = CacheTrie()
+
+	def getSuggestions(keySequence, suggestionDepth):
+		return cacheTrie.getSuggest(keySequence, suggestionDepth)
+
+	def update(chosenWord):
+		if chosenWord in cacheList:
+			move chosenWord to front of cacheList
+		else:
+			insert(chosenWord)
+
+	def insert(word):
+		// if @ capacity
+		if len(cacheList) == sizeLimit:
+			pruneOldeset()
+		// put most recent word at beginning
+		cacheList[0] = word
+		cacheTrie.insert(word)
+
+	def pruneOldest():
+		pruneWord(last word in cacheList)
+
+	def pruneWord(wordToPrune):
+		nodeToPrude = getPrefixNode(wordToPrune)
+		// If wordToPrune is a prefix with other children, just remove this one word from the word list of nodeToPrune
+		if nodeToPrune.children:
+			nodeToPrune.words.remove(wordToPrune)
+			return
+		else:
+			pruneNode(nodeToPrune)
+
+	def pruneNode(nodeToPrune):
+		// parent has no keys in children other than the target's key
+		if nodeToPrune.parentNode.children == 1:
+			pruneNode(nodeToPrune.parentNode)
+		else:
+			nodeToPrune = Null
+
+	def clear():
+		self = Cache(self.sizeLimit)
