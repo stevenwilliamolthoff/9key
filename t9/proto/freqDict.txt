@@ -1,5 +1,5 @@
-2186369	a
-4249	abandon
+2186370	a
+4250	abandon
 1110	abbey
 10468	ability
 30454	able
@@ -2631,8 +2631,7 @@
 1339	heir
 1517	helicopter
 5049	hell
-3530	hello
-949	helmet
+3534	hello949	helmet
 11606	help
 40265	help
 3155	helpful
@@ -3613,16 +3612,13 @@
 936	mutation
 2064	mutter
 2198	mutual
-152619	my
-12444	myself
+152620	my12444	myself
 1336	mysterious
 2781	mystery
 2012	myth
 1481	nail
 2049	naked
-32309	name
-6284	name
-2164	namely
+32310	name6285	name2164	namely
 1185	narrative
 5342	narrow
 1206	narrow
@@ -6193,8 +6189,7 @@
 3131	whisper
 19865	white
 2047	white
-205432	who
-1475	whoever
+205433	who1475	whoever
 19542	whole
 11228	whole
 2249	wholly
@@ -6214,10 +6209,7 @@
 5325	wild
 1956	wildlife
 800	wildly
-297281	will
-6995	will
-1611	will
-3973	willing
+297282	will6996	will1612	will3973	willing
 1182	willingness
 2506	win
 24310	win
@@ -6232,8 +6224,7 @@
 2367	wipe
 2672	wire
 1528	wisdom
-2361	wise
-3261	wish
+2362	wise3261	wish
 16647	wish
 1239	wit
 911	witch
@@ -6308,11 +6299,10 @@
 35058	yet
 1626	yield
 2139	yield
-695498	you
-37278	young
+695499	you37278	young
 2260	youngster
-138334	your
-4239	yours
+138335	your4239	yours
 10746	yourself
-5686	youth
-3223	zone
+5687	youth
+3227	zone
+3	steven

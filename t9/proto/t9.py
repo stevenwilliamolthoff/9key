@@ -18,8 +18,8 @@ def suggester(trie, cache, numResults, numCacheResults, keySequence, suggestionD
 			suggestions.add(t)
 	return suggestions
 
-def texter(T, suggestionDepth, numResults, numCacheResults):
-	cache = Cache(numCacheResults)
+def texter(T, suggestionDepth, cacheSize, numResults, numCacheResults):
+	cache = Cache(cacheSize)
 	cmdline = raw_input("> ")
 	word = ""
 	while cmdline != "reset()" and cmdline != "quit()":
@@ -55,12 +55,13 @@ def main():
 	print "4: G H I   | 5: J K L | 6: M N O"
 	print "7: P Q R S | 8: T U V | 9: W X Y Z"
 	suggestionDepth = 10
-	numResults = 6
-	numCacheResults = 3
+	numResults = 20
+	cacheSize = 20
+	numCacheResults = 10
 	filename = "freqDict.txt"
 	T = Trie(filename)
 	T.loadTrie(filename)
-	texter(T, suggestionDepth, numResults, numCacheResults)
+	texter(T, suggestionDepth, cacheSize, numResults, numCacheResults)
 	print ('|')
 		
 if __name__ == '__main__':

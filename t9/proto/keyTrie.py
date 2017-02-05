@@ -155,9 +155,10 @@ class Trie:
 			for i, line in enumerate(input_file):
 				pair = re.split('\s+', line.rstrip('\n'))
 				if pair[1] == chosenWord:
-					output_file.write(str(int(pair[0]) + 1) + '\t' + chosenWord)
-					if i == self.dictionarySize - 1:
-						output_file.write('\n')
+					if i < self.dictionarySize - 1:
+						output_file.write(str(int(pair[0]) + 1) + '\t' + chosenWord + '\n')
+					else:
+						output_file.write(str(int(pair[0]) + 1) + '\t' + chosenWord + '\n')
 				else:
 					output_file.write(line)
 		os.rename(newFileName, self.filename)
