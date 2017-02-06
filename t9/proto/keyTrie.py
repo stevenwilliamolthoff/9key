@@ -66,7 +66,7 @@ class Trie:
 			for pair in prefixNode.words:
 				suggestions.append(pair[0])
 			if suggestionDepth > 1:
-				deeperSuggestions = self.getDeeperSuggestions(prefixNode, suggestionDepth)
+				deeperSuggestions = self.getDeeperSuggestions(prefixNode, len(keySequence) + suggestionDepth)
 				for depth in deeperSuggestions:
 					for pair in depth:
 						suggestions.append(pair[0])
@@ -83,7 +83,7 @@ class Trie:
 		return deepSuggestions
 		
 	def traverse(self, root, depth, maxDepth, deepSuggestions):
-		if (depth <= maxDepth and depth > 0):
+		if (depth < maxDepth and depth > 0):
 			if root.words != None:
 				deepSuggestions[depth-1].extend(root.words)
 		if depth == maxDepth:
