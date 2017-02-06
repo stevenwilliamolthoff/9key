@@ -1,0 +1,108 @@
+to do
+	
+List alterations = [(index, char)]
+	e.g.
+	[(3, '\'')]
+	[(0, 'S')]
+	[(0, 'Ž'), (2, ž)]
+	for
+	cant -> can't
+	steven -> Steven
+	zizek -> Žižek
+
+- Capital letters:
+	Still storing all prefixes as lowercase.
+	User enters
+		Shift 2 2 8
+	Find words at path 2 2 8
+		[bat, cat, ...]
+	Return suggestions with letter capitalized in same position as typed
+		Suggestions: [Bat, Cat, ...]
+
+	Pro:
+		Not storing entries for words that are uppercased only when at the start of a sentence.
+
+	Con:
+		typing in a name starting with a lower case letter, e.g. "steven", will not yield the suggestion "Steven"
+
+- Punctuation
+	Option 1.
+	User enters
+		2 2 6 apostrophe 8
+	Find suggestions
+		[cant, ...]
+	return suggestions with punctuation included in same position as typed
+		[can't, ...]
+	Pro:
+		don't have to store punctuation at all.
+		infinitely easier to maintain because no extra storage required.
+		computation regarding punctuation occurs only exactly when needed.
+	Con:
+		user should be able to type 'cant' and get 'can't' as a suggestion
+		can't predict words like 'x-ray' or 'vice-president' because we are not storing any punctuated words
+			solution?: maybe store all punctuated words stripped of punctuation and repunctuate wherever the user types the punctuation. e.g. store 'xray'. user types 'x-'. strip user entry to 'x'. find suggestion 'xray'. print suggestion as 'x-ray' using the position of the hyphen from the user.
+
+	Option 2.
+	User enters
+		2 2 6
+	Get Suggestions
+		[can, cant, ...]
+	Before returning suggestions, identify which suggestions are candidates for punctuation - maybe based on if ends in 'nt', etc.
+		If any candidates found, check if in hashmap of punctuated words.
+	Return punctuated suggestions:
+		[can, can't, ...]
+
+	If user enters punctuation
+		2 2 6 apostrophe
+		Strip punctuation and continue checking as normal.
+	Pro:
+		Stripping user-typed punctuation seems very silly and wasteful.
+
+		Since most words are not punctuated, it would be very wasteful to make each level of the Trie potentially as wide as the number of buttons required for both letters of the alphabet AND punctuation marks. This way, each level remains at most 7 keys wide.
+
+		Typing 'cant' will return a suggestion of 'can't'
+
+		Checking simple endings common to contractions will likely keep things faster than if we checked if every suggestion were elsewhere in memory (in the hashmap).
+	Con:
+		May be very slow
+
+		Have to maintain a hash of punctuated words - more memory, more to mess up, more calculations to make in order to keep up to date, mistakenly entered contractions will be in this hashmap unless the user has some way to delete it.
+
+		Unless we want to check whether every single suggestion is in the hashmap, we will miss hyphenated words, for example, 'wait-and-see', 'ex-girlfriend'
+
+	Option 3.
+		Keep a separate Trie for punctuated words.
+		e.g.
+		User types
+			2 2 6 apostrophe
+		Punctuation is detected, so begin checking Trie of punctuated words instead.
+
+		Pro:
+			Can predict punctuated words other than contractions, e.g. hyphenated words like 'ex-girlfriend' will be predicted at 'ex-', and words with accent marks in them, which much of the rest of the world would use.
+
+		Cons:
+			Must check at every char is punctuation
+
+			Most punctuated words are probably contractions, in which case, the punctuation is not typed until the word is almost completed anyway. e.g. 'can't' would not be predicted until 'can'' is typed.
+
+			Every punctuated word wastes computation in the normal Trie and then restarts when looking in the punctuation Trie.
+
+- Probabilities:
+	Using frequencies for each word will get out of hand. Could use a float to
+	keep track of 'probability'. Not sure how. Bayes?
+	Also, make recently typed words more likely to be suggested.
+	
+- Updating the dictionary:
+	1. Update word probability after each word choice.
+	2. Add new words to the dictionary.
+	3. Figure out a method of writing changes to the dictionary.
+		Options for (3):
+			1. Write changes to file (the discrepancies between the Trie and the
+			dictionary text file) just before quitting. Problem: What if it crashes?
+			2. Write changes after each word is chosen. Problem: Too slow? How to
+			efficiently write new words and new probabilities to the file? Worst case:
+			a huge sequence of novel words, e.g. names of people.
+			3. Periodically write changes to file, and before quitting. Maybe there is
+			some sweet spot of how often to do this.
+
+- Make misspellings recognizable. e.g. "hellovworld" -> "hello world"

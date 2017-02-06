@@ -26,6 +26,7 @@ def texter(T, suggestionDepth, cacheSize, numResults, numCacheResults):
 		cmdline = cmdline.replace(' ', '')
 		cmdline = cmdline.lower()
 		cmdline = cmdline.translate(None, string.punctuation)
+		predictionSuccessful = False
 		for c in cmdline:
 			suggestions = Set()
 			word += c
@@ -37,8 +38,19 @@ def texter(T, suggestionDepth, cacheSize, numResults, numCacheResults):
 			for s in suggestions:
 				suggestionsStr += s + ' '
 			print suggestionsStr
+			for s in suggestions:
+				if s == cmdline:
+					print "Word successfully predicted after", len(word), "chars typed."
+					predictionSuccessful = True
+			if predictionSuccessful:
+				break
+		if not predictionSuccessful:
+			print "Failed to predict word."
+		word = cmdline
+		keySeq = getKeySequence(word)
 		newFreq = T.updateFrequency(word, keySeq)
 		cache.update(word, newFreq, keySeq)
+		print "--------------------"
 		cmdline = raw_input("> ")
 		word = ""
 	print "Exiting..."
