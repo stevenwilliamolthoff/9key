@@ -67,8 +67,9 @@ def texter(T, suggestionDepth, cacheSize, numResults, numCacheResults):
 			print "Failed to predict word."
 		word = cmdline.lower()
 		keySeq = getKeySequence(word)
-		newFreq = T.updateFrequency(word, keySeq)
-		cache.update(word, newFreq, keySeq)
+		if word != '':
+			newFreq = T.updateFrequency(word, keySeq)
+			cache.update(word, newFreq, keySeq)
 		print "--------------------"
 		cmdline = raw_input("> ")
 		word = ""
