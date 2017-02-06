@@ -6,38 +6,57 @@ from sets import Set
 # http://www.mitchrobb.com/t9-in-javascript-with-a-prefix-tree/
 # https://leetcode.com/articles/implement-trie-prefix-tree/
 
-def suggester(trie, cache, numResults, numCacheResults, keySequence, suggestionDepth):
-	suggestions = Set()
+class Uppers:
+	def __init__(self, index):
+		self.index = index
+	def getIndex(self):
+		return self.index
+
+def suggester(trie, cache, numResults, numCacheResults, keySequence, suggestionDepth, uppers):
+	suggestions = []
 	numTrieSuggestions = numResults - numCacheResults
 	trieSuggestions = trie.__getSuggestions__(keySequence, suggestionDepth)
 	for t in trieSuggestions[:numTrieSuggestions]:
-		suggestions.add(t)
+		if not t in suggestions:
+			suggestions.append(t)
 	if len(suggestions) < numResults:
 		cacheSuggestions = cache.cacheTrie.getSuggestions(keySequence, suggestionDepth)
 		for t in cacheSuggestions[:numResults - numTrieSuggestions]:
-			suggestions.add(t)
+			if not t in suggestions:
+				suggestions.append(t)
+		for i, s in enumerate(suggestions):
+			newWord = s
+			for u in uppers:
+				newWord = newWord[:u.getIndex()] + newWord[u.getIndex()].upper() + newWord[u.getIndex() + 1:]
+			suggestions[i] = newWord
 	return suggestions
 
 def texter(T, suggestionDepth, cacheSize, numResults, numCacheResults):
 	cache = Cache(cacheSize)
 	cmdline = raw_input("> ")
 	word = ""
+	originalWord = ""
 	while cmdline != "reset()" and cmdline != "quit()":
 		cmdline = cmdline.replace(' ', '')
-		cmdline = cmdline.lower()
+		#cmdline = cmdline.lower()
 		cmdline = cmdline.translate(None, string.punctuation)
 		predictionSuccessful = False
+		uppers = []
 		for c in cmdline:
 			suggestions = Set()
 			word += c
+			originalWord += c
+			
+			if c in string.ascii_uppercase:
+				uppers.append(Uppers(len(word) - 1))
+			
+			word = word.lower()
+			
 			keySeq = getKeySequence(word)
 			print "Key sequence:", keySeq
-			print "Suggestion for string:", word
-			suggestions = suggester(T, cache, numResults, numCacheResults, keySeq, suggestionDepth)
-			suggestionsStr = ''
-			for s in suggestions:
-				suggestionsStr += s + ' '
-			print suggestionsStr
+			print "Suggestion for string:", originalWord
+			suggestions = suggester(T, cache, numResults, numCacheResults, keySeq, suggestionDepth, uppers)
+			print suggestions
 			for s in suggestions:
 				if s == cmdline:
 					print "Word successfully predicted after", len(word), "chars typed."
@@ -46,13 +65,14 @@ def texter(T, suggestionDepth, cacheSize, numResults, numCacheResults):
 				break
 		if not predictionSuccessful:
 			print "Failed to predict word."
-		word = cmdline
+		word = cmdline.lower()
 		keySeq = getKeySequence(word)
 		newFreq = T.updateFrequency(word, keySeq)
 		cache.update(word, newFreq, keySeq)
 		print "--------------------"
 		cmdline = raw_input("> ")
 		word = ""
+		originalWord = ""
 	print "Exiting..."
 	if cmdline == "reset()":
 		T.resetDictionary("freqDictOriginal.txt")
