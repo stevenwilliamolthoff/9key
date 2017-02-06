@@ -1,4 +1,22 @@
 to do
+
+1:         | 2: A B C | 3: D E F
+4: G H I   | 5: J K L | 6: M N O
+7: P Q R S | 8: T U V | 9: W X Y Z
+
+- New Word Entry:
+	e.g
+	User begins entering a word, a name or something, like "Shelby"
+		shift 7 4 3 5
+	T9 attempts to guess:
+		['Rifle', 'Shelf', 'Shell', 'Shelter']
+	User enters next letter that makes the word turn up no matches in the prefix tree:
+		shift 7 4 3 5 2
+	The side bar of suggestions does not change. All suggestions that were present for 'shift 7 4 3 5' are still present.
+	User scrolls side bar of suggestions and selects 'Shell'
+	User then deletes one letter because 'Shel' is a prefix of his desired word
+	Keyboard then switches into repetitive entry mode and user enters in the rest like so
+		
 	
 List alterations = [(index, char)]
 	e.g.

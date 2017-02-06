@@ -80,9 +80,10 @@ def texter(T, suggestionDepth, cacheSize, numResults, numCacheResults):
 def main():
 	print "----------T9 Prototype----------"
 	print "Enter a word. A list of word predictions will be printed as each letter is read."
-	print "Predictions are returned in an order - by shortest valid words, and then and by an estimated frequency of use."
-	print "Currently, only lower-case ascii chars are supported. No capitals, no spaces or punctuation, no numbers, etc. Will be coming."
+	print "Predictions are returned in an order - by shortest valid words, and then by weight, and then in the same ranking for words in the cache."
+	print "Currently, no punctuation, no numbers, etc. are supported."
 	print "Type 'reset() to quit without saving changes to dictionary."
+	print "Type 'quit() to quit and save."
 	print "1:         | 2: A B C | 3: D E F"
 	print "4: G H I   | 5: J K L | 6: M N O"
 	print "7: P Q R S | 8: T U V | 9: W X Y Z"

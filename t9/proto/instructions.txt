@@ -1,0 +1,8 @@
+How to run this T9 proto-type:
+
+Download all files (except todo.txt. Doesn't matter though.)
+
+Put all downloaded files in the same directory.
+
+Run the program by running t9.py
+$ python t9.py
