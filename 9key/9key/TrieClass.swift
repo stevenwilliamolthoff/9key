@@ -20,6 +20,43 @@ public class TrieNode {
         self.level = 0
     }
     
+    class func addWord(keyword: String) {
+        guard keyword.length > 0 else {
+            return
+        }
+        
+        var current: TrieNode = root
+        
+        while (keyword.length != current.level) {
+            var childToUse: TrieNode!
+            let searchKey: String = keyword.substringToIndex(current.level + 1)
+            
+            //iterate through the node children
+            for child in current.children {
+                if (child.key == searchKey) {
+                    childToUse = child
+                    break
+                }
+            }
+            //create a new node
+            if (childToUse == nil) {
+                childToUse = TrieNode()
+                childToUse.key = searchKey
+                childToUse.level = current.level + 1
+                current.children.append(childToUse)
+            }
+            
+            current = childToUse
+        } //end while 
+        
+        //final end of word check 
+        if (keyword.length == current.level) {
+            current.isFinal = true
+            print("end of word reached!")
+            return
+        }
+    }
+    
     class func findWord(keyword: String) -> Array<String>! {
         guard keyword.characters.count > 0 else {
             return nil
