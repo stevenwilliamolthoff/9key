@@ -6,6 +6,10 @@
 //  Copyright © 2017 FAKS. All rights reserved.
 //
 
+// Code was taken from Wayne Bishop's tutorial on how to create
+// a Trie data structure in swift and adapted to fit with swift 3.0
+// Link to blog tutorial can be found here: http://waynewbishop.com/swift/tries/
+
 import Foundation
 
 public class TrieNode {
@@ -20,6 +24,7 @@ public class TrieNode {
         self.level = 0
     }
     
+    // add a word to the trie
     class func addWord(keyword: String) {
         guard keyword.length > 0 else {
             return
@@ -57,6 +62,7 @@ public class TrieNode {
         }
     }
     
+    // search for the existence of a word in the trie
     class func findWord(keyword: String) -> Array<String>! {
         guard keyword.characters.count > 0 else {
             return nil
