@@ -30,7 +30,11 @@ public class TrieNode {
         
         while (keyword.characters.count != current.level) {
             var childToUse: TrieNode!
-            let searchKey: String = keyword.substringToIndex(current.level + 1)
+            
+            let start = keyword.index(keyword.startIndex, offsetBy: current.level+1)
+            let end = keyword.index(keyword.startIndex, offsetBy: current.level+2)
+            let range = start..<end
+            let searchKey: String = keyword.substring(with: range)
             
             //iterate through any children
             for child in current.children {
