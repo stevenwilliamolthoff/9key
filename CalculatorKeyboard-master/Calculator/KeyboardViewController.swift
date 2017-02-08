@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Material
 
 enum Operation {
     case addition
@@ -17,9 +18,31 @@ enum Operation {
 }
 
 class KeyboardViewController: UIInputViewController {
+    @IBOutlet var topRegion: UIView!
+    @IBOutlet var leftRegion: UIView!
+    @IBOutlet var rightRegion: UIView!
+    
 
-    @IBOutlet var nextKeyboardButton: UIButton!
+    @IBOutlet var nextKeyboardButton: IconButton!{
+        didSet{
+            nextKeyboardButton.image = UIImage(named: "earth")?.scaled(to: CGSize(width: 30.0, height: 30.0))
+            nextKeyboardButton.imageView?.contentMode = .scaleAspectFit
+        }
+    }
+    @IBOutlet var numberPadSwitcher: UIButton!
+    @IBOutlet var spaceButton: RoundButton!
     @IBOutlet var display: UILabel!
+    
+    @IBOutlet var one: RoundButton!
+    @IBOutlet var two: RoundButton!
+    @IBOutlet var three: RoundButton!
+    @IBOutlet var four: RoundButton!
+    @IBOutlet var five: RoundButton!
+    @IBOutlet var six: RoundButton!
+    @IBOutlet var seven: RoundButton!
+    @IBOutlet var eight: RoundButton!
+    @IBOutlet var nine: RoundButton!
+    
     var calculatorView: UIView!
     var shouldClearDisplayBeforeInserting = true
     
@@ -35,7 +58,6 @@ class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         loadInterface()
         clearDisplay()
-        
         //let button = createButtonWithTitle("😀")
         //self.view.addSubview(button)
         
@@ -88,12 +110,15 @@ class KeyboardViewController: UIInputViewController {
     
     func loadInterface() {
         // load the nib file
-        let calculatorNib = UINib(nibName: "Calculator", bundle: nil)
+        let calculatorNib = UINib(nibName: "NumberCalculatorView", bundle: nil)
         // instantiate the view
         calculatorView = calculatorNib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        
+
         // add the interface to the main view
-        view.addSubview(calculatorView)
+        view.layout(calculatorView)
+            .left()
+            .top()
+            .size(CGSize(width: view.frame.width, height: view.frame.height))
         
         // copy the background color
         view.backgroundColor = calculatorView.backgroundColor
@@ -253,17 +278,35 @@ class KeyboardViewController: UIInputViewController {
 }
 
 class RoundButton: UIButton {
-    @IBInspectable var cornerRadius: CGFloat = 0 {
+    @IBInspectable var _cornerRadius: CGFloat = 0 {
         didSet {
-            layer.cornerRadius = cornerRadius
+            layer.cornerRadius = _cornerRadius
+        }
+    }
+    
+    @IBInspectable var _borderColor: UIColor = UIColor.white {
+        didSet {
+            layer.borderWidth = 1.0
+            layer.masksToBounds = true
+            layer.borderColor = _borderColor.cgColor
         }
     }
 }
 
 class RoundLabel: UILabel {
-    @IBInspectable var cornerRadius: CGFloat = 0 {
+    @IBInspectable var _cornerRadius: CGFloat = 0 {
         didSet {
-            layer.cornerRadius = cornerRadius
+            layer.cornerRadius = _cornerRadius
         }
+    }
+}
+
+extension UIImage {
+    func scaled(to newSize:CGSize) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
     }
 }
