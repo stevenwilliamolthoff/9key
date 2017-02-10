@@ -31,4 +31,16 @@ public class TrieNode {
     class func getBranch(keyword: String) {
         return self.children[keyword];
     }
+    
+    class func hasChild(keyword: String) -> Bool {
+        return self.children[keyword] != nil
+    }
+    
+    class func putNode(keyword: String, tn : TrieNode) {
+        self.children[keyword] = tn;
+    }
+    
+    class func setAsLeaf() {
+        self.isLeaf = true;
+    }
 }
