@@ -1,0 +1,51 @@
+// Thoughts: alphabet should also include uppercase, symbols, etc?
+// For now assuming we should save time over space. phones are fucking huge these days. Thus, each TrieNode array will be a set size of 26, rather than a hashmap.
+// https://leetcode.com/articles/implement-trie-prefix-tree/
+
+class TrieNode {
+	bool isLeaf
+	alphabetSize = 26
+	TrieNode[alphabetSize] children
+	TrieNode():
+		children = new TrieNode[alphabetSize]
+	getBranch(char c) :
+		if not children[c].isLeaf:
+			return children[c]
+		return null
+	hasChildren(char c):
+		if children[c] != null:
+			return True
+		return False
+	putNode(char c, TrieNode n):
+		children[c] = n
+	setAsLeaf():
+		isLeaf = True
+}
+
+class Trie {
+	TrieNode root
+	Trie():
+		root = new TrieNode()
+	insert(string word):
+		TrieNode node = root
+		for c in word:
+			if not node.hasChildren(c):
+				node.putNode(c, new TrieNode())
+			node = node.getBranch(c)
+		node.setAsLeaf()
+	getPrefixLeaf(string word):
+		node = root
+		for c in word:
+			if node.hasChildren(c):
+				node = node.getBranch(c)
+			else:
+				return null
+		return node
+	wordExists(string word):
+		TrieNode node = getPrefixLeaf(word)
+		return node != null // if null, some char in word is not in the branch path
+		&& node.isLeaf // if the last char of word is not the leaf node in the branch path, the word was not found, only a prefix of a different word was found. e.g. "cat" of "cats"
+	prefixExists(string prefix):
+		TrieNode() node = getPrefixLeaf(prefix)
+		return node != null
+}

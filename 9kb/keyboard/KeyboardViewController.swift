@@ -1,17 +1,16 @@
 //
 //  KeyboardViewController.swift
-//  9-Key
+//  keyboard
+//
+//  Created by Steven Olthoff on 2/7/17.
+//  Copyright © 2017 faks. All rights reserved.
+//
 
 import UIKit
 
 class KeyboardViewController: UIInputViewController {
-    
-    // @IBOutlet var nextKeyboardButton: UIButton!
-    
-    var keyboardView: UIView!
-    
-    var nextKeyboardButton: UIButton!
-    var dotButton: UIButton!
+
+    @IBOutlet var nextKeyboardButton: UIButton!
     
     override func updateViewConstraints() {
         super.updateViewConstraints()
@@ -19,7 +18,10 @@ class KeyboardViewController: UIInputViewController {
         // Add custom view sizing constraints here
     }
     
-    func addNextKeyboardButton() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Perform custom UI setup here
         self.nextKeyboardButton = UIButton(type: .system)
         
         self.nextKeyboardButton.setTitle(NSLocalizedString("Next Keyboard", comment: "Title for 'Next Keyboard' button"), for: [])
@@ -32,12 +34,6 @@ class KeyboardViewController: UIInputViewController {
         
         self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        addNextKeyboardButton()
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,15 +56,6 @@ class KeyboardViewController: UIInputViewController {
             textColor = UIColor.black
         }
         self.nextKeyboardButton.setTitleColor(textColor, for: [])
- 
     }
-    
-    func loadKeyboard() {
-        let keyboardNib = UINib(nibName: "Keyboard", bundle: nil)
-        keyboardView = keyboardNib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        view.addSubview(keyboardView)
-        keyboardView.frame = view.frame
-        nextKeyboardButton.addTarget(self, action: #selector(UIInputViewController.advanceToNextInputMode), for: .touchUpInside)
-    }
-    
+
 }
