@@ -13,34 +13,56 @@
 import Foundation
 
 public class TrieNode {
-    var key: String!                // the current letter
+    var key: String                 // the current letter
     var children: [String:TrieNode] // maps from number |-> TrieNode
     var isLeaf: Bool                // is this node the leaf node?
     var level: Int                  // depth of this node
     
+    // initializes a new trie node
     init() {
         self.children = [:]
         self.isLeaf = false
         self.level = 0
     }
     
-    class func isLeaf() {
-        return self.isLeaf;
+    // checks if node is a leaf (end of word)
+    func isLeaf() {
+        return self.isLeaf
     }
     
-    class func getBranch(keyword: String) {
-        return self.children[keyword];
+    // gets the next node based on key
+    func getBranch(keyword: String) {
+        return self.children[keyword]
     }
     
-    class func hasChild(keyword: String) -> Bool {
+    // returns true if children is non-empty; false otherwise
+    func hasChild(keyword: String) -> Bool {
         return self.children[keyword] != nil
     }
     
-    class func putNode(keyword: String, tn : TrieNode) {
-        self.children[keyword] = tn;
+    // inserts new node into list of children
+    func putNode(keyword: String, tn : TrieNode) {
+        self.children[keyword] = tn
     }
     
-    class func setAsLeaf() {
-        self.isLeaf = true;
+    // makes node a leaf
+    func setAsLeaf() {
+        self.isLeaf = true
+    }
+}
+
+public class Trie {
+    var root: TrieNode
+    var filename : String
+    var dictionarySize : Int
+    
+    init(filename : String) {
+        self.root = TrieNode()
+        self.filename = filename
+        self.dictionarySize = 0
+    }
+    
+    func loadTrie(dictFileName : String) {
+        
     }
 }
