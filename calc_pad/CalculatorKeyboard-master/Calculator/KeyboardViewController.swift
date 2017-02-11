@@ -255,6 +255,17 @@ class KeyboardViewController: UIInputViewController {
 extension KeyboardViewController {
     //MARK: Actions
     @IBAction func proceedNineKeyOperations(_ operation: RoundButton) {
+        if !(Keys.NineKeys.mapping[operation.mode]?[String(operation.tag)]?.indices.contains(3))! {
+            syms_1.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![0]
+            syms_2.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![1]
+            syms_3.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![2]
+            syms_4.title = ""
+        } else {
+            syms_1.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![0]
+            syms_2.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![1]
+            syms_3.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![2]
+            syms_4.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![3]
+        }
         display.text = keyscontrol.toggle(mode: operation.mode, tag: operation.tag)
     }
     @IBAction func toggleKeypad(_ toggleKey: UIButton) {
@@ -289,7 +300,7 @@ extension KeyboardViewController {
         display.text = keyscontrol.backspace()
     }
     @IBAction func inputSymbols(_ sender: RaisedButton) {
-        display.text = display.text! + (sender.titleLabel?.text)!
+        display.text = display.text! + (sender.titleLabel?.text)! //need to change this so it replaces previously typed
     }
     @IBAction func returnKeyPressed() {
         self.dismissKeyboard()
