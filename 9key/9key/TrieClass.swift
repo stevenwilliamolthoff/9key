@@ -6,10 +6,6 @@
 //  Copyright © 2017 FAKS. All rights reserved.
 //
 
-// Some code snippets were taken from Wayne Bishop's tutorial on how to create
-// a Trie data structure in Swift and adapted to fit with Swift 3.0
-// Link to blog tutorial can be found here: http://waynewbishop.com/swift/tries/
-
 import Foundation
 
 public class TrieNode {
@@ -52,10 +48,12 @@ public class TrieNode {
 }
 
 public class Trie {
+    // member variables for trie class
     var root: TrieNode
     var filename : String
     var dictionarySize : Int
     
+    // initializes the data structure
     init(filename : String) {
         self.root = TrieNode()
         self.filename = filename
@@ -63,6 +61,43 @@ public class Trie {
     }
     
     func loadTrie(dictFileName : String) {
+        // TODO: need to find way to effectively store trie and load it
+        //       no swift interfacing for file i/o, consider serialization
+        //       or Bundles i/o
+    }
+    
+    func insert(word : String, frequency : Int) {
+        // TODO: how to get values from data structure in separate file??
+    }
+    
+    func getPrefixLeaf(keySeq : String) -> (TrieNode, Bool) {
+        var node: TrieNode = self.root
+        var prefixExists: Bool = true
         
+        for key in keySeq.characters.indices {
+            if node.hasChild(key) {
+                node = node.getBranch(key)
+            } else {
+                if key == keySeq.characters.count - 1 {
+                    prefixExists = true
+                } else {
+                    prefixExists = false
+                    node = nil
+                    return (node, prefixExists)
+                }
+            }
+        }
+        
+        return (node, prefixExists)
+    }
+    
+    func getPrefixNode(keySeq : String) -> TrieNode {
+        let (node, prefixExists) = self.getPrefixLeaf(keySeq)
+        
+        if prefixExists {
+            return node
+        } else {
+            return nil
+        }
     }
 }
