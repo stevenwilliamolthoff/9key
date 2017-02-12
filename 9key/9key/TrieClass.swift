@@ -11,41 +11,41 @@ import Foundation
 public class TrieNode {
     var key: String                 // the current letter
     var children: [String:TrieNode] // maps from number |-> TrieNode
-    var words: [String:Uint]        // maps from word choice |-> frequency
-    var isLeaf: Bool                // is this node the leaf node?
+    var words: [String:UInt]        // maps from word choice |-> frequency
+    var leaf: Bool                // is this node the leaf node?
     var level: Int                  // depth of this node
     
     // initializes a new trie node
     init() {
         self.children = [:]
         self.words = [:]
-        self.isLeaf = false
+        self.leaf = false
         self.level = 0
     }
     
     // checks if node is a leaf (end of word)
     func isLeaf() -> Bool {
-        return self.isLeaf
+        return self.leaf
     }
     
     // gets the next node based on key
-    func getBranch(keyword: String) -> TrieNode {
-        return self.children[keyword]
+    func getBranch(_ keyword: String) -> TrieNode {
+        return self.children[keyword]!
     }
     
     // returns true if children is non-empty; false otherwise
-    func hasChild(keyword: String) -> Bool {
+    func hasChild(_ keyword: String) -> Bool {
         return self.children[keyword] != nil
     }
     
     // inserts new node into list of children
-    func putNode(keyword: String, tn : TrieNode) {
+    func putNode(_ keyword: String, _ tn : TrieNode) {
         self.children[keyword] = tn
     }
     
     // makes node a leaf
     func setAsLeaf() {
-        self.isLeaf = true
+        self.leaf = true
     }
 }
 
@@ -62,38 +62,38 @@ public class Trie {
         self.dictionarySize = 0
     }
     
-    func loadTrie(dictFileName : String) {
+    func loadTrie(_ dictFileName : String) {
         // TODO: need to find way to effectively store trie and load it
         //       no swift interfacing for file i/o, consider serialization
         //       or Bundles i/o
     }
     
-    func insert(word : String, frequency : Int) {
+    func insert(_ word : String, _ frequency : Int) {
         // TODO: how to get values from data structure in separate file??
     }
     
-    func getPrefixLeaf(keySeq : String) -> (TrieNode, Bool) {
-        var node: TrieNode = self.root
+    func getPrefixLeaf(_ keySeq : String) -> (TrieNode, Bool) {
+        var node: TrieNode? = self.root
         var prefixExists: Bool = true
         
-        for key in keySeq.characters.indices {
-            if node.hasChild(key) {
-                node = node.getBranch(key)
+        for key in keySeq.characters {
+            if node!.hasChild(String(key)) {
+                node = node!.getBranch(String(key))
             } else {
-                if key == keySeq.characters.count - 1 {
+                if Int(String(key)) == keySeq.characters.count - 1 {
                     prefixExists = true
                 } else {
                     prefixExists = false
                     node = nil
-                    return (node, prefixExists)
+                    return (node!, prefixExists)
                 }
             }
         }
         
-        return (node, prefixExists)
+        return (node!, prefixExists)
     }
     
-    func getPrefixNode(keySeq : String) -> TrieNode {
+    func getPrefixNode(_ keySeq : String) -> TrieNode? {
         let (node, prefixExists) = self.getPrefixLeaf(keySeq)
         
         if prefixExists {
@@ -103,20 +103,20 @@ public class Trie {
         }
     }
     
-    func getSuggestions(keySeq : String, suggestionDepth : Int) -> Array<String> {
+    func getSuggestions(_ keySeq : String, _ suggestionDepth : Int) -> Array<String> {
         var suggestions = [String]()
-        var prefixNode = self.getPrefixNode(keySeq)
+        let prefixNode: TrieNode? = self.getPrefixNode(keySeq)
         
         if prefixNode != nil {
-            for (word, frequency) in prefixNode.words {
+            for (word, _) in prefixNode!.words {
                 suggestions.append(word)
             }
             
             if suggestionDepth > 1 {
-                var deeperSuggestions = self.getDeeperSuggestions(prefixNode, keySeq.characters.count + suggestionDepth)
+                var deeperSuggestions = self.getDeeperSuggestions(prefixNode!, keySeq.characters.count + suggestionDepth)
                 
                 for depth in deeperSuggestions {
-                    for (word, frequency) in depth {
+                    for word in depth {
                         suggestions.append(word)
                     }
                 }
@@ -126,31 +126,29 @@ public class Trie {
         return suggestions
     }
     
-    func getDeeperSuggestions(root : TrieNode, maxDepth : Int) -> Array<Array<String>> {
+    func getDeeperSuggestions(_ root : TrieNode, _ maxDepth : Int) -> Array<Array<String>> {
         // TODO: Implement me
     }
     
-    func traverse(root : TrieNode, depth : Int, maxDepth : Int, deepSuggestions : Array<Array<String>>) -> Array<Array<String>> {
+    func traverse(_ root : TrieNode, _ depth : Int, _ maxDepth : Int, _ deepSuggestions : Array<Array<String>>) -> Array<Array<String>> {
         if (depth < maxDepth && depth > 0) {
-            if root.words != nil {
-                deepSuggestions[depth-1].append(contentsOf: root.words)
-            }
+            deepSuggestions[depth-1].append(contentsOf: root.words)
         }
         
         if depth == maxDepth {
             return deepSuggestions
         }
         
-        if root.children != nil {
+        if root.children.count == 0 {
             return deepSuggestions
         }
         
-        for key in root.children {
-            self.traverse(root.children[key], depth+1, maxDepth, deepSuggestions)
+        for (key, _) in root.children {
+            self.traverse(root.children[key]!, depth+1, maxDepth, deepSuggestions)
         }
     }
     
-    func wordExists(word : String, keySeq : String) -> Bool {
+    func wordExists(_ word : String, _ keySeq : String) -> Bool {
         let (node, prefixExists) = self.getPrefixLeaf(keySeq)
         
         if node != nil {
