@@ -11,12 +11,14 @@ import Foundation
 public class TrieNode {
     var key: String                 // the current letter
     var children: [String:TrieNode] // maps from number |-> TrieNode
+    var words: [String:Uint]        // maps from word choice |-> frequency
     var isLeaf: Bool                // is this node the leaf node?
     var level: Int                  // depth of this node
     
     // initializes a new trie node
     init() {
         self.children = [:]
+        self.words = [:]
         self.isLeaf = false
         self.level = 0
     }
@@ -98,6 +100,55 @@ public class Trie {
             return node
         } else {
             return nil
+        }
+    }
+    
+    func getSuggestions(keySeq : String, suggestionDepth : Int) -> Array<String> {
+        var suggestions = [String]()
+        var prefixNode = self.getPrefixNode(keySeq)
+        
+        if prefixNode != nil {
+            for (word, frequency) in prefixNode.words {
+                suggestions.append(word)
+            }
+            
+            if suggestionDepth > 1 {
+                var deeperSuggestions = self.getDeeperSuggestions(prefixNode, keySeq.characters.count + suggestionDepth)
+                
+                for depth in deeperSuggestions {
+                    for (word, frequency) in depth {
+                        suggestions.append(word)
+                    }
+                }
+            }
+        }
+        
+        return suggestions
+    }
+    
+    func getDeeperSuggestions(root : TrieNode, maxDepth : Int) -> Array<Array<String>> {
+        var deepSuggestions = [[String]]()
+        
+        // TODO: Finish me
+    }
+    
+    func traverse(root : TrieNode, depth : Int, maxDepth : Int, deepSuggestions : Array<Array<String>>) -> Array<Array<String>> {
+        if (depth < maxDepth && depth > 0) {
+            if root.words != nil {
+                deepSuggestions[depth-1].append(contentsOf: root.words)
+            }
+        }
+        
+        if depth == maxDepth {
+            return deepSuggestions
+        }
+        
+        if root.children != nil {
+            return deepSuggestions
+        }
+        
+        for key in root.children {
+            self.traverse(root.children[key], depth+1, maxDepth, deepSuggestions)
         }
     }
 }
