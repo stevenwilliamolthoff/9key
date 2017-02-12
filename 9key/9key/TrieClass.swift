@@ -24,12 +24,12 @@ public class TrieNode {
     }
     
     // checks if node is a leaf (end of word)
-    func isLeaf() {
+    func isLeaf() -> Bool {
         return self.isLeaf
     }
     
     // gets the next node based on key
-    func getBranch(keyword: String) {
+    func getBranch(keyword: String) -> TrieNode {
         return self.children[keyword]
     }
     
