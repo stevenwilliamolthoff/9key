@@ -127,9 +127,7 @@ public class Trie {
     }
     
     func getDeeperSuggestions(root : TrieNode, maxDepth : Int) -> Array<Array<String>> {
-        var deepSuggestions = [[String]]()
-        
-        // TODO: Finish me
+        // TODO: Implement me
     }
     
     func traverse(root : TrieNode, depth : Int, maxDepth : Int, deepSuggestions : Array<Array<String>>) -> Array<Array<String>> {
@@ -149,6 +147,26 @@ public class Trie {
         
         for key in root.children {
             self.traverse(root.children[key], depth+1, maxDepth, deepSuggestions)
+        }
+    }
+    
+    func wordExists(word : String, keySeq : String) -> Bool {
+        let (node, prefixExists) = self.getPrefixLeaf(keySeq)
+        
+        if node != nil {
+            if node.isLeaf() {
+                for (treeWord, frequency) in node.words {
+                    if treeWord == word {
+                        return true
+                    }
+                }
+
+                return false
+            } else {
+                return false
+            }
+        } else {
+            return false
         }
     }
 }
