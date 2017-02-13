@@ -9,7 +9,7 @@
 import Foundation
 
 public class TrieNode {
-    var key: String                 // the current letter
+    //var key: String                 // the current letter
     var children: [String:TrieNode] // maps from number |-> TrieNode
     var words: [String:UInt]        // maps from word choice |-> frequency
     var leaf: Bool                // is this node the leaf node?
@@ -55,6 +55,10 @@ public class Trie {
     var filename : String
     var dictionarySize : Int
     
+    class DeeperSuggestion {
+        var deeperSuggestions: Array<Array<String>> = [[String]]()
+    }
+    
     // initializes the data structure
     init(filename : String) {
         self.root = TrieNode()
@@ -72,7 +76,7 @@ public class Trie {
         // TODO: how to get values from data structure in separate file??
     }
     
-    func getPrefixLeaf(_ keySeq : String) -> (TrieNode, Bool) {
+    func getPrefixLeaf(_ keySeq : String) -> (TrieNode?, Bool) {
         var node: TrieNode? = self.root
         var prefixExists: Bool = true
         
@@ -113,9 +117,10 @@ public class Trie {
             }
             
             if suggestionDepth > 1 {
-                var deeperSuggestions = self.getDeeperSuggestions(prefixNode!, keySeq.characters.count + suggestionDepth)
+                var deeperSuggestions = DeeperSuggestion()
+                deeperSuggestions = self.getDeeperSuggestions(prefixNode!, keySeq.characters.count + suggestionDepth)
                 
-                for depth in deeperSuggestions {
+                for depth in deeperSuggestions.deeperSuggestions {
                     for word in depth {
                         suggestions.append(word)
                     }
@@ -126,21 +131,21 @@ public class Trie {
         return suggestions
     }
     
-    func getDeeperSuggestions(_ root : TrieNode, _ maxDepth : Int) -> Array<Array<String>> {
+    func getDeeperSuggestions(_ root : TrieNode, _ maxDepth : Int) -> DeeperSuggestion {
+        var deeperSuggestions = DeeperSuggestion()
         // TODO: Implement me
+        return deeperSuggestions
     }
     
-    func traverse(_ root : TrieNode, _ depth : Int, _ maxDepth : Int, _ deepSuggestions : Array<Array<String>>) -> Array<Array<String>> {
+    func traverse(_ root : TrieNode, _ depth : Int, _ maxDepth : Int, _ deepSuggestions : DeeperSuggestion) {
         if (depth < maxDepth && depth > 0) {
-            deepSuggestions[depth-1].append(contentsOf: root.words)
+            for (w, _) in root.words {
+                deepSuggestions.deeperSuggestions[depth-1].append(w)
+            }
         }
         
-        if depth == maxDepth {
-            return deepSuggestions
-        }
-        
-        if root.children.count == 0 {
-            return deepSuggestions
+        if depth == maxDepth || root.children.count == 0 {
+            return
         }
         
         for (key, _) in root.children {
@@ -152,8 +157,8 @@ public class Trie {
         let (node, prefixExists) = self.getPrefixLeaf(keySeq)
         
         if node != nil {
-            if node.isLeaf() {
-                for (treeWord, frequency) in node.words {
+            if node!.isLeaf() {
+                for (treeWord, frequency) in node!.words {
                     if treeWord == word {
                         return true
                     }
@@ -166,5 +171,8 @@ public class Trie {
         } else {
             return false
         }
+    }
+    func updateFrequency() {
+        
     }
 }
