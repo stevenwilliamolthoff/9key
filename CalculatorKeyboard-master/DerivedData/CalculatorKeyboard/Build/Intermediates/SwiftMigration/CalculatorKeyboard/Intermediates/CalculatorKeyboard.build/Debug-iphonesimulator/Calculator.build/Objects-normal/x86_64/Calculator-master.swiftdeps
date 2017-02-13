@@ -1,5 +1,0 @@
-version: "Apple Swift version 3.0.2 (swiftlang-800.0.63 clang-800.0.42.1)"
-options: "41258bb9d5f599d3b2e001cc498e4b79"
-build_time: [539411591, 298692000]
-inputs:
-  "/Users/Kiki/Downloads/CalculatorKeyboard-master/Calculator/KeyboardViewController.swift": [500790286, 0]
