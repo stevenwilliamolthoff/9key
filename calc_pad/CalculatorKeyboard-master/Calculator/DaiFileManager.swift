@@ -43,7 +43,7 @@ extension DaiFileManagerPath {
     
     // 在當前路徑下寫入檔案
     func write(data: NSData) -> Bool {
-        return data.writeToFile(self.path, atomically: true)
+        return data.write(toFile: self.path, atomically: true)
     }
     
     // 讀取當前路徑的檔案
@@ -88,7 +88,7 @@ extension DaiFileManagerPath {
     
     // 建立資料夾
     private func createFolder(path: String) {
-        if !DaiFileManager.isExistIn(path) {
+        if !DaiFileManager.isExistIn(path: path) {
             do {
                 try DaiFileManager.defaultManager.createDirectoryAtPath(path, withIntermediateDirectories: false, attributes: nil)
             }
@@ -195,7 +195,7 @@ extension DaiFileManager {
     static var document: DaiFileManagerPath {
         get {
             var newFileManager = DaiFileManagerPath()
-            guard let safeDocumentPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first else {
+            guard let safeDocumentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else {
                 print("Get Document Path Fail")
                 return newFileManager
             }
@@ -232,7 +232,7 @@ extension DaiFileManager {
 struct DaiFileManager {
     
     // 公用的 NSFileManager
-    private static let defaultManager = NSFileManager.defaultManager()
+    private static let defaultManager = FileManager.defaultManager()
     
     // 不想給外面的人存取
     private init() {

@@ -1,4 +1,4 @@
-import TrieClass
+//import TrieClass
 
 // http://stackoverflow.com/questions/24090016/sort-dictionary-by-values-in-swift#24090641
 extension Dictionary {
