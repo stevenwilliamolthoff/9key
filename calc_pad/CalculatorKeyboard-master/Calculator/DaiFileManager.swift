@@ -12,10 +12,10 @@ import Foundation
 struct DaiFileManagerItems {
     
     // 檔案或是資料夾列表
-    private var items: [String] = []
+    /*private*/ var items: [String] = []
     
     // 不想給外面的人存取
-    private init() {
+    /*private*/ init() {
     }
     
     // 列出所有 item
@@ -27,9 +27,12 @@ struct DaiFileManagerItems {
     func filter(contants: String) -> [String] {
         var filterItems: [String] = []
         for item in self.items {
-            if item.containsString(contants) {
+            if item.range(of:contants) != nil {
                 filterItems.append(item)
             }
+//            if item.containsString(contants) {
+//                filterItems.append(item)
+//            }
         }
         return filterItems
     }
@@ -48,13 +51,13 @@ extension DaiFileManagerPath {
     
     // 讀取當前路徑的檔案
     func read() -> NSData? {
-        return DaiFileManager.defaultManager.contentsAtPath(self.path)
+        return DaiFileManager.defaultManager.contents(atPath: self.path) as NSData?
     }
     
     // 刪除當前路徑 / 檔案
     func delete() {
         do {
-            try DaiFileManager.defaultManager.removeItemAtPath(self.path)
+            try DaiFileManager.defaultManager.removeItem(atPath: self.path)
         }
         catch {
             print("Delete Fail : ", error)
@@ -64,7 +67,7 @@ extension DaiFileManagerPath {
     // 移動
     func move(toPath: DaiFileManagerPath) {
         do {
-            try DaiFileManager.defaultManager.moveItemAtPath(self.path, toPath: toPath.path)
+            try DaiFileManager.defaultManager.moveItem(atPath: self.path, toPath: toPath.path)
         }
         catch {
             print("Move Fail : ", error)
@@ -74,7 +77,7 @@ extension DaiFileManagerPath {
     // 複製
     func copy(toPath: DaiFileManagerPath) {
         do {
-            try DaiFileManager.defaultManager.copyItemAtPath(self.path, toPath: toPath.path)
+            try DaiFileManager.defaultManager.copyItem(atPath: self.path, toPath: toPath.path)
         }
         catch {
             print("Copy Fail : ", error)
@@ -87,10 +90,10 @@ extension DaiFileManagerPath {
 extension DaiFileManagerPath {
     
     // 建立資料夾
-    private func createFolder(path: String) {
+    /*private*/ func createFolder(path: String) {
         if !DaiFileManager.isExistIn(path: path) {
             do {
-                try DaiFileManager.defaultManager.createDirectoryAtPath(path, withIntermediateDirectories: false, attributes: nil)
+                try DaiFileManager.defaultManager.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)
             }
             catch {
                 print("Create Fail : ", error)
@@ -99,10 +102,10 @@ extension DaiFileManagerPath {
     }
     
     // 列出資料夾或是檔案們
-    private func folderList(isFolder: Bool) -> DaiFileManagerItems {
+    /*private*/ func folderList(isFolder: Bool) -> DaiFileManagerItems {
         var items = DaiFileManagerItems()
         
-        guard let safeItems = try? DaiFileManager.defaultManager.contentsOfDirectoryAtPath(self.path) else {
+        guard let safeItems = try? DaiFileManager.defaultManager.contentsOfDirectory(atPath: self.path) else {
             print("Path Fail")
             return items
         }
@@ -110,7 +113,7 @@ extension DaiFileManagerPath {
         var isDirectory: ObjCBool = false
         for item in safeItems {
             let itemPath = self.path + "/" + item
-            DaiFileManager.defaultManager.fileExistsAtPath(itemPath, isDirectory: &isDirectory)
+            DaiFileManager.defaultManager.fileExists(atPath: itemPath, isDirectory: &isDirectory)
             
             if isDirectory.boolValue == isFolder {
                 items.items.append(item)
@@ -127,21 +130,21 @@ extension DaiFileManagerPath {
     // 只列出檔案們
     var files: DaiFileManagerItems {
         get {
-            return self.folderList(false)
+            return self.folderList(isFolder: false)
         }
     }
     
     // 只列出資料夾們
     var folders: DaiFileManagerItems {
         get {
-            return self.folderList(true)
+            return self.folderList(isFolder: true)
         }
     }
     
     // 吐出當前路徑
     var path: String {
         get {
-            return self.paths.joinWithSeparator("/") + (self.isFolder ? "/" : "")
+            return self.paths.joined(separator: "/") + (self.isFolder ? "/" : "")
         }
     }
     
@@ -151,13 +154,13 @@ extension DaiFileManagerPath {
 struct DaiFileManagerPath {
     
     // 儲存路徑
-    private var paths: [String] = []
+     var paths: [String] = []
     
     // 由 subscript 輸入的最後一個字元判斷, 當前 path 是否以檔案夾來看待
-    private var isFolder: Bool = true
+     var isFolder: Bool = true
     
     // 不想給外面的人存取
-    private init() {
+     init() {
     }
     
     // 加入一個讓物件可以 [] 的功能
@@ -167,17 +170,17 @@ struct DaiFileManagerPath {
     subscript(path: String) -> DaiFileManagerPath {
         var newDaiFileManagerPath = self
         newDaiFileManagerPath.isFolder = path.characters.last == "/"
-        let splitPath = path.componentsSeparatedByString("/").filter { (eachPath) -> Bool in
+        let splitPath = path.componentsSeparated(by: "/").filter { (eachPath) -> Bool in
             return (eachPath.characters.count > 0)
         }
         for eachPath in splitPath {
             newDaiFileManagerPath.paths.append(eachPath)
             if eachPath != splitPath.last {
-                newDaiFileManagerPath.createFolder(newDaiFileManagerPath.path)
+                newDaiFileManagerPath.createFolder(path: newDaiFileManagerPath.path)
             }
             else {
                 if newDaiFileManagerPath.isFolder {
-                    newDaiFileManagerPath.createFolder(newDaiFileManagerPath.path)
+                    newDaiFileManagerPath.createFolder(path: newDaiFileManagerPath.path)
                 }
             }
         }
@@ -208,7 +211,7 @@ extension DaiFileManager {
     static var resource: DaiFileManagerPath {
         get {
             var newFileManager = DaiFileManagerPath()
-            newFileManager.paths.append(NSBundle.mainBundle().bundlePath)
+            newFileManager.paths.append(Bundle.main.bundlePath)
             return newFileManager
         }
     }
@@ -232,15 +235,15 @@ extension DaiFileManager {
 struct DaiFileManager {
     
     // 公用的 NSFileManager
-    private static let defaultManager = FileManager.defaultManager()
+     static let defaultManager = FileManager.default
     
     // 不想給外面的人存取
-    private init() {
+    /*private*/ init() {
     }
     
     // 判斷檔案是否存在
     static func isExistIn(path: String) -> Bool {
-        return self.defaultManager.fileExistsAtPath(path)
+        return self.defaultManager.fileExists(atPath: path)
     }
     
 }

@@ -3,7 +3,7 @@
 // http://stackoverflow.com/questions/24090016/sort-dictionary-by-values-in-swift#24090641
 extension Dictionary {
 	func sortedKeys(isOrderedBefore:(Key,Key) -> Bool) -> [Key] {
-		return Array(self.keys).sort(isOrderedBefore)
+		return Array(self.keys).sorted(by: isOrderedBefore)
 	}
 
 	// Slower because of a lot of lookups, but probably takes less memory (this is equivalent to Pascals answer in an generic extension)
@@ -16,7 +16,7 @@ extension Dictionary {
 	// Faster because of no lookups, may take more memory because of duplicating contents
 	func keysSortedByValue(isOrderedBefore:(Value, Value) -> Bool) -> [Key] {
 		return Array(self)
-			.sort() {
+			.sorted() {
 				let (_, lv) = $0
 				let (_, rv) = $1
 				return isOrderedBefore(lv, rv)
@@ -36,13 +36,13 @@ public class CacheNode: TrieNode {
 }
 
 public class CacheTrie: Trie {
-	var root = CacheNode(nil)
+	var root = CacheNode(parentNode: nil)
 	func insert(word: String, frequency: UInt) {
-		var parentNode = CacheNode(nil)
+		var parentNode = CacheNode(parentNode: nil)
 		var node = self.root
 		var key = 0
 		for c in word.characters {
-			key = keys[c]
+			key = key[c]
 			if !node.hasChildren(key) {
 				node.putNode(key, CacheNode(parentNode))
 			}
@@ -55,7 +55,7 @@ public class CacheTrie: Trie {
 		node.words.keysSortedByValue(>)
 	}
 	func getSuggestions(keySequence: [Int], suggestionDepth: Int) -> [String] {
-		return self.__getSuggestions__(keySequence, suggestionDepth)
+		return self.getSuggestions(keySequence, suggestionDepth)
 	}
 }
 
@@ -68,7 +68,7 @@ public class Cache {
 		self.cacheList = []
 	}
 	func getSuggestions(keySequence: [Int], suggestionDepth: Int) -> [String] {
-		return self.cacheTrie.getSuggestions(keySequence, suggestionDepth)
+		return self.cachTrie.getSuggestions(keySequence, suggestionDepth)
 	}
 	func update(chosenWord: String, frequency: UInt, keySequence: [Int]) {
 		oldIndex = -1
@@ -82,10 +82,10 @@ public class Cache {
 		// and update frequency in cacheTrie
 		if oldIndex != -1 {
 			self.cacheList.insert(0, self.cacheList.pop(oldIndex))
-			self.updateFrequency(chosenWord, keySequence)
+			self.updateFrequency(chosenWord: chosenWord, keySequence: keySequence)
 		}
 		else {
-			self.insert(chosenWord, frequency)
+			self.insert(word: chosenWord, frequency: frequency)
 		}
 	}
 	func updateFrequency(chosenWord: String, keySequence: [Int]) {
@@ -105,33 +105,33 @@ public class Cache {
  	// to see if chosenWord is in the cache
 	func insert(word: String, frequency: UInt) {
 		// if @ capacity
-		if self.cacheList.count() == self.sizeLimit {
+		if self.cacheList.count == self.sizeLimit {
 			self.pruneOldest()
 		}
 		// put most recent word at beginning
 		if self.cacheList != nil {
 			self.cacheList[0] = word
 		}
-		self.cacheTrie.insert(word, frequency)
+		self.cachTrie.insert(word, frequency)
 	}
 	func pruneOldest() {
-		self.pruneWord(cacheList[cacheList.count() - 1])
+		self.pruneWord(wordToPrune: cacheList[cacheList.count() - 1])
 	}
 	func pruneWord(wordToPrune: String) {
-		nodeToPrude = CacheTrie.getPrefixNode(wordToPrune)
+		wordToPrune = CacheTrie.getPrefixNode(wordToPrune)
 		// If wordToPrune is a prefix with other children, just remove this one word from the word list of nodeToPrune
-		if nodeToPrune.children != nil {
-			nodeToPrune.words.removeValueForKey(wordToPrune)
+		if wordToPrune.children != nil {
+			wordToPrune.words.removeValueForKey(wordToPrune)
 			return
 		}
 		else {
-			self.pruneNode(nodeToPrune)
+			self.pruneNode(wordToPrune)
 		}
 	}
 	func pruneNode(nodeToPrune: CacheNode) {
 		// parent has no keys in children other than the target's key
-		if nodeToPrune.parentNode.children.count() == 1 {
-			self.pruneNode(nodeToPrune.parentNode)
+		if nodeToPrune.parentNode.children.count == 1 {
+			self.pruneNode(nodeToPrune: nodeToPrune.parentNode)
 		}
 		else {
 			nodeToPrune = nil
