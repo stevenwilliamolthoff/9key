@@ -170,8 +170,10 @@ struct DaiFileManagerPath {
     subscript(path: String) -> DaiFileManagerPath {
         var newDaiFileManagerPath = self
         newDaiFileManagerPath.isFolder = path.characters.last == "/"
-        let splitPath = path.componentsSeparated(by: "/").filter { (eachPath) -> Bool in
-            return (eachPath.characters.count > 0)
+        //        let splitPath = path.componentsSeparated(by: "/").filter { (eachPath) -> Bool in
+        let splitPath = path.characters.split(separator: "/") { (eachPath: String) -> Bool in
+        
+            (eachPath.characters.count > 0)
         }
         for eachPath in splitPath {
             newDaiFileManagerPath.paths.append(eachPath)
