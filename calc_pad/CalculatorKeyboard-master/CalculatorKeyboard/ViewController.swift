@@ -9,7 +9,9 @@
 import UIKit
 
 class ViewController: UIViewController {
+    // Control how scroll view tutorial will display
     @IBOutlet var tutorial: UIScrollView! {
+        //didSet: trigger code in bracket after tutorial is initialized in interface building
         didSet{
             tutorial.contentSize = CGSize(width: UIScreen.main.bounds.width - 40.0, height: 420*5)
             tutorial.layer.borderColor = UIColor.lightGray.cgColor
@@ -28,7 +30,7 @@ class ViewController: UIViewController {
             
             var views: [UIView] = []
             var tutorialTexts = ["1. Go to Settings", "2. Navigate to General", "3. Navigate to Keyboard", "4. Navigate to Keyboards", "5. Click Add New Keyboard and add \"CalculatorKeyboard\" in the list"]
-            
+            // Config images positions
             for i in 0..<tutorialImages.count {
                 tutorialImages[i].contentMode = .scaleAspectFit
                 tutorialImages[i].clipsToBounds = true
@@ -42,6 +44,7 @@ class ViewController: UIViewController {
                 tutorialImages[i].frame = CGRect(x: 0, y: baseY + 60.0 + CGFloat(i) * (tutorialImages[i-1].frame.height + 60.0), width: UIScreen.main.bounds.width - 40.0, height: 360)
             }
             
+            // Add tutorial text among images
             for i in 0..<tutorialImages.count {
                 views.append(tutorialImages[i])
                 let textView = UILabel(frame: CGRect(x: 10, y: tutorialImages[i].frame.origin.y - 60.0, width: UIScreen.main.bounds.width - 60.0, height: 60.0))
@@ -51,16 +54,19 @@ class ViewController: UIViewController {
                 views.append(textView)
             }
             
+            // Add images and tutorial text into scroll view
             for viewToAdd in views {
                 tutorial.addSubview(viewToAdd)
             }
         }
     }
+    //Main textfield
     @IBOutlet var input: UITextField! {
         didSet{
             input.delegate = self
         }
     }
+    //Add gesture to main view so tapping screen will dismiss keyboard
     var gesture: UIGestureRecognizer!
     func dismissKeyboard(){
         view.endEditing(true)

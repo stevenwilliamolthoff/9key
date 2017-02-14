@@ -17,7 +17,6 @@
                 <outlet property="eight" destination="96x-dF-cfp" id="WGg-Ot-2Ng"/>
                 <outlet property="five" destination="2O9-Y3-npc" id="mJ6-3b-TdI"/>
                 <outlet property="four" destination="Ybl-8c-adi" id="O6D-2r-1mD"/>
-                <outlet property="insertButton" destination="eHA-KS-JcT" id="5KG-Yx-ybk"/>
                 <outlet property="leftRegion" destination="Ugk-Wo-qL2" id="d6D-NY-1Tm"/>
                 <outlet property="mainBackspace" destination="pKi-IE-2Hh" id="BU0-Pq-AxR"/>
                 <outlet property="newlineButton" destination="VaU-Z3-5rb" id="wMh-5o-czz"/>
@@ -48,19 +47,6 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Input will appear here..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATz-Kd-4NS" customClass="RoundLabel" customModule="Calculator" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="206" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="_cornerRadius">
-                                    <real key="value" value="5"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </label>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sxm-XW-bZH" customClass="IconButton" customModule="Material">
                             <rect key="frame" x="243" y="1" width="38" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -72,19 +58,6 @@
                             </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="shouldDismissKeyboard" destination="-1" eventType="touchUpInside" id="gnT-6u-LYQ"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eHA-KS-JcT" customClass="IconButton" customModule="Material">
-                            <rect key="frame" x="205" y="1" width="38" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="image" keyPath="image" value="arrow_up"/>
-                                <userDefinedRuntimeAttribute type="color" keyPath="pulseColor">
-                                    <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="shouldInsertText" destination="-1" eventType="touchUpInside" id="StE-rm-aMq"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Shp-hw-SDg" customClass="IconButton" customModule="Material">
@@ -100,6 +73,19 @@
                                 <action selector="shouldDeleteTextInDisplay" destination="-1" eventType="touchUpInside" id="flj-4p-slm"/>
                             </connections>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Input will appear here..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATz-Kd-4NS" customClass="RoundLabel" customModule="Calculator" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="206" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="_cornerRadius">
+                                    <real key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -467,13 +453,12 @@
             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="24" y="238"/>
+            <point key="canvasLocation" x="111" y="370"/>
         </view>
     </objects>
     <resources>
         <image name="arrow_down" width="512" height="512"/>
         <image name="arrow_left" width="512" height="512"/>
-        <image name="arrow_up" width="512" height="512"/>
         <image name="calculator" width="512" height="512"/>
         <image name="earth" width="512" height="512"/>
     </resources>

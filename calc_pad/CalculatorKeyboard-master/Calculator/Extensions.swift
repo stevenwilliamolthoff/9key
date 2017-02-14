@@ -1,6 +1,9 @@
 import Foundation
 import UIKit
 
+//Custom utilities
+
+// Crop image to custom size
 extension UIImage {
     func scaled(to newSize:CGSize) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
@@ -11,6 +14,7 @@ extension UIImage {
     }
 }
 
+// Set UIButton background color
 extension UIButton {
     func setBackgroundColor(color: UIColor, forState: UIControlState) {
         UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))

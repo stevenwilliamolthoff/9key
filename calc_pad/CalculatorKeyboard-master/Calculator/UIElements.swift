@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 
+// Customized button
 class RoundButton: UIButton {
     @IBInspectable var _cornerRadius: CGFloat = 0 {
         didSet {
@@ -57,6 +58,7 @@ class RoundButton: UIButton {
     }
 }
 
+//Custom label
 class RoundLabel: UILabel {
     @IBInspectable var _cornerRadius: CGFloat = 0 {
         didSet {

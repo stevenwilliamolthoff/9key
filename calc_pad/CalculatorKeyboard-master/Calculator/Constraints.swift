@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 
+//Store how all buttons and UI elements are positioned in keyboard
 struct Padding {
     var numberPads = NumberPads()
     var sidePanels = SidePanels()

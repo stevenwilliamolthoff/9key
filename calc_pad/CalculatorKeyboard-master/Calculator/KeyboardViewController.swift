@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import Material
+import Material //Find other 3rd-party dependencies here -> cocoapods.org
 
+//{CONTROL UI}
 class KeyboardViewController: UIInputViewController {
     //MARK: Outlets
     @IBOutlet var topRegion: UIView!
@@ -16,15 +17,20 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var rightRegion: UIView!
     @IBOutlet var nextKeyboardButton: IconButton!
     @IBOutlet var numberPadSwitcher: UIButton!
-    @IBOutlet var insertButton: IconButton!
     @IBOutlet var dismissButton: IconButton!
-    @IBOutlet var displayBackspace: IconButton!
+    @IBOutlet var displayBackspace: IconButton!{
+        didSet{
+            let gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.shouldClearPreviousWordInDisplay))
+            displayBackspace.addGestureRecognizer(gesture)
+        }
+    }
     @IBOutlet var mainBackspace: RaisedButton!
     @IBOutlet var newlineButton: RaisedButton!
     @IBOutlet var sendButton: RaisedButton!
     @IBOutlet var spaceButton: RoundButton!{
         didSet{
             spaceButton.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
+
         }
     }
 
@@ -142,11 +148,6 @@ class KeyboardViewController: UIInputViewController {
                 .top()
                 .bottom()
                 .width(Padding().sidePanels.topRegion.displayWidth)
-            topRegion.layout(insertButton)
-                .left(Padding().sidePanels.topRegion.buttonsLayouts(index: 1).left)
-                .top(Padding().sidePanels.topRegion.buttonsLayouts(index: 1).top)
-                .bottom()
-                .width(Padding.SidePanels.TopRegion.buttonsDimensions.width)
             topRegion.layout(dismissButton)
                 .left(Padding().sidePanels.topRegion.buttonsLayouts(index: 2).left)
                 .top(Padding().sidePanels.topRegion.buttonsLayouts(index: 2).top)
@@ -254,20 +255,13 @@ class KeyboardViewController: UIInputViewController {
 
 extension KeyboardViewController {
     //MARK: Actions
+    // Control nine main keys
     @IBAction func proceedNineKeyOperations(_ operation: RoundButton) {
-        if !(Keys.NineKeys.mapping[operation.mode]?[String(operation.tag)]?.indices.contains(3))! {
-            syms_1.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![0]
-            syms_2.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![1]
-            syms_3.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![2]
-            syms_4.title = ""
-        } else {
-            syms_1.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![0]
-            syms_2.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![1]
-            syms_3.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![2]
-            syms_4.title = Keys.NineKeys.mapping[operation.mode]![String(operation.tag)]![3]
-        }
         display.text = keyscontrol.toggle(mode: operation.mode, tag: operation.tag)
     }
+    
+    
+    // Number-Alphabet switcher
     @IBAction func toggleKeypad(_ toggleKey: UIButton) {
         one.switchMode()
         two.switchMode()
@@ -280,13 +274,17 @@ extension KeyboardViewController {
         nine.switchMode()
         spaceButton.switchMode()
     }
+    //Backspace in active textfield
     @IBAction func shouldDeleteText(_ backspaceKey: RaisedButton){
+        // Pass textfield controller back to keyboard so keyboard can control active textfield in any apps
          (textDocumentProxy as UIKeyInput).deleteBackward()
     }
+    //Dismiss keyboard
     @IBAction func shouldDismissKeyboard() {
         dismissKeyboard()
     }
-    @IBAction func shouldInsertText() {
+    //Insert text in active textfield
+    func shouldInsertText() {
         let proxy = textDocumentProxy as UITextDocumentProxy
         
         if let input = display?.text as String? {
@@ -296,19 +294,38 @@ extension KeyboardViewController {
         display.text = ""
         keyscontrol.clear()
     }
+    //Backspace in display
     @IBAction func shouldDeleteTextInDisplay() {
         display.text = keyscontrol.backspace()
     }
-    @IBAction func inputSymbols(_ sender: RaisedButton) {
-        display.text = display.text! + (sender.titleLabel?.text)! //need to change this so it replaces previously typed
+    func shouldClearPreviousWordInDisplay() {
+        if let lastWordRange = display.text?.range(of: " ") {
+            display.text?.removeSubrange(lastWordRange.lowerBound..<(display.text?.endIndex)!)
+        }else{
+            display.text = ""
+            keyscontrol.clear()
+        }
     }
+    //Insert symbols
+    @IBAction func inputSymbols(_ sender: RaisedButton) {
+        display.text = display.text! + (sender.titleLabel?.text)!
+    }
+    //Send key
     @IBAction func returnKeyPressed() {
-        self.dismissKeyboard()
+        let proxy = textDocumentProxy as UITextDocumentProxy
+        
+        if let input = display?.text as String? {
+            proxy.insertText(input)
+        }
+        
+        display.text = ""
+        keyscontrol.clear()
     }
 }
 
 extension KeyboardViewController {
     //MARK:  Delegates
+    //Control textfield behavior
     override func textDidChange(_ textInput: UITextInput?) {
         // The app has just changed the document's contents, the document context has been updated.
         

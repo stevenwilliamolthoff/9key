@@ -1,5 +1,6 @@
 import Foundation
 
+//Information stored for each key
 struct Keys {
     struct NineKeys {
         static let mapping = [
@@ -31,10 +32,11 @@ struct Keys {
     }
 }
 
+//Control how 9 keys will input, {CONTROL DATA}
 class KeysControl: NSObject {
     var pointerAddress = 0
     var previousTag = -1
-    var previousInputs = ""
+    var currentInput = ""
     var storedInputs: String
     var lastKeyControlTime: Date
     var inputsDelay: TimeInterval {
@@ -47,13 +49,14 @@ class KeysControl: NSObject {
         storedInputs = "Input will appear here..."
         super.init()
     }
+    // Display proper text in display
     func toggle(mode: String, tag: Int) -> String {
         if tag == previousTag {
             if inputsDelay >= 0.8 {
                 pointerAddress = 0
                 previousTag = tag
-                storedInputs = storedInputs + previousInputs
-                previousInputs = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
+                storedInputs = storedInputs + currentInput
+                currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
                 lastKeyControlTime = Date()
                 return storedInputs + Keys.NineKeys.mapping[mode]![String(tag)]![0]
             }else{
@@ -61,23 +64,24 @@ class KeysControl: NSObject {
                 if !(Keys.NineKeys.mapping[mode]?[String(tag)]?.indices.contains(pointerAddress))! {
                     pointerAddress = 0
                 }
-                previousInputs = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
+                currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
                 lastKeyControlTime = Date()
-                return storedInputs + previousInputs
+                return storedInputs + currentInput
             }
         }else{
             pointerAddress = 0
             previousTag = tag
-            storedInputs = storedInputs + previousInputs
-            previousInputs = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
+            storedInputs = storedInputs + currentInput
+            currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
             lastKeyControlTime = Date()
             return storedInputs + Keys.NineKeys.mapping[mode]![String(tag)]![0]
         }
     }
+
     func backspace() -> String {
         if storedInputs.characters.count > 0 {
             storedInputs.characters.removeLast()
-            previousInputs = ""
+            currentInput = ""
             pointerAddress = 0
             previousTag = -1
             lastKeyControlTime = Date()
@@ -85,8 +89,19 @@ class KeysControl: NSObject {
         }
         return ""
     }
+    func removeLastWord() {
+        if let lastWordRange = storedInputs.range(of: " ") {
+            currentInput = ""
+            storedInputs.removeSubrange(lastWordRange.lowerBound..<storedInputs.endIndex)
+            pointerAddress = 0
+            previousTag = -1
+            lastKeyControlTime = Date()
+        }else{
+            clear()
+        }
+    }
     func clear() {
-        previousInputs = ""
+        currentInput = ""
         storedInputs = ""
         pointerAddress = 0
         previousTag = -1
