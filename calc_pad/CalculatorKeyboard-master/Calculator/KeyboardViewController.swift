@@ -92,7 +92,6 @@ class KeyboardViewController: UIInputViewController {
     }
     
     //MARK: Variables
-    
     var keyboardView: UIView!
     var shouldClearDisplayBeforeInserting = true
     var keyscontrol = KeysControl()
