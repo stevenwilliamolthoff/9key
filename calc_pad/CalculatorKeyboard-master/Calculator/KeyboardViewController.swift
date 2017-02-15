@@ -255,9 +255,34 @@ class KeyboardViewController: UIInputViewController {
 extension KeyboardViewController {
     //MARK: Actions
     // Control nine main keys
-    @IBAction func proceedNineKeyOperations(_ operation: RoundButton) {
-        display.text = keyscontrol.toggle(mode: operation.mode, tag: operation.tag)
+    @IBAction func proceedNineKeyOperations(_ operation: RoundButton){
+        if(operation.mode == "numbers"){
+            display.text = keyscontrol.toggle(mode: operation.mode, tag:operation.tag)
+            return
+        }
+        var suggestionsToRender = [String]()
+        suggestionsToRender = keyscontrol.t9Toggle(mode: operation.mode, tag: operation.tag)
+        
     }
+    
+    @IBAction func spaceSelect(_operation: RoundButton){
+        //updates weight of the title of the first button
+        let proxy = textDocumentProxy as UITextDocumentProxy
+        
+        if let input = display?.text as String? {
+            proxy.insertText(input + " ")
+            //t9Communicator.updateWeights(display?.text, keySequence)
+            //should we have a function that's like returnKeySequence? 
+        }
+        
+        display.text = ""
+        keyscontrol.clear()
+    }
+    
+    // below is the manual entry mode
+//    @IBAction func proceedNineKeyOperations(_ operation: RoundButton) {
+//        display.text = keyscontrol.toggle(mode: operation.mode, tag: operation.tag)
+//    }
     
     
     // Number-Alphabet switcher
@@ -295,7 +320,9 @@ extension KeyboardViewController {
     }
     //Backspace in display
     @IBAction func shouldDeleteTextInDisplay() {
-        display.text = keyscontrol.backspace()
+        var suggestionsUpdate = [String]()
+        suggestionsUpdate = keyscontrol.t9Backspace()
+        // render new suggestions in button
     }
     func shouldClearPreviousWordInDisplay() {
         if let lastWordRange = display.text?.range(of: " ") {

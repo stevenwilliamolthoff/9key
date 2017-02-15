@@ -35,7 +35,8 @@ class T9 {
     }
     
     func updateWeight(selected: String) -> Int {
-        //make a member variable so that the button remembers its key sequence?
+        // make a member variable so that the button remembers its key sequence?
+        // reverse mapping?
         return trie.updateWeight(chosenWord: selected, keySeq: "")
     }
 }
