@@ -255,6 +255,15 @@ class KeyboardViewController: UIInputViewController {
 extension KeyboardViewController {
     //MARK: Actions
     // Control nine main keys
+    
+    // When a key is pressed, this function is called.
+    // If the mode is "numbers" (if it is in number mode where the buttons all show up as numbers),
+    // it will call the regular keyscontrol.toggle function. This function will add the number
+    // to the working display.text and render it.
+    //
+    // If the mode is "alphabets", it will call keyscontrol.t9Toggle. This function uses the t9Driver
+    // class to getSuggestions of words. Once that function returns, this function will iterate through
+    // that array and change the titles of the suggestion buttons on the keyboard to the suggestions.
     @IBAction func proceedNineKeyOperations(_ operation: RoundButton){
         if(operation.mode == "numbers"){
             display.text = keyscontrol.toggle(mode: operation.mode, tag:operation.tag)
@@ -265,12 +274,17 @@ extension KeyboardViewController {
         
     }
     
+    // When space is pressed, the user effectively selects the first suggestion button's suggestion.
+    // The input text field will then display that word (and a space), and the working keySequence
+    // will be cleared. The function will also call t9Driver's updateWeights function with the correct
+    // word and keySequence (TODO: Still need a way to store this and communicate it to that level).
     @IBAction func spaceSelect(_operation: RoundButton){
         //updates weight of the title of the first button
         let proxy = textDocumentProxy as UITextDocumentProxy
         
         if let input = display?.text as String? {
-            proxy.insertText(input + " ")
+            proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
+            
             //t9Communicator.updateWeights(display?.text, keySequence)
             //should we have a function that's like returnKeySequence? 
         }
@@ -318,12 +332,17 @@ extension KeyboardViewController {
         display.text = ""
         keyscontrol.clear()
     }
+    
     //Backspace in display
+    // This means that we now need to render suggestions one depth less. Thus, it calls
+    // the keyscontrol.t9Backspace function. That function will get new suggestions which
+    // will be returned here and rendered on the suggestion buttons.
     @IBAction func shouldDeleteTextInDisplay() {
         var suggestionsUpdate = [String]()
         suggestionsUpdate = keyscontrol.t9Backspace()
         // render new suggestions in button
     }
+    
     func shouldClearPreviousWordInDisplay() {
         if let lastWordRange = display.text?.range(of: " ") {
             display.text?.removeSubrange(lastWordRange.lowerBound..<(display.text?.endIndex)!)
@@ -332,16 +351,21 @@ extension KeyboardViewController {
             keyscontrol.clear()
         }
     }
+    
     //Insert symbols
     @IBAction func inputSymbols(_ sender: RaisedButton) {
         display.text = display.text! + (sender.titleLabel?.text)!
     }
+    
     //Send key
     @IBAction func returnKeyPressed() {
         let proxy = textDocumentProxy as UITextDocumentProxy
         
         if let input = display?.text as String? {
-            proxy.insertText(input)
+            proxy.insertText(input + " ")
+            //t9Communicator.updateWeights
+            //NOTE: this will add a space by default, or else it gets complicated and confusing
+            // update weights because a word has effectively been chosen
         }
         
         display.text = ""

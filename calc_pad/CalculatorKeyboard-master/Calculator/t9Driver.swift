@@ -29,6 +29,7 @@ class T9 {
     }
     
     func getSuggestions(keySequence: String) -> Array<String> {
+        // ! don't forget capital letters
         var suggestions = [String]()
         suggestions = trie.getSuggestions(keySequence, Int(suggestionDepth))
         return suggestions
@@ -37,6 +38,7 @@ class T9 {
     func updateWeight(selected: String) -> Int {
         // make a member variable so that the button remembers its key sequence?
         // reverse mapping?
+        // !! need a way to do this
         return trie.updateWeight(chosenWord: selected, keySeq: "")
     }
 }

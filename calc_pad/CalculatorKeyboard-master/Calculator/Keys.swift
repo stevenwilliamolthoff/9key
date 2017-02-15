@@ -55,8 +55,10 @@ class KeysControl: NSObject {
         t9Communicator = T9(dictionaryFilename: "dict.txt", resetFilename: "dict.txt", suggestionDepth: 1, numResults: 3)
         super.init()
     }
-    // Display proper text in display
     
+    // This function calls the t9Driver to getSuggestions. It keeps a working string of the keySequence
+    // thus far and adds the number most recently pressed. 
+    // IGNORE the NSLog statements (they're just for printing)
     func t9Toggle(mode: String, tag: Int) -> Array<String> {
         var suggestions = [String]()
         numberJustPressed = String(tag)
@@ -67,7 +69,25 @@ class KeysControl: NSObject {
         lastKeyControlTime = Date()
         //suggestions = t9Communicator.getSuggestions(keySequence: storedKeySequence)
         return suggestions
-        //storedInputs + Keys.NineKeys.mapping[mode]![String(tag)]![0]
+    }
+    
+    // If the backspace is pressed, we need new suggestions of shorter depth. 
+    // This will remove the last sequence in the working storedKeySequence and also call
+    // getSuggestions to get a new list. 
+    // NOTE: This gets messed up with number mode so it's something we need to fix.
+    func t9Backspace() -> Array<String> {
+        var suggestions = [String]()
+        if storedKeySequence.characters.count > 0 {
+            NSLog(storedKeySequence)
+            storedKeySequence.characters.removeLast()
+            lastKeyControlTime = Date()
+            NSLog(storedKeySequence)
+            //return t9Communicator.getSuggestions(keySequence: storedKeySequence)
+        } else {
+            //idk this doesn't work with number mode as of now
+        }
+        NSLog("num keysequence == 0 so returning")
+        return suggestions
     }
     
     func toggle(mode: String, tag: Int) -> String {
@@ -89,28 +109,15 @@ class KeysControl: NSObject {
 //                return storedInputs + currentInput
 //            }
 //        }else{
-            pointerAddress = 0
-            previousTag = tag
-            storedInputs = storedInputs + currentInput
-            currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
-            lastKeyControlTime = Date()
-            return storedInputs + Keys.NineKeys.mapping[mode]![String(tag)]![0]
+        pointerAddress = 0
+        previousTag = tag
+        storedInputs = storedInputs + currentInput
+        currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
+        lastKeyControlTime = Date()
+        return storedInputs + Keys.NineKeys.mapping[mode]![String(tag)]![0]
         //}
     }
-    func t9Backspace() -> Array<String> {
-        var suggestions = [String]()
-        if storedKeySequence.characters.count > 0 {
-            NSLog(storedKeySequence)
-            storedKeySequence.characters.removeLast()
-            lastKeyControlTime = Date()
-            NSLog(storedKeySequence)
-            //return t9Communicator.getSuggestions(keySequence: storedKeySequence)
-        } else {
-            //idk this doesn't work with number mode as of now
-        }
-        NSLog("num keysequence == 0 so returning")
-        return suggestions
-    }
+    
     
     func backspace() -> String {
         if storedInputs.characters.count > 0 {
