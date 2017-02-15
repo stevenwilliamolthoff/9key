@@ -194,16 +194,20 @@ public class Trie {
         return newWeight
     }
     func insertWordInFile(chosenWord: String) {
-        var file = FileManager()
-        print(file.currentDirectoryPath)
-        print(file.fileExists(atPath: "dict.txt"))
-        /*
-        var finDoc = DaiFileManager.document
-        var finRes = DaiFileManager.resource
-        
-        print(finDoc.path)
-        //var fout = DaiFileManager.document
- */
+        let filemgr = FileManager.default
+        let filepath1 = filemgr.currentDirectoryPath + "/dict.txt"
+        if filemgr.isWritableFile(atPath: filepath1) {
+            let file: FileHandle? = FileHandle(forUpdatingAtPath: filepath1)
+            //			let databuffer = filemgr.contents(atPath: filepath1)
+            if file == nil {
+                print("nil")
+            } else {
+                let data = ("teststring" as String).data(using: String.Encoding.utf8)
+                file?.write(data!)
+                file?.closeFile()
+            }
+            
+        }
     }
     func updateWeightInFile(chosenWord: String) {
         
