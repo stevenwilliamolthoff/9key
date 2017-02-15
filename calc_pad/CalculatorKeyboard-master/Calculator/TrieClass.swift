@@ -11,7 +11,7 @@ import Foundation
 public class TrieNode {
     //var key: String                 // the current letter
     var children: [String:TrieNode] // maps from number |-> TrieNode
-    var words: [String:UInt]        // maps from word choice |-> frequency
+    var words: [String:Int]        // maps from word choice |-> frequency
     var leaf: Bool                // is this node the leaf node?
     var level: Int                  // depth of this node
     
@@ -172,7 +172,25 @@ public class Trie {
             return false
         }
     }
-    func updateFrequency() {
-        
+    func updateWeight(chosenWord: String, keySeq: String) -> Int {
+        var newWeight = -1
+        let prefixNode = getPrefixLeaf(keySeq).0
+        if wordExists(chosenWord, keySeq) {
+            for (word, weight) in prefixNode!.words {
+                if word == chosenWord {
+                    newWeight = weight + 1
+                    prefixNode!.words.updateValue(newWeight, forKey: word)
+                    updateWeightInFile(chosenWord)
+                    break
+                }
+            }
+        }
+        else {
+            newWeight = 1
+            insert(chosenWord, newWeight)
+            insertWordInFile(chosenWord)
+
+        }
+        return newWeight
     }
 }
