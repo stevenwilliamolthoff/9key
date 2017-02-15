@@ -171,12 +171,19 @@ struct DaiFileManagerPath {
         var newDaiFileManagerPath = self
         newDaiFileManagerPath.isFolder = path.characters.last == "/"
         //        let splitPath = path.componentsSeparated(by: "/").filter { (eachPath) -> Bool in
-        let splitPath = path.characters.split(separator: "/") { (eachPath: String) -> Bool in
-        
-            (eachPath.characters.count > 0)
+        let splitPathStr = path.characters.split(separator: "/").map(String.init)
+        var splitPath = [Bool]()
+        for (i, eachPath) in splitPathStr.enumerated() {
+            if eachPath.characters.count > 0 {
+                splitPath[i] = Bool(1)
+            }
+            else {
+                splitPath[i] = Bool(0)
+            }
         }
         for eachPath in splitPath {
-            newDaiFileManagerPath.paths.append(eachPath)
+            // Casting eachPath from bool to String: matches original intent?
+            newDaiFileManagerPath.paths.append(String(eachPath))
             if eachPath != splitPath.last {
                 newDaiFileManagerPath.createFolder(path: newDaiFileManagerPath.path)
             }
