@@ -180,7 +180,7 @@ public class Trie {
                 if word == chosenWord {
                     newWeight = weight + 1
                     prefixNode!.words.updateValue(newWeight, forKey: word)
-                    updateWeightInFile(chosenWord)
+                    updateWeightInFile(chosenWord: chosenWord)
                     break
                 }
             }
@@ -188,9 +188,19 @@ public class Trie {
         else {
             newWeight = 1
             insert(chosenWord, newWeight)
-            insertWordInFile(chosenWord)
+            insertWordInFile(chosenWord: chosenWord)
 
         }
         return newWeight
+    }
+    func insertWordInFile(chosenWord: String) {
+        var finDoc = DaiFileManager.document
+        var finRes = DaiFileManager.resource
+        
+        print(finDoc.path)
+        //var fout = DaiFileManager.document
+    }
+    func updateWeightInFile(chosenWord: String) {
+        
     }
 }
