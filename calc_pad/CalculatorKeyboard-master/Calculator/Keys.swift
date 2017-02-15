@@ -39,6 +39,9 @@ class KeysControl: NSObject {
     var currentInput = ""
     var storedInputs: String
     var lastKeyControlTime: Date
+    var t9Communicator: T9
+    var storedKeySequence: String
+    var numberJustPressed: String
     var inputsDelay: TimeInterval {
         get{
             return Date().timeIntervalSince(lastKeyControlTime)
@@ -47,37 +50,75 @@ class KeysControl: NSObject {
     override init() {
         lastKeyControlTime = Date()
         storedInputs = "Input will appear here..."
+        storedKeySequence = ""
+        numberJustPressed = ""
+        t9Communicator = T9(dictionaryFilename: "dict.txt", resetFilename: "dict.txt", suggestionDepth: 1, numResults: 3)
         super.init()
     }
-    // Display proper text in display
-    func toggle(mode: String, tag: Int) -> String {
-        if tag == previousTag {
-            if inputsDelay >= 0.8 {
-                pointerAddress = 0
-                previousTag = tag
-                storedInputs = storedInputs + currentInput
-                currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
-                lastKeyControlTime = Date()
-                return storedInputs + Keys.NineKeys.mapping[mode]![String(tag)]![0]
-            }else{
-                pointerAddress += 1
-                if !(Keys.NineKeys.mapping[mode]?[String(tag)]?.indices.contains(pointerAddress))! {
-                    pointerAddress = 0
-                }
-                currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
-                lastKeyControlTime = Date()
-                return storedInputs + currentInput
-            }
-        }else{
-            pointerAddress = 0
-            previousTag = tag
-            storedInputs = storedInputs + currentInput
-            currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
-            lastKeyControlTime = Date()
-            return storedInputs + Keys.NineKeys.mapping[mode]![String(tag)]![0]
-        }
+    
+    // This function calls the t9Driver to getSuggestions. It keeps a working string of the keySequence
+    // thus far and adds the number most recently pressed. 
+    // IGNORE the NSLog statements (they're just for printing)
+    func t9Toggle(mode: String, tag: Int) -> Array<String> {
+        var suggestions = [String]()
+        numberJustPressed = String(tag)
+        print(numberJustPressed)
+        NSLog(numberJustPressed)
+        storedKeySequence += numberJustPressed
+        NSLog(storedKeySequence)
+        lastKeyControlTime = Date()
+        //suggestions = t9Communicator.getSuggestions(keySequence: storedKeySequence)
+        return suggestions
     }
-
+    
+    // If the backspace is pressed, we need new suggestions of shorter depth. 
+    // This will remove the last sequence in the working storedKeySequence and also call
+    // getSuggestions to get a new list. 
+    // NOTE: This gets messed up with number mode so it's something we need to fix.
+    func t9Backspace() -> Array<String> {
+        var suggestions = [String]()
+        if storedKeySequence.characters.count > 0 {
+            NSLog(storedKeySequence)
+            storedKeySequence.characters.removeLast()
+            lastKeyControlTime = Date()
+            NSLog(storedKeySequence)
+            //return t9Communicator.getSuggestions(keySequence: storedKeySequence)
+        } else {
+            //idk this doesn't work with number mode as of now
+        }
+        NSLog("num keysequence == 0 so returning")
+        return suggestions
+    }
+    
+    func toggle(mode: String, tag: Int) -> String {
+//        if tag == previousTag {
+//            if inputsDelay >= 0.8 {
+//                pointerAddress = 0
+//                previousTag = tag
+//                storedInputs = storedInputs + currentInput
+//                currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
+//                lastKeyControlTime = Date()
+//                return storedInputs + Keys.NineKeys.mapping[mode]![String(tag)]![0]
+//            }else{
+//                pointerAddress += 1
+//                if !(Keys.NineKeys.mapping[mode]?[String(tag)]?.indices.contains(pointerAddress))! {
+//                    pointerAddress = 0
+//                }
+//                currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
+//                lastKeyControlTime = Date()
+//                return storedInputs + currentInput
+//            }
+//        }else{
+        pointerAddress = 0
+        previousTag = tag
+        storedInputs = storedInputs + currentInput
+        currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
+        lastKeyControlTime = Date()
+        return storedInputs + Keys.NineKeys.mapping[mode]![String(tag)]![0]
+        //}
+    }
+    
+    
     func backspace() -> String {
         if storedInputs.characters.count > 0 {
             storedInputs.characters.removeLast()
@@ -103,6 +144,7 @@ class KeysControl: NSObject {
     func clear() {
         currentInput = ""
         storedInputs = ""
+        storedKeySequence = ""
         pointerAddress = 0
         previousTag = -1
         lastKeyControlTime = Date()
