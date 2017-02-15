@@ -54,6 +54,7 @@ public class Trie {
     var root: TrieNode
     var filename : String
     var dictionarySize : Int
+    var filemgr : FileManager
     
     class DeeperSuggestion {
         var deeperSuggestions: Array<Array<String>> = [[String]]()
@@ -64,12 +65,52 @@ public class Trie {
         self.root = TrieNode()
         self.filename = filename
         self.dictionarySize = 0
+        self.filemgr = FileManager.default
     }
     
     func loadTrie(_ dictFileName : String) {
-        // TODO: need to find way to effectively store trie and load it
-        //       no swift interfacing for file i/o, consider serialization
-        //       or Bundles i/o
+        // get path to dictionary for inserting new word
+        let filepath1 = filemgr.currentDirectoryPath + "/dict.txt"
+        
+        // check if the file is readable
+        if filemgr.isReadableFile(atPath: filepath1) {
+            // get the file to read from
+            let file: FileHandle? = FileHandle(forReadingAtPath: filepath1)
+            
+            // if file exists and is readable then read from it
+            if file == nil {
+                print("File open failed")
+            } else {
+                let url = URL(fileURLWithPath: filepath1) // convert string pathname to url type
+                let contents = try! String(contentsOf: url) // fetch contents from the file
+                let lines = contents.components(separatedBy: .newlines) // split contents by newline
+                
+                for line in lines {
+                    // increment dictionary size
+                    self.dictionarySize += 1
+                    var skip : Bool = false;
+                    
+                    // fetch frequency and word from string array
+                    let (frequency, word) = line.components(separatedBy: "\t")
+                    
+                    // string check for acceptable characters
+                    for ch in word {
+                        var str = String(ch)
+                        
+                        // must be lowercase and alphabetic character for now
+                        if !(ch.isAlpha() && str.lowercaseString == str) {
+                            skip = true;
+                            break;
+                        }
+                    }
+                    
+                    // add into trie
+                    if !skip {
+                        self.insert(word, frequency)
+                    }
+                }
+            }
+        }
     }
     
     func insert(_ word : String, _ frequency : Int) {
@@ -154,11 +195,11 @@ public class Trie {
     }
     
     func wordExists(_ word : String, _ keySeq : String) -> Bool {
-        let (node, prefixExists) = self.getPrefixLeaf(keySeq)
+        let (node, _) = self.getPrefixLeaf(keySeq)
         
         if node != nil {
             if node!.isLeaf() {
-                for (treeWord, frequency) in node!.words {
+                for (treeWord, _) in node!.words {
                     if treeWord == word {
                         return true
                     }
@@ -172,6 +213,7 @@ public class Trie {
             return false
         }
     }
+    
     func updateWeight(chosenWord: String, keySeq: String) -> Int {
         var newWeight = -1
         let prefixNode = getPrefixLeaf(keySeq).0
@@ -193,22 +235,31 @@ public class Trie {
         }
         return newWeight
     }
+    
     func insertWordInFile(chosenWord: String) {
-        let filemgr = FileManager.default
+        // get path to dictionary for inserting new word
         let filepath1 = filemgr.currentDirectoryPath + "/dict.txt"
+        
+        // check if the file is writable
         if filemgr.isWritableFile(atPath: filepath1) {
             let file: FileHandle? = FileHandle(forUpdatingAtPath: filepath1)
-            //			let databuffer = filemgr.contents(atPath: filepath1)
+            
             if file == nil {
-                print("nil")
+                print("file could not be opened")
             } else {
-                let data = ("teststring" as String).data(using: String.Encoding.utf8)
+                // data will just be the word and frequency of 1 since it is a new word
+                let data = ("1" + "\t" + chosenWord as String).data(using: String.Encoding.utf8)
+                
+                // since this is a new word, we want to find the EOF and append the word/freq pair there
+                file?.seekToEndOfFile()
+                
+                // write the data to the file and close file after operation is complete
                 file?.write(data!)
                 file?.closeFile()
             }
-            
         }
     }
+    
     func updateWeightInFile(chosenWord: String) {
         
     }
