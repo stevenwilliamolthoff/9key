@@ -194,11 +194,16 @@ public class Trie {
         return newWeight
     }
     func insertWordInFile(chosenWord: String) {
+        var file = FileManager()
+        print(file.currentDirectoryPath)
+        print(file.fileExists(atPath: "dict.txt"))
+        /*
         var finDoc = DaiFileManager.document
         var finRes = DaiFileManager.resource
         
         print(finDoc.path)
         //var fout = DaiFileManager.document
+ */
     }
     func updateWeightInFile(chosenWord: String) {
         
