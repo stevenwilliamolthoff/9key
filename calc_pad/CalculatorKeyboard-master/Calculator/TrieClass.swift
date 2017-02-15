@@ -231,7 +231,7 @@ public class Trie {
             newWeight = 1
             insert(chosenWord, newWeight)
             insertWordInFile(chosenWord: chosenWord)
-
+            
         }
         return newWeight
     }
