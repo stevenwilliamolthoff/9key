@@ -69,6 +69,8 @@ public class Trie {
     }
     
     func loadTrie(_ dictFileName : String) {
+        let letters = CharacterSet.letters
+
         // get path to dictionary for inserting new word
         let filepath1 = filemgr.currentDirectoryPath + "/dict.txt"
         
@@ -91,14 +93,17 @@ public class Trie {
                     var skip : Bool = false;
                     
                     // fetch frequency and word from string array
-                    let (frequency, word) = line.components(separatedBy: "\t")
+                    var comp = line.components(separatedBy: "\t")
+                    var frequency = comp[0]
+                    var word = comp[1]
+                    //let (frequency, word) = line.components(separatedBy: "\t")
                     
                     // string check for acceptable characters
-                    for ch in word {
+                    for ch in word.unicodeScalars {
                         var str = String(ch)
                         
                         // must be lowercase and alphabetic character for now
-                        if !(ch.isAlpha() && str.lowercaseString == str) {
+                        if !(letters.contains(ch) && str.lowercased() == str) {
                             skip = true;
                             break;
                         }
@@ -106,7 +111,7 @@ public class Trie {
                     
                     // add into trie
                     if !skip {
-                        self.insert(word, frequency)
+                        self.insert(word, Int(frequency)!)
                     }
                 }
             }

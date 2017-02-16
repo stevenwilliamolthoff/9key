@@ -31,7 +31,7 @@ extension String {
 
 class T9 {
     // Filename of the dictionary that will be updated over time
-    let dictionaryFilename: String
+    var dictionaryFilename: String
     
     // Filename of the original dictionary. For resetting the altered dictionary
     // to its original content. For testing purposes.
@@ -51,14 +51,14 @@ class T9 {
     var currentSuggestions: [String]
     
     // The reverse mapping from letters to key numbers
-    let lettersToDigits = ["a" : 2, "b" : 2, "c" : 2,
-                           "d" : 3, "e" : 3, "f" : 3,
-                           "g" : 4, "h" : 4, "i" : 4,
-                           "j" : 5, "k" : 5, "l" : 5,
-                           "m" : 6, "n" : 6, "o" : 6,
-                           "p" : 7, "q" : 7, "r" : 7, "s" : 7,
-                           "t" : 8, "u" : 8, "v" : 8,
-                           "w" : 9, "x" : 9, "y" : 9, "z" : 9]
+    let lettersToDigits = ["a" : "2", "b" : "2", "c" : "2",
+                           "d" : "3", "e" : "3", "f" : "3",
+                           "g" : "4", "h" : "4", "i" : "4",
+                           "j" : "5", "k" : "5", "l" : "5",
+                           "m" : "6", "n" : "6", "o" : "6",
+                           "p" : "7", "q" : "7", "r" : "7", "s" : "7",
+                           "t" : "8", "u" : "8", "v" : "8",
+                           "w" : "9", "x" : "9", "y" : "9", "z" : "9"]
     
     init(dictionaryFilename: String,
          resetFilename: String,
@@ -69,6 +69,7 @@ class T9 {
         self.numResults = numResults
         self.suggestionDepth = suggestionDepth
         self.resetFilename = resetFilename
+        self.currentSuggestions = [String]()
     }
     
     func getSuggestions(keySequence: String, shiftSequence: [Bool]) -> [String] {
@@ -82,7 +83,7 @@ class T9 {
             limitedSuggestions.append(word)
         }
         for (i, word) in limitedSuggestions.enumerated() {
-            var wordWithShifts: String
+            var wordWithShifts = String()
             for (j, shiftStatus) in shiftSequence.enumerated() {
                 if shiftStatus {
                     wordWithShifts.append(word[j].uppercased())
@@ -99,7 +100,7 @@ class T9 {
         // the Trie
         if currentSuggestions.contains(chosenWord) {
             let keySeq = wordToKeys(word: chosenWord)
-            trie.updateWeight(chosenWord: chosenWord, keySeq: keySeq)
+            var newWeight = trie.updateWeight(chosenWord: chosenWord, keySeq: keySeq)
         }
         else {
             trie.insertWordInFile(chosenWord: chosenWord)
@@ -107,10 +108,11 @@ class T9 {
         //return trie.updateWeight(chosenWord: selected, keySeq: "")
     }
     
-    private func wordToKeys(word: String) -> [Int] {
-        var keySequence: [Int]
+    private func wordToKeys(word: String) -> String {
+        var keySequence = String()
         for char in word.characters {
-            keySequence.append(lettersToDigits[String(char)]!)
+            keySequence += lettersToDigits[String(char)]!
         }
+        return keySequence
     }
 }

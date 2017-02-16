@@ -45,6 +45,10 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var syms_3: RaisedButton!
     @IBOutlet var syms_4: RaisedButton!
     
+    @IBOutlet var predict1: RaisedButton!
+    @IBOutlet var predict2: RaisedButton!
+    @IBOutlet var predict3: RaisedButton!
+    
     @IBOutlet var one: RoundButton!{
         didSet{
             one.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
@@ -271,7 +275,19 @@ extension KeyboardViewController {
         }
         var suggestionsToRender = [String]()
         suggestionsToRender = keyscontrol.t9Toggle(mode: operation.mode, tag: operation.tag)
+//        for i in 0 ..< 3  {
+//            NSLog(suggestionsToRender[i])
+//            predict1.title = suggestionsToRender[i]
+//        }
+        predict1.title = suggestionsToRender[0]
+        predict2.title = suggestionsToRender[1]
+        predict2.title = suggestionsToRender[2]
+        // render in scroll area that will show the rest of the suggestions
         
+    }
+    
+    @IBAction func predictionSelect(_operation: RoundButton){
+        //effectively the same as spaceselect, right?
     }
     
     // When space is pressed, the user effectively selects the first suggestion button's suggestion.
@@ -290,7 +306,7 @@ extension KeyboardViewController {
         }
         
         display.text = ""
-        keyscontrol.clear()
+        keyscontrol.clear() //prob need to change this or keep another variable in case brad backspaces
     }
     
     // below is the manual entry mode
@@ -340,6 +356,9 @@ extension KeyboardViewController {
     @IBAction func shouldDeleteTextInDisplay() {
         var suggestionsUpdate = [String]()
         suggestionsUpdate = keyscontrol.t9Backspace()
+        predict1.title = suggestionsUpdate[0]
+        predict2.title = suggestionsUpdate[1]
+        predict2.title = suggestionsUpdate[2]
         // render new suggestions in button
     }
     
@@ -363,7 +382,7 @@ extension KeyboardViewController {
         
         if let input = display?.text as String? {
             proxy.insertText(input + " ")
-            //t9Communicator.updateWeights
+            keyscontrol.wordSelected(word: input)
             //NOTE: this will add a space by default, or else it gets complicated and confusing
             // update weights because a word has effectively been chosen
         }

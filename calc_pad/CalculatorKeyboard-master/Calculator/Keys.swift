@@ -67,7 +67,7 @@ class KeysControl: NSObject {
         storedKeySequence += numberJustPressed
         NSLog(storedKeySequence)
         lastKeyControlTime = Date()
-        //suggestions = t9Communicator.getSuggestions(keySequence: storedKeySequence)
+        suggestions = t9Communicator.getSuggestions(keySequence: storedKeySequence)
         return suggestions
     }
     
@@ -82,12 +82,16 @@ class KeysControl: NSObject {
             storedKeySequence.characters.removeLast()
             lastKeyControlTime = Date()
             NSLog(storedKeySequence)
-            //return t9Communicator.getSuggestions(keySequence: storedKeySequence)
+            return t9Communicator.getSuggestions(keySequence: storedKeySequence)
         } else {
             //idk this doesn't work with number mode as of now
         }
         NSLog("num keysequence == 0 so returning")
         return suggestions
+    }
+    
+    func wordSelected(word: String){
+        t9Communicator.rememberChoice(chosenWord: word)
     }
     
     func toggle(mode: String, tag: Int) -> String {
