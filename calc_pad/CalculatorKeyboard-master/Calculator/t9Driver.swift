@@ -71,6 +71,7 @@ class T9 {
         self.numTrieResults = numResults - numCacheResults
         self.suggestionDepth = suggestionDepth
         self.resetFilename = resetFilename
+        self.trie.loadTrie()
     }
     
     func getSuggestions(keySequence: [Int], shiftSequence: [Bool]) -> [String] {
@@ -82,7 +83,8 @@ class T9 {
             suggestions.removeLast()
         }
         
-        suggestions.append(contentsOf: cache.getSuggestions(keySequence: keySequence, suggestionDepth: self.suggestionDepth))
+        suggestions.append(contentsOf: cache.getSuggestions(keySequence: keySequence,
+                                        suggestionDepth: self.suggestionDepth))
         
         for _ in 0 ..< suggestions.count - self.numResults {
             suggestions.removeLast()
