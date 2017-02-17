@@ -848,9 +848,6 @@
 1968	clue
 1404	cluster
 1240	clutch
-904	co-operate
-3648	co-operation
-956	co-operative
 3489	coach
 5328	coal
 2503	coalition
@@ -1257,7 +1254,6 @@
 1847	decent
 24380	decide
 24233	decision
-801	decision-making
 1228	decisive
 1667	deck
 2302	declaration
@@ -2076,7 +2072,6 @@
 4770	fuel
 2557	fulfil
 28836	full
-1974	full-time
 8911	fully
 2131	fun
 12819	function
@@ -2736,7 +2731,6 @@
 22117	language
 1475	lap
 47185	large
-1108	large-scale
 7350	largely
 1209	laser
 140063	last
@@ -2867,7 +2861,6 @@
 908	lone
 1790	lonely
 40492	long
-4103	long-term
 15872	look
 1197	loop
 2347	loose
@@ -2919,7 +2912,6 @@
 23629	major
 10146	majority
 877	make
-1346	make-up
 2309	maker
 1095	making
 8133	male
@@ -3031,7 +3023,6 @@
 862	microphone
 1245	mid
 4487	middle
-1355	middle-class
 810	midfield
 1866	midnight
 61446	might
@@ -3219,7 +3210,6 @@
 1642	nightmare
 864	nitrogen
 27178	no
-9064	no-one
 1367	noble
 6229	nobody
 6073	nod
@@ -3311,7 +3301,6 @@
 1672	ok
 1392	okay
 66999	old
-1204	old-fashioned
 856	omission
 1415	omit
 68362	on
@@ -3441,7 +3430,6 @@
 10010	parliament
 4337	parliamentary
 65773	part
-1888	part-time
 1783	partial
 1307	partially
 2836	participant
@@ -3640,7 +3628,6 @@
 34178	possible
 7211	possibly
 9776	post
-1614	post-war
 868	postcard
 1568	poster
 1134	postpone
@@ -4309,7 +4296,6 @@
 20902	sell
 2387	seller
 1294	semantic
-954	semi-final
 1941	seminar
 1293	senate
 24816	send
@@ -4384,7 +4370,6 @@
 2816	shopping
 1981	shore
 17635	short
-1469	short-term
 1932	shortage
 3828	shortly
 4924	shot
@@ -4482,7 +4467,6 @@
 1035	sniff
 3112	snow
 167324	so
-2687	so-called
 1022	soak
 1385	soap
 956	soar
@@ -4821,7 +4805,6 @@
 1203	synthesis
 61912	system
 1685	systematic
-869	t-shirt
 23092	table
 1257	tablet
 2987	tackle
@@ -5162,7 +5145,6 @@
 810	unwanted
 1003	unwilling
 195426	up
-1195	up-to-date
 1778	update
 894	upgrade
 1064	uphold
@@ -5236,12 +5218,10 @@
 4647	via
 970	viable
 874	vicar
-975	vice-president
 860	vicious
 6501	victim
 6259	victory
 7288	video
-3782	video-taped
 31102	view
 1283	viewer
 1072	viewpoint
@@ -5333,7 +5313,6 @@
 2460	welcome
 4822	welfare
 2241	well
-1522	well-known
 6328	west
 7421	western
 3384	wet
@@ -5415,7 +5394,6 @@
 18247	worker
 1543	workforce
 8422	working
-1880	working-class
 819	workplace
 8315	works
 3099	workshop
@@ -5440,7 +5418,6 @@
 4727	writing
 3390	written
 14274	wrong
-929	x-ray
 1426	yacht
 6360	yard
 1056	yarn

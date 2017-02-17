@@ -48,7 +48,7 @@ class T9_old: NSObject {
     override init() {
         lastKeyControlTime = Date()
         storedInputs = ""
-        dictTrie = Trie(filename: "dictionary.txt")
+        dictTrie = Trie(dictionaryFilename: "dictionary.txt")
         super.init()
     }
     func genPerms(n:Int, a:inout Array<Character>) {

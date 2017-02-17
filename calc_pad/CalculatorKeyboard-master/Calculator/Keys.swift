@@ -1,7 +1,24 @@
 import Foundation
 
+// The reverse mapping from letters to key numbers
+let lettersToDigits = ["a" : 2, "b" : 2, "c" : 2,
+                       "d" : 3, "e" : 3, "f" : 3,
+                       "g" : 4, "h" : 4, "i" : 4,
+                       "j" : 5, "k" : 5, "l" : 5,
+                       "m" : 6, "n" : 6, "o" : 6,
+                       "p" : 7, "q" : 7, "r" : 7, "s" : 7,
+                       "t" : 8, "u" : 8, "v" : 8,
+                       "w" : 9, "x" : 9, "y" : 9, "z" : 9]
+
+func getKeySequence(word: String) -> [Int] {
+    var keySequence: [Int]
+    for char in word.characters {
+        keySequence.append(lettersToDigits[String(char)]!)
+    }
+}
+
 //Information stored for each key
-struct Keys {
+struct KeysMap {
     struct NineKeys {
         static let mapping = [
             "alphabets": [
@@ -91,7 +108,7 @@ class KeysControl: NSObject {
     }
     
     func wordSelected(word: String){
-        t9Communicator.rememberChoice(chosenWord: word)
+        t9Communicator.rememberChoice(word: word)
     }
     
     func toggle(mode: String, tag: Int) -> String {

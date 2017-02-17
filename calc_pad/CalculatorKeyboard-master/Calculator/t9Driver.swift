@@ -44,75 +44,55 @@ class T9 {
     // The total number of suggestions to be returned from T9.
     let numResults: Int
     
+    // The number of suggestions to be returned from the cache.
+    let numCacheResults: Int
+    
+    // numResults - numCacheResults = number of results from the main Trie
+    let numTrieResults: Int
+    
     // The prefix tree structure
     var trie: Trie
     
-    // The most recent returned list of suggestions
-    var currentSuggestions: [String]
-    
-    // The reverse mapping from letters to key numbers
-    let lettersToDigits = ["a" : "2", "b" : "2", "c" : "2",
-                           "d" : "3", "e" : "3", "f" : "3",
-                           "g" : "4", "h" : "4", "i" : "4",
-                           "j" : "5", "k" : "5", "l" : "5",
-                           "m" : "6", "n" : "6", "o" : "6",
-                           "p" : "7", "q" : "7", "r" : "7", "s" : "7",
-                           "t" : "8", "u" : "8", "v" : "8",
-                           "w" : "9", "x" : "9", "y" : "9", "z" : "9"]
-    
+    // Caches recent results
+    var cache: Cache
+
     init(dictionaryFilename: String,
          resetFilename: String,
          suggestionDepth: Int,
-         numResults: Int) {
+         numResults: Int,
+         numCacheResults: Int,
+         cacheSize: Int) {
+        assert(numResults > numCacheResults)
         self.dictionaryFilename = dictionaryFilename
-        self.trie = Trie(filename: dictionaryFilename)
+        self.trie = Trie(dictionaryFilename: dictionaryFilename)
+        self.cache = Cache(sizeLimit: cacheSize)
         self.numResults = numResults
+        self.numCacheResults = numCacheResults
+        self.numTrieResults = numResults - numCacheResults
         self.suggestionDepth = suggestionDepth
         self.resetFilename = resetFilename
-        self.currentSuggestions = [String]()
     }
     
-    func getSuggestions(keySequence: String, shiftSequence: [Bool]) -> [String] {
-        var suggestions = [String]()
-        suggestions = trie.getSuggestions(keySequence, Int(suggestionDepth))
-        var limitedSuggestions = [String]()
-        for (i, word) in suggestions.enumerated() {
-            if i >= numResults {
-                break
-            }
-            limitedSuggestions.append(word)
+    func getSuggestions(keySequence: [Int], shiftSequence: [Bool]) -> [String] {
+        var suggestions = trie.getSuggestions(keySequence: keySequence,
+                                          suggestionDepth: Int(suggestionDepth))
+        
+        // Chop off excess Trie results
+        for _ in 0 ..< suggestions.count - self.numTrieResults {
+            suggestions.removeLast()
         }
-        for (i, word) in limitedSuggestions.enumerated() {
-            var wordWithShifts = String()
-            for (j, shiftStatus) in shiftSequence.enumerated() {
-                if shiftStatus {
-                    wordWithShifts.append(word[j].uppercased())
-                    limitedSuggestions[i] = wordWithShifts
-                }
-            }
+        
+        suggestions.append(contentsOf: cache.getSuggestions(keySequence: keySequence, suggestionDepth: self.suggestionDepth))
+        
+        for _ in 0 ..< suggestions.count - self.numResults {
+            suggestions.removeLast()
         }
-        currentSuggestions = limitedSuggestions
-        return limitedSuggestions
+        return suggestions
     }
     
-    func rememberChoice(chosenWord: String) {
+    func rememberChoice(word: String) {
         // If the chosen word was one of the suggestions, update its weight in
         // the Trie
-        if currentSuggestions.contains(chosenWord) {
-            let keySeq = wordToKeys(word: chosenWord)
-            var newWeight = trie.updateWeight(chosenWord: chosenWord, keySeq: keySeq)
-        }
-        else {
-            trie.insertWordInFile(chosenWord: chosenWord)
-        }
-        //return trie.updateWeight(chosenWord: selected, keySeq: "")
-    }
-    
-    private func wordToKeys(word: String) -> String {
-        var keySequence = String()
-        for char in word.characters {
-            keySequence += lettersToDigits[String(char)]!
-        }
-        return keySequence
+        _ = trie.updateWeight(word: word)
     }
 }

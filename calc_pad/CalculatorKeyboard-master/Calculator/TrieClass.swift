@@ -1,14 +1,7 @@
-//
-//  TrieClass.swift
-//  9key
-//
-//  Created by Alex Hsieh on 2/7/17.
-//  Copyright © 2017 FAKS. All rights reserved.
-//
-
 import Foundation
 
-public class WordWeight {
+// Every word is associated with a mutable weight.
+internal class WordWeight {
     let word: String
     var weight: Int
     init(word: String, weight: Int) {
@@ -17,20 +10,20 @@ public class WordWeight {
     }
 }
 
-public class TrieNode {
+internal class TrieNode {
     
-    //var key: String                 // the current letter
-    var children: [String:TrieNode] // maps from number |-> TrieNode
-    var wordWeights: [WordWeight]        // maps from word choice |-> frequency
-    var leaf: Bool                // is this node the leaf node?
-    var level: Int                  // depth of this node
+    // Digits map to TrieNodes
+    var children: [Int : TrieNode]
     
-    // initializes a new trie node
+    var wordWeights: [WordWeight]
+    
+    // True if this node is a leaf
+    var leaf: Bool
+    
     init() {
         self.children = [:]
         self.wordWeights = [WordWeight]()
         self.leaf = false
-        self.level = 0
     }
     
     // checks if node is a leaf (end of word)
@@ -39,18 +32,18 @@ public class TrieNode {
     }
     
     // gets the next node based on key
-    func getBranch(_ keyword: String) -> TrieNode {
-        return self.children[keyword]!
+    func getBranch(key: Int) -> TrieNode {
+        return self.children[key]!
     }
     
-    // returns true if children is non-empty; false otherwise
-    func hasChild(_ keyword: String) -> Bool {
-        return self.children[keyword] != nil
+    // True is this node has a branch at this key
+    func hasChild(key: Int) -> Bool {
+        return self.children[key] != nil
     }
     
-    // inserts new node into list of children
-    func putNode(_ keyword: String, _ tn : TrieNode) {
-        self.children[keyword] = tn
+    // Adds a branch from this node to key
+    func putNode(key: Int, nodeToInsert : TrieNode) {
+        self.children[key] = nodeToInsert
     }
     
     // makes node a leaf
@@ -60,11 +53,6 @@ public class TrieNode {
 }
 
 public class Trie {
-    // member variables for trie class
-    var root: TrieNode
-    var filename : String
-    var dictionarySize : Int
-    var filemgr : FileManager
     
     // The reverse mapping from letters to key numbers
     let lettersToDigits = ["a" : 2, "b" : 2, "c" : 2,
@@ -76,120 +64,135 @@ public class Trie {
                            "t" : 8, "u" : 8, "v" : 8,
                            "w" : 9, "x" : 9, "y" : 9, "z" : 9]
     
-    class DeeperSuggestion {
+    var root: TrieNode
+    var dictionaryFilename : String
+    var dictionarySize : Int
+    
+    // A work-around to allow deeperSuggestions to be passed by reference
+    internal class DeeperSuggestion {
         var deeperSuggestions: Array<Array<WordWeight>> = [[WordWeight]]()
     }
     
-    // initializes the data structure
-    init(filename : String) {
+    init(dictionaryFilename : String) {
         self.root = TrieNode()
-        self.filename = filename
+        self.dictionaryFilename = dictionaryFilename
         self.dictionarySize = 0
-        self.filemgr = FileManager.default
     }
     
-    func loadTrie(_ dictFileName : String) {
-        let letters = CharacterSet.letters
+    func loadTrie() {
+        let fileManager = FileManager.default
         
-        // get path to dictionary for inserting new word
-        let filepath1 = filemgr.currentDirectoryPath + "/dict.txt"
+        // This string is the expected path of the dictionary file
+        let dictionaryPath = fileManager.currentDirectoryPath +
+                             self.dictionaryFilename
         
-        // check if the file is readable
-        if filemgr.isReadableFile(atPath: filepath1) {
-            // get the file to read from
-            let file: FileHandle? = FileHandle(forReadingAtPath: filepath1)
+        // FIXME: Need better error management.
+        if !fileManager.fileExists(atPath: dictionaryPath) {
+            print("No dictionary named " + self.dictionaryFilename + " exists "
+                  + "at " + dictionaryPath + ".")
+            return
+        }
+        
+        // Check if the file is readable
+        if !fileManager.isReadableFile(atPath: dictionaryPath) {
+            print("File named " + self.dictionaryFilename + " is not readable.")
+            return
+        }
+        
+        // get the file to read from
+        let fileHandle: FileHandle? = FileHandle(forReadingAtPath:
+                                                                dictionaryPath)
+        
+        // if file exists and is readable then read from it
+        if fileHandle == nil {
+            print("File open failed.")
+            return
+        }
             
-            // if file exists and is readable then read from it
-            if file == nil {
-                print("File open failed")
-            } else {
-                let url = URL(fileURLWithPath: filepath1) // convert string pathname to url type
-                let contents = try! String(contentsOf: url) // fetch contents from the file
-                let lines = contents.components(separatedBy: .newlines) // split contents by newline
+        else {
+            // convert string pathname to url type
+            let url = URL(fileURLWithPath: dictionaryPath)
+            
+            // fetch contents from the file
+            let contents = try! String(contentsOf: url)
+            
+            // split contents by newline and put each line into a list
+            let lines = contents.components(separatedBy: .newlines)
+            
+            for line in lines {
+                // increment dictionary size
+                self.dictionarySize += 1
                 
-                for line in lines {
-                    // increment dictionary size
-                    self.dictionarySize += 1
-                    var skip : Bool = false;
-                    
-                    // fetch frequency and word from string array
-                    var comp = line.components(separatedBy: "\t")
-                    var frequency = comp[0]
-                    var word = comp[1]
-                    //let (frequency, word) = line.components(separatedBy: "\t")
-                    
-                    // string check for acceptable characters
-                    for ch in word.unicodeScalars {
-                        var str = String(ch)
-                        
-                        // must be lowercase and alphabetic character for now
-                        if !(letters.contains(ch) && str.lowercased() == str) {
-                            skip = true;
-                            break;
-                        }
-                    }
-                    
-                    // add into trie
-                    if !skip {
-                        self.insert(word: word, weight: Int(frequency)!)
-                    }
-                }
+                // fetch weight and word from string array
+                var lineArray = line.components(separatedBy: "\t")
+                let weight = Int(lineArray[0])
+                let word = lineArray[1]
+                
+                // add into trie
+                self.insert(word: word, weight: weight!)
             }
         }
     }
     
-    func insert(word : String, weight : Int) {
+    internal func insert(word : String, weight : Int) {
         var node = self.root
         var key = 0
         for c in word.characters {
             key = lettersToDigits[String(c)]!
-            if !node.hasChild(String(key)) {
-                node.putNode(String(key), TrieNode())
+            if !node.hasChild(key: key) {
+                node.putNode(key: key, nodeToInsert: TrieNode())
             }
-            node = node.getBranch(String(key))
+            node = node.getBranch(key: key)
         }
         node.setAsLeaf()
         node.wordWeights.append(WordWeight(word: word, weight: weight))
         
         // Sorts wordWeights by weights, biggest to smallest weight
         node.wordWeights = node.wordWeights.sorted(by: {$0.weight > $1.weight})
-        // TODO: how to get values from data structure in separate file??
     }
     
-    func getPrefixLeaf(_ keySeq : String) -> (TrieNode?, Bool) {
+    // Returns node where prefix ends.
+    // If prefix not in Trie, node is nil and Bool is false.
+    internal func getPrefixLeaf(keySequence : [Int]) -> (TrieNode?, Bool) {
         var node: TrieNode? = self.root
-        var prefixExists: Bool = true
+        var prefixExists = true
         
-        for key in keySeq.characters {
-            if node!.hasChild(String(key)) {
-                node = node!.getBranch(String(key))
-            } else {
-                if Int(String(key)) == keySeq.characters.count - 1 {
+        for (i, key) in keySequence.enumerated() {
+            if node!.hasChild(key: key) {
+                node = node!.getBranch(key: key)
+            }
+            else {
+                // At this point, we have reached a node that ends the path in
+                // the Trie. If this key is the last in the keySequence, then
+                // we know that the prefix <keySequence> exists.
+                if i == keySequence.count - 1 {
                     prefixExists = true
-                } else {
+                }
+                else {
                     prefixExists = false
                     node = nil
                     return (node!, prefixExists)
                 }
             }
         }
-        
         return (node!, prefixExists)
     }
     
-    func getPrefixNode(_ keySeq : String) -> TrieNode? {
-        let (node, prefixExists) = self.getPrefixLeaf(keySeq)
-        
+    // If the path keySequence exists, returns the node.
+    // Otherwise, nil
+    func getPrefixNode(keySequence : [Int]) -> TrieNode? {
+        let (node, prefixExists) = self.getPrefixLeaf(keySequence: keySequence)
         if prefixExists {
             return node
-        } else {
+        }
+        else {
             return nil
         }
     }
     
-    func getSuggestions(_ keySeq : String, _ suggestionDepth : Int) -> Array<String> {
+    func getSuggestions(keySequence : [Int], suggestionDepth : Int) -> [String] {
         var suggestions = [String]()
-        let prefixNode: TrieNode? = self.getPrefixNode(keySeq)
+        let prefixNode: TrieNode? = self.getPrefixNode(keySequence: keySequence)
         
         if prefixNode != nil {
             for wordWeight in prefixNode!.wordWeights {
@@ -203,7 +206,8 @@ public class Trie {
                 // will be a list of lists of words, each list being full of
                 // words of one character longer in length
                 self.getDeeperSuggestions(root: prefixNode!,
-                                          maxDepth: keySeq.characters.count + suggestionDepth,
+                                          maxDepth:
+                                            keySequence.count + suggestionDepth,
                                           deeperSuggestions: deeperSuggestions)
                 
                 for level in deeperSuggestions.deeperSuggestions {
@@ -217,16 +221,19 @@ public class Trie {
         return suggestions
     }
     
-    func getDeeperSuggestions(root : TrieNode, maxDepth : Int, deeperSuggestions: DeeperSuggestion) {
-        self.traverse(root, 0, maxDepth, deeperSuggestions)
+    internal func getDeeperSuggestions(root : TrieNode, maxDepth : Int,
+                                       deeperSuggestions: DeeperSuggestion) {
+        self.traverse(root: root, depth: 0, maxDepth: maxDepth, deepSuggestions: deeperSuggestions)
         for (level, suggestions) in deeperSuggestions.deeperSuggestions.enumerated() {
             if suggestions.count > 0 {
-                deeperSuggestions.deeperSuggestions[level] = suggestions.sorted(by: {$0.weight > $1.weight})
+                deeperSuggestions.deeperSuggestions[level] =
+                    suggestions.sorted(by: {$0.weight > $1.weight})
             }
         }
     }
     
-    func traverse(_ root : TrieNode, _ depth : Int, _ maxDepth : Int, _ deepSuggestions : DeeperSuggestion) {
+    internal func traverse(root : TrieNode, depth : Int, maxDepth : Int,
+                  deepSuggestions : DeeperSuggestion) {
         if (depth < maxDepth && depth > 0) {
             for wordWeight in root.wordWeights {
                 deepSuggestions.deeperSuggestions[depth-1].append(wordWeight)
@@ -238,13 +245,13 @@ public class Trie {
         }
         
         for (key, _) in root.children {
-            self.traverse(root.children[key]!, depth+1, maxDepth, deepSuggestions)
+            self.traverse(root: root.children[key]!, depth: depth+1,
+                          maxDepth: maxDepth, deepSuggestions: deepSuggestions)
         }
     }
     
-    func wordExists(_ word : String, _ keySeq : String) -> Bool {
-        let (node, _) = self.getPrefixLeaf(keySeq)
-        
+    internal func wordExists(word : String, keySequence: [Int]) -> Bool {
+        let (node, _) = self.getPrefixLeaf(keySequence: keySequence)
         if node != nil {
             if node!.isLeaf() {
                 for wordWeight in node!.wordWeights {
@@ -252,89 +259,85 @@ public class Trie {
                         return true
                     }
                 }
-                
-                return false
-            } else {
                 return false
             }
-        } else {
+            else {
+                return false
+            }
+        }
+        else {
             return false
         }
     }
     
-    func updateWeight(chosenWord: String, keySeq: String) -> Int {
+    // returns the updated weight
+    // If word does not exist in Trie, it is added with base weight
+    func updateWeight(word: String) -> Int {
         var newWeight = -1
-        let prefixNode = getPrefixLeaf(keySeq).0
-        if wordExists(chosenWord, keySeq) {
+        let keySequence = getKeySequence(word: word)
+        let prefixNode = getPrefixLeaf(keySequence: keySequence).0
+        if wordExists(word: word, keySequence: keySequence) {
             for wordWeight in prefixNode!.wordWeights {
-                if wordWeight.word == chosenWord {
+                if wordWeight.word == word {
                     newWeight = wordWeight.weight + 1
                     wordWeight.weight = newWeight
-                    updateWeightInFile(chosenWord: chosenWord)
+                    updateWeightInFile(word: word)
                     break
                 }
             }
         }
         else {
             newWeight = 1
-            insert(word: chosenWord, weight: newWeight)
-            insertWordInFile(chosenWord: chosenWord)
-            
+            insert(word: word, weight: newWeight)
+            insertWordInFile(word: word)
         }
         return newWeight
     }
     
-    // To do: assumption that word is already in Trie,
-    // must find a way to update currentSuggestions in T9.
-    // updateWeight assumes the word exists in the Trie
-    // insert assumes it does not
-    //    func updateWeight(chosenWord: String) {
-    //        let keySeq = wordToKeys(word: chosenWord)
-    //
-    //    }
-    
-    func wordToKeys(word: String) -> [Int] {
-        var keySequence: [Int]
-        for char in word.characters {
-            keySequence.append(lettersToDigits[String(char)]!)
-        }
-    }
-    
-    func insertWordInFile(chosenWord: String) {
+    internal func insertWordInFile(word: String) {
+        self.dictionarySize += 1
+        
+        let fileManager = FileManager.default
+        
         // get path to dictionary for inserting new word
-        let filepath1 = filemgr.currentDirectoryPath + "/dict.txt"
+        let dictionaryPath = fileManager.currentDirectoryPath +
+                                            self.dictionaryFilename
         
         // check if the file is writable
-        if filemgr.isWritableFile(atPath: filepath1) {
-            let file: FileHandle? = FileHandle(forUpdatingAtPath: filepath1)
+        if fileManager.isWritableFile(atPath: dictionaryPath) {
+            let fileHandle: FileHandle? =
+                FileHandle(forUpdatingAtPath: dictionaryPath)
             
-            if file == nil {
+            if fileHandle == nil {
                 print("file could not be opened")
-            } else {
+            }
+            else {
                 // data will just be the word and frequency of 1 since it is a new word
-                let data = ("1" + "\t" + chosenWord as String).data(using: String.Encoding.utf8)
+                let data = ("1" + "\t" + word as String).data(using: String.Encoding.utf8)
                 
                 // since this is a new word, we want to find the EOF and append the word/freq pair there
-                file?.seekToEndOfFile()
+                fileHandle?.seekToEndOfFile()
                 
                 // write the data to the file and close file after operation is complete
-                file?.write(data!)
-                file?.closeFile()
+                fileHandle?.write(data!)
+                fileHandle?.closeFile()
             }
         }
     }
     
-    func updateWeightInFile(chosenWord: String) {
-        let urlOfDict = URL(fileURLWithPath: self.filename)
+    // FIXME: VERY inefficient.
+    internal func updateWeightInFile(word: String) {
+        let urlOfDict = URL(fileURLWithPath: self.dictionaryFilename)
         do {
-            let dictStr = try String(contentsOf: urlOfDict, encoding: String.Encoding.utf8)
+            let dictStr = try
+                String(contentsOf: urlOfDict, encoding: String.Encoding.utf8)
             let separators = CharacterSet(charactersIn: "\t\n")
             var dictStrArr = dictStr.components(separatedBy: separators)
             var updatedDictStr = ""
             var wordFound = false
             for i in stride(from: 1, to:dictStrArr.count, by: 2) {
                 if !wordFound {
-                    if dictStrArr[i] == chosenWord {
+                    if dictStrArr[i] == word {
                         // Add one to weight
                         dictStrArr[i-1] = String(Int(dictStrArr[i-1])! + 1)
                         wordFound = true
@@ -342,7 +345,8 @@ public class Trie {
                 }
                 updatedDictStr += dictStrArr[i-1] + "\t" + dictStrArr[i] + "\n"
             }
-            try updatedDictStr.write(to: urlOfDict, atomically: false, encoding: String.Encoding.utf8)
+            try updatedDictStr.write(to: urlOfDict, atomically: false,
+                                     encoding: String.Encoding.utf8)
         }
         catch {
             print("fail")
