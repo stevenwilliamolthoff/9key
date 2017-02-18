@@ -11,10 +11,11 @@ let lettersToDigits = ["a" : 2, "b" : 2, "c" : 2,
                        "w" : 9, "x" : 9, "y" : 9, "z" : 9]
 
 func getKeySequence(word: String) -> [Int] {
-    var keySequence: [Int]
+    var keySequence = [Int]()
     for char in word.characters {
         keySequence.append(lettersToDigits[String(char)]!)
     }
+    return keySequence
 }
 
 //Information stored for each key
@@ -69,7 +70,7 @@ class KeysControl: NSObject {
         storedInputs = "Input will appear here..."
         storedKeySequence = ""
         numberJustPressed = ""
-        t9Communicator = T9(dictionaryFilename: "dict.txt", resetFilename: "dict.txt", suggestionDepth: 1, numResults: 3)
+        t9Communicator = T9(dictionaryFilename: "dict.txt", resetFilename: "dict.txt", suggestionDepth: 1, numResults: 3, numCacheResults: 0, cacheSize: 0)
         super.init()
     }
     
@@ -84,7 +85,12 @@ class KeysControl: NSObject {
         storedKeySequence += numberJustPressed
         NSLog(storedKeySequence)
         lastKeyControlTime = Date()
-        suggestions = t9Communicator.getSuggestions(keySequence: storedKeySequence)
+        var shS = [Bool]()
+        var intKS = [Int]()
+        for ch in storedKeySequence.characters {
+            intKS.append(Int(String(ch))!)
+        }
+        suggestions = t9Communicator.getSuggestions(keySequence: intKS, shiftSequence: shS)
         return suggestions
     }
     
@@ -99,7 +105,12 @@ class KeysControl: NSObject {
             storedKeySequence.characters.removeLast()
             lastKeyControlTime = Date()
             NSLog(storedKeySequence)
-            return t9Communicator.getSuggestions(keySequence: storedKeySequence)
+            var shS = [Bool]()
+            var intKS = [Int]()
+            for ch in storedKeySequence.characters {
+                intKS.append(Int(String(ch))!)
+            }
+            return t9Communicator.getSuggestions(keySequence: intKS, shiftSequence: shS)
         } else {
             //idk this doesn't work with number mode as of now
         }
@@ -133,9 +144,9 @@ class KeysControl: NSObject {
         pointerAddress = 0
         previousTag = tag
         storedInputs = storedInputs + currentInput
-        currentInput = Keys.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
+        currentInput = KeysMap.NineKeys.mapping[mode]![String(tag)]![pointerAddress]
         lastKeyControlTime = Date()
-        return storedInputs + Keys.NineKeys.mapping[mode]![String(tag)]![0]
+        return storedInputs + KeysMap.NineKeys.mapping[mode]![String(tag)]![0]
         //}
     }
     

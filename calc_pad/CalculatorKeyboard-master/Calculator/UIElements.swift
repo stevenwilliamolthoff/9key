@@ -56,6 +56,10 @@ class RoundButton: UIButton {
             break
         }
     }
+    
+    func renderSuggestions(sugg: String){
+        setTitle(sugg, for: .normal)
+    }
 }
 
 //Custom label
