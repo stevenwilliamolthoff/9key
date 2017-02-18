@@ -45,56 +45,71 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var syms_3: RaisedButton!
     @IBOutlet var syms_4: RaisedButton!
     
-    @IBOutlet var predict1: RaisedButton!
-    @IBOutlet var predict2: RaisedButton!
-    @IBOutlet var predict3: RaisedButton!
+    @IBOutlet weak var predict1: UIButton!    
+    @IBOutlet weak var predict2: UIButton!
+    @IBOutlet weak var predict3: UIButton!
+    @IBOutlet weak var predict4: UIButton!
     
     @IBOutlet var one: RoundButton!{
         didSet{
             one.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
+            one.titleLabel!.font =  UIFont(name: "one", size: 18)
         }
     }
     @IBOutlet var two: RoundButton!{
         didSet{
             two.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
+            two.titleLabel!.font =  UIFont(name: "two", size: 18)
+
         }
     }
     @IBOutlet var three: RoundButton!{
         didSet{
             three.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
+            three.titleLabel!.font =  UIFont(name: "three", size: 18)
         }
     }
     @IBOutlet var four: RoundButton!{
         didSet{
             four.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
+            four.titleLabel!.font =  UIFont(name: "four", size: 18)
         }
     }
     @IBOutlet var five: RoundButton!{
         didSet{
             five.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
+            five.titleLabel!.font =  UIFont(name: "five", size: 18)
         }
     }
     @IBOutlet var six: RoundButton!{
         didSet{
             six.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
+            six.titleLabel!.font =  UIFont(name: "six", size: 18)
+
         }
     }
     @IBOutlet var seven: RoundButton!{
         didSet{
             seven.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
+            seven.titleLabel!.font =  UIFont(name: "seven", size: 18)
+
         }
     }
     @IBOutlet var eight: RoundButton!{
         didSet{
             eight.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
+            eight.titleLabel!.font =  UIFont(name: "eight", size: 18)
+
         }
     }
     @IBOutlet var nine: RoundButton!{
         didSet{
             nine.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
+            nine.titleLabel!.font =  UIFont(name: "nine", size: 18)
+
         }
     }
-    
+
     //MARK: Variables
     var keyboardView: UIView!
     var shouldClearDisplayBeforeInserting = true
@@ -107,6 +122,19 @@ class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         loadInterface()
         updateViewConstraints()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let expandedHeight:CGFloat = 270
+        let heightConstraint = NSLayoutConstraint(item:self.view,
+                                                  attribute: .height,
+                                                  relatedBy: .equal,
+                                                  toItem: nil,
+                                                  attribute: .notAnAttribute,
+                                                  multiplier: 0.0,
+                                                  constant: expandedHeight)
+        self.view.addConstraint(heightConstraint)
     }
     
     override func updateViewConstraints() {
@@ -151,16 +179,43 @@ class KeyboardViewController: UIInputViewController {
                 .top()
                 .bottom()
                 .width(Padding().sidePanels.topRegion.displayWidth)
+                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height)
             topRegion.layout(dismissButton)
                 .left(Padding().sidePanels.topRegion.buttonsLayouts(index: 2).left)
                 .top(Padding().sidePanels.topRegion.buttonsLayouts(index: 2).top)
                 .bottom()
                 .width(Padding.SidePanels.TopRegion.buttonsDimensions.width)
+                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height)           
             topRegion.layout(displayBackspace)
                 .left(Padding().sidePanels.topRegion.buttonsLayouts(index: 3).left)
                 .top(Padding().sidePanels.topRegion.buttonsLayouts(index: 3).top)
                 .bottom()
                 .width(Padding.SidePanels.TopRegion.buttonsDimensions.width)
+                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height) 
+            topRegion.layout(predict1)
+                .left()
+                .top(Padding().sidePanels.topRegion.predictLayouts(index: 4).top)
+                .bottom()
+                .width(Padding.SidePanels.TopRegion.predictDimensions.width)
+                .height(Padding.SidePanels.TopRegion.predictDimensions.height)
+            topRegion.layout(predict2)
+                .left(Padding().sidePanels.topRegion.predictLayouts(index: 5).left)
+                .top(Padding().sidePanels.topRegion.predictLayouts(index: 5).top)
+                .bottom()
+                .width(Padding.SidePanels.TopRegion.predictDimensions.width)
+                .height(Padding.SidePanels.TopRegion.predictDimensions.height)
+            topRegion.layout(predict3)
+                .left(Padding().sidePanels.topRegion.predictLayouts(index: 6).left)
+                .top(Padding().sidePanels.topRegion.predictLayouts(index: 6).top)
+                .bottom()
+                .width(Padding.SidePanels.TopRegion.predictDimensions.width)
+                .height(Padding.SidePanels.TopRegion.predictDimensions.height)
+            topRegion.layout(predict4)
+                .left(Padding().sidePanels.topRegion.predictLayouts(index: 7).left)
+                .top(Padding().sidePanels.topRegion.predictLayouts(index: 7).top)
+                .bottom()
+                .width(Padding.SidePanels.TopRegion.predictDimensions.width)
+                .height(Padding.SidePanels.TopRegion.predictDimensions.height)
             super.updateViewConstraints()
         }else{
             keyboardView.layout(one)
