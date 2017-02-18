@@ -83,7 +83,7 @@ public class Trie {
         let fileManager = FileManager.default
         
         // This string is the expected path of the dictionary file
-        let dictionaryPath = fileManager.currentDirectoryPath +
+        let dictionaryPath = fileManager.currentDirectoryPath + "/" +
                              self.dictionaryFilename
         
         // FIXME: Need better error management.
@@ -300,7 +300,7 @@ public class Trie {
         let fileManager = FileManager.default
         
         // get path to dictionary for inserting new word
-        let dictionaryPath = fileManager.currentDirectoryPath +
+        let dictionaryPath = fileManager.currentDirectoryPath + "/" +
                                             self.dictionaryFilename
         
         // check if the file is writable
