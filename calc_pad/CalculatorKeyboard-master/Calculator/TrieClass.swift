@@ -125,6 +125,9 @@ public class Trie {
                 
                 // fetch weight and word from string array
                 var lineArray = line.components(separatedBy: "\t")
+                if line.characters.count < 1 {
+                    break
+                }
                 let weight = Int(lineArray[0])
                 let word = lineArray[1]
                 
