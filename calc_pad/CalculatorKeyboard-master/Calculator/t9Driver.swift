@@ -78,16 +78,22 @@ class T9 {
         var suggestions = trie.getSuggestions(keySequence: keySequence,
                                           suggestionDepth: Int(suggestionDepth))
         
-        // Chop off excess Trie results
-        for _ in 0 ..< suggestions.count - self.numTrieResults {
-            suggestions.removeLast()
+        if suggestions.count > self.numTrieResults {
+            // Chop off excess Trie results
+            let count = suggestions.count
+            for _ in 0 ..< count - self.numTrieResults {
+                    suggestions.removeLast()
+            }	
         }
         
         suggestions.append(contentsOf: cache.getSuggestions(keySequence: keySequence,
                                         suggestionDepth: self.suggestionDepth))
         
-        for _ in 0 ..< suggestions.count - self.numResults {
-            suggestions.removeLast()
+        if suggestions.count > self.numResults {
+            let count = suggestions.count
+            for _ in 0 ..< count - self.numResults {
+                    suggestions.removeLast()
+            }
         }
         return suggestions
     }
