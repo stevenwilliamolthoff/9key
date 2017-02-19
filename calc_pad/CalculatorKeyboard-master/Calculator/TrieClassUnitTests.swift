@@ -24,7 +24,7 @@ class TrieClassUnitTests: XCTestCase {
     func testLoad() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        var tn = Trie(filename: "dict.txt")
+        var tn = Trie(dictionaryFilename: "dict.txt")
         tn.loadTrie()
         
     }
