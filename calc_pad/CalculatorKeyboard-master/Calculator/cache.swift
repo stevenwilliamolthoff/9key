@@ -12,6 +12,10 @@ internal class CacheTrie {
     
     let root: CacheNode
     
+    internal class DeeperSuggestion {
+        var deeperSuggestions: Array<Array<WordWeight>> = [[WordWeight]]()
+    }
+    
     init() {
         self.root = CacheNode(parentNode: nil)
     }
@@ -33,9 +37,65 @@ internal class CacheTrie {
 		node.wordWeights = node.wordWeights.sorted(by: {$0.weight > $1.weight})
 	}
     
-    internal func getSuggestions(keySequence: [Int], suggestionDepth: Int) -> [String] {
-		return self.getSuggestions(keySequence: keySequence, suggestionDepth: suggestionDepth)
-	}
+    internal func getSuggestions(keySequence : [Int], suggestionDepth : Int) -> [String] {
+        var suggestions = [String]()
+        let prefixNode: TrieNode? = self.getPrefixNode(keySequence: keySequence)
+        
+        if prefixNode != nil {
+            for wordWeight in prefixNode!.wordWeights {
+                suggestions.append(wordWeight.word)
+            }
+            
+            if suggestionDepth > 1 {
+                var deeperSuggestions = DeeperSuggestion()
+                // deeperSuggestions is a classs, so it is passed by reference
+                // After the call to getDeeperSuggestions, deeperSuggestions
+                // will be a list of lists of words, each list being full of
+                // words of one character longer in length
+                self.getDeeperSuggestions(root: prefixNode!,
+                                          maxDepth:
+                    keySequence.count + suggestionDepth,
+                                          deeperSuggestions: deeperSuggestions)
+                
+                for level in deeperSuggestions.deeperSuggestions {
+                    for wordWeight in level {
+                        suggestions.append(wordWeight.word)
+                    }
+                }
+            }
+        }
+        
+        return suggestions
+    }
+    
+    internal func getDeeperSuggestions(root : TrieNode, maxDepth : Int,
+                                       deeperSuggestions: DeeperSuggestion) {
+        self.traverse(root: root, depth: 0, maxDepth: maxDepth, deepSuggestions: deeperSuggestions)
+        for (level, suggestions) in deeperSuggestions.deeperSuggestions.enumerated() {
+            if suggestions.count > 0 {
+                deeperSuggestions.deeperSuggestions[level] =
+                    suggestions.sorted(by: {$0.weight > $1.weight})
+            }
+        }
+    }
+    
+    internal func traverse(root : TrieNode, depth : Int, maxDepth : Int,
+                           deepSuggestions : DeeperSuggestion) {
+        if (depth < maxDepth && depth > 0) {
+            for wordWeight in root.wordWeights {
+                deepSuggestions.deeperSuggestions[depth-1].append(wordWeight)
+            }
+        }
+        
+        if depth == maxDepth || root.children.count == 0 {
+            return
+        }
+        
+        for (key, _) in root.children {
+            self.traverse(root: root.children[key]!, depth: depth+1,
+                          maxDepth: maxDepth, deepSuggestions: deepSuggestions)
+        }
+    }
     
     internal func getPrefixLeaf(keySequence : [Int]) -> (CacheNode?, Bool) {
         var node: CacheNode? = self.root
