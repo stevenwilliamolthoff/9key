@@ -334,10 +334,15 @@ extension KeyboardViewController {
 //            NSLog(suggestionsToRender[i])
 //            predict1.title = suggestionsToRender[i]
 //        }
-        predict1.renderSuggestions(sugg: suggestionsToRender[0])
-        predict2.renderSuggestions(sugg: suggestionsToRender[1])
-        predict3.renderSuggestions(sugg: suggestionsToRender[2])
-        predict4.renderSuggestions(sugg: suggestionsToRender[3])
+        if suggestionsToRender.count > 3 {
+            predict1.renderSuggestions(sugg: suggestionsToRender[0])
+            predict2.renderSuggestions(sugg: suggestionsToRender[1])
+            predict3.renderSuggestions(sugg: suggestionsToRender[2])
+            predict4.renderSuggestions(sugg: suggestionsToRender[3])
+        } else {
+            NSLog("Suggestions came back with less than 3")
+            NSLog(String(suggestionsToRender.count))
+        }
 //        predict1.title = suggestionsToRender[0]
 //        predict2.title = suggestionsToRender[1]
 //        predict3.title = suggestionsToRender[2]
@@ -345,7 +350,7 @@ extension KeyboardViewController {
         
     }
     
-    @IBAction func predictionSelect(_operation: RoundButton){
+    @IBAction func predictionSelect(_ operation: RoundButton){
         //effectively the same as spaceselect, right?
         //pasted below is the same code
         let proxy = textDocumentProxy as UITextDocumentProxy
@@ -365,7 +370,7 @@ extension KeyboardViewController {
     // The input text field will then display that word (and a space), and the working keySequence
     // will be cleared. The function will also call t9Driver's updateWeights function with the correct
     // word and keySequence (TODO: Still need a way to store this and communicate it to that level).
-    @IBAction func spaceSelect(_operation: RoundButton){
+    @IBAction func spaceSelect(_ operation: RoundButton){
         //updates weight of the title of the first button
         let proxy = textDocumentProxy as UITextDocumentProxy
         

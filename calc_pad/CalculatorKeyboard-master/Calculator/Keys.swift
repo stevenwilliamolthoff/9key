@@ -70,7 +70,7 @@ class KeysControl: NSObject {
         storedInputs = "Input will appear here..."
         storedKeySequence = ""
         numberJustPressed = ""
-        t9Communicator = T9(dictionaryFilename: "dict.txt", resetFilename: "dict.txt", suggestionDepth: 1, numResults: 3, numCacheResults: 0, cacheSize: 0)
+        t9Communicator = T9(dictionaryFilename: "dict.txt", resetFilename: "dict.txt", suggestionDepth: 1, numResults: 4, numCacheResults: 0, cacheSize: 0)
         super.init()
     }
     
@@ -91,6 +91,8 @@ class KeysControl: NSObject {
             intKS.append(Int(String(ch))!)
         }
         suggestions = t9Communicator.getSuggestions(keySequence: intKS, shiftSequence: shS)
+        NSLog("Suggestions size in Keys.swift is: ")
+        NSLog(String(suggestions.count))
         return suggestions
     }
     
@@ -114,7 +116,7 @@ class KeysControl: NSObject {
         } else {
             //idk this doesn't work with number mode as of now
         }
-        NSLog("num keysequence == 0 so returning")
+        //NSLog("num keysequence == 0 so returning")
         return suggestions
     }
     

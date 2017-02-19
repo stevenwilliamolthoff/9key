@@ -104,7 +104,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="predictionSelectWith_operation:" destination="-2" eventType="touchUpInside" id="zqR-Jm-5I9"/>
+                                <action selector="predictionSelect:" destination="-1" eventType="touchUpInside" id="XFc-ox-Ods"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zd0-kX-b08">
@@ -121,7 +121,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="predictionSelectWith_operation:" destination="-2" eventType="touchUpInside" id="1sX-Ec-478"/>
+                                <action selector="predictionSelect:" destination="-1" eventType="touchUpInside" id="Qov-Gt-WQM"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ML-yK-l90">
@@ -138,7 +138,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="predictionSelectWith_operation:" destination="-2" eventType="touchUpInside" id="70B-AW-RXQ"/>
+                                <action selector="predictionSelect:" destination="-1" eventType="touchUpInside" id="4C8-QI-RyH"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyF-K0-jr9">
@@ -155,7 +155,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="predictionSelectWith_operation:" destination="-2" eventType="touchUpInside" id="KFA-ms-GGf"/>
+                                <action selector="predictionSelect:" destination="-1" eventType="touchUpInside" id="Wrm-Oo-Mx2"/>
                             </connections>
                         </button>
                     </subviews>
@@ -315,7 +315,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <action selector="spaceSelectWith_operation:" destination="-1" eventType="touchUpInside" id="Ftt-dW-2S1"/>
+                        <action selector="spaceSelect:" destination="-1" eventType="touchUpInside" id="xrh-gS-iKw"/>
                     </connections>
                 </button>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KcW-pn-hMS" customClass="IconButton" customModule="Material">
