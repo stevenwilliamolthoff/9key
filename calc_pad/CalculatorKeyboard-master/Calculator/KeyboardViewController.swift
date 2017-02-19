@@ -45,10 +45,10 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var syms_3: RaisedButton!
     @IBOutlet var syms_4: RaisedButton!
     
-    @IBOutlet weak var predict1: RoundButton!
-    @IBOutlet weak var predict2: RoundButton!
-    @IBOutlet weak var predict3: RoundButton!
-    @IBOutlet weak var predict4: RoundButton!
+    @IBOutlet var predict1: RoundButton!
+    @IBOutlet var predict2: RoundButton!
+    @IBOutlet var predict3: RoundButton!
+    @IBOutlet var predict4: RoundButton!
     
     @IBOutlet var one: RoundButton!{
         didSet{
@@ -337,6 +337,7 @@ extension KeyboardViewController {
         predict1.renderSuggestions(sugg: suggestionsToRender[0])
         predict2.renderSuggestions(sugg: suggestionsToRender[1])
         predict3.renderSuggestions(sugg: suggestionsToRender[2])
+        predict4.renderSuggestions(sugg: suggestionsToRender[3])
 //        predict1.title = suggestionsToRender[0]
 //        predict2.title = suggestionsToRender[1]
 //        predict3.title = suggestionsToRender[2]
@@ -346,6 +347,18 @@ extension KeyboardViewController {
     
     @IBAction func predictionSelect(_operation: RoundButton){
         //effectively the same as spaceselect, right?
+        //pasted below is the same code
+        let proxy = textDocumentProxy as UITextDocumentProxy
+        
+        if let input = display?.text as String? {
+            proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
+            
+            keyscontrol.wordSelected(word: input)
+            //should we have a function that's like returnKeySequence?
+        }
+        
+        display.text = ""
+        keyscontrol.clear()
     }
     
     // When space is pressed, the user effectively selects the first suggestion button's suggestion.
@@ -359,7 +372,7 @@ extension KeyboardViewController {
         if let input = display?.text as String? {
             proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
             
-            //t9Communicator.updateWeights(display?.text, keySequence)
+            keyscontrol.wordSelected(word: input)
             //should we have a function that's like returnKeySequence? 
         }
         
@@ -417,7 +430,7 @@ extension KeyboardViewController {
         predict1.renderSuggestions(sugg: suggestionsUpdate[0])
         predict2.renderSuggestions(sugg: suggestionsUpdate[1])
         predict3.renderSuggestions(sugg: suggestionsUpdate[2])
-        
+        predict4.renderSuggestions(sugg: suggestionsUpdate[3])
 //        predict2.title = suggestionsUpdate[1]
 //        predict3.title = suggestionsUpdate[2]
         // render new suggestions in button
