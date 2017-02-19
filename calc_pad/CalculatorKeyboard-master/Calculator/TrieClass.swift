@@ -70,7 +70,13 @@ public class Trie {
     
     // A work-around to allow deeperSuggestions to be passed by reference
     internal class DeeperSuggestion {
-        var deeperSuggestions: Array<Array<WordWeight>> = [[WordWeight]]()
+        var deeperSuggestions = [[WordWeight]]()
+        
+        init(suggestionDepth: Int) {
+            for _ in 0..<suggestionDepth {
+                self.deeperSuggestions.append([])
+            }
+        }
     }
     
     init(dictionaryFilename : String) {
@@ -203,14 +209,14 @@ public class Trie {
             }
             
             if suggestionDepth > 1 {
-                var deeperSuggestions = DeeperSuggestion()
+                var deeperSuggestions = DeeperSuggestion(suggestionDepth: suggestionDepth)
                 // deeperSuggestions is a classs, so it is passed by reference
                 // After the call to getDeeperSuggestions, deeperSuggestions
                 // will be a list of lists of words, each list being full of
                 // words of one character longer in length
                 self.getDeeperSuggestions(root: prefixNode!,
                                           maxDepth:
-                                            keySequence.count + suggestionDepth,
+                                          suggestionDepth,
                                           deeperSuggestions: deeperSuggestions)
                 
                 for level in deeperSuggestions.deeperSuggestions {
