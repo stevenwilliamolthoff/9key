@@ -14,17 +14,18 @@
 		194C960C1BF3497E000B3BA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 194C960A1BF3497E000B3BA6 /* LaunchScreen.storyboard */; };
 		194C961A1BF3585D000B3BA6 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194C96191BF3585D000B3BA6 /* KeyboardViewController.swift */; };
 		194C961E1BF3585D000B3BA6 /* Calculator.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 194C96171BF3585D000B3BA6 /* Calculator.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		251143181E4C417B003334E2 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251143171E4C417B003334E2 /* Constraints.swift */; };
 		2511431A1E4C7D2B003334E2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251143191E4C7D2B003334E2 /* Extensions.swift */; };
 		2511431C1E4C7D72003334E2 /* UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2511431B1E4C7D72003334E2 /* UIElements.swift */; };
-		2511431E1E4C805F003334E2 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2511431D1E4C805F003334E2 /* Keys.swift */; };
 		2537DAF31E4A80580097C6C1 /* NinekeyKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2537DAF21E4A80580097C6C1 /* NinekeyKeyboard.xib */; };
 		2537DAFB1E4AE03E0097C6C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 194C96081BF3497E000B3BA6 /* Assets.xcassets */; };
 		2730776E1E5376E6003A37C3 /* T9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2730776D1E5376E6003A37C3 /* T9.swift */; };
 		2730777B1E5382DE003A37C3 /* TrieClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273077781E5382DE003A37C3 /* TrieClass.swift */; };
+		275133CE1E57629900616DCA /* cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273077761E5382DE003A37C3 /* cache.swift */; };
+		275133D41E58061900616DCA /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2511431D1E4C805F003334E2 /* Keys.swift */; };
 		27A315D71E54E68200917329 /* t9Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A315D61E54E68200917329 /* t9Driver.swift */; };
 		27A315D91E54E68800917329 /* dict.txt in Resources */ = {isa = PBXBuildFile; fileRef = 27A315D81E54E68800917329 /* dict.txt */; };
 		27A315DC1E54F7AA00917329 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 27A315DB1E54F7AA00917329 /* Settings.bundle */; };
+		27E7E1071E5948A600656CF9 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251143171E4C417B003334E2 /* Constraints.swift */; };
 		2EA9C972B098AB31A3283865 /* Pods_Calculator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD89E4713D71A36A60F4107 /* Pods_Calculator.framework */; };
 		7D96A12E7D259750DBFEFE84 /* Pods_CalculatorKeyboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF4A4821220E790EBC85431D /* Pods_CalculatorKeyboard.framework */; };
 /* End PBXBuildFile section */
@@ -391,14 +392,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				251143181E4C417B003334E2 /* Constraints.swift in Sources */,
 				2511431A1E4C7D2B003334E2 /* Extensions.swift in Sources */,
 				27A315D71E54E68200917329 /* t9Driver.swift in Sources */,
 				2730776E1E5376E6003A37C3 /* T9.swift in Sources */,
 				2511431C1E4C7D72003334E2 /* UIElements.swift in Sources */,
+				27E7E1071E5948A600656CF9 /* Constraints.swift in Sources */,
 				194C961A1BF3585D000B3BA6 /* KeyboardViewController.swift in Sources */,
-				2511431E1E4C805F003334E2 /* Keys.swift in Sources */,
 				2730777B1E5382DE003A37C3 /* TrieClass.swift in Sources */,
+				275133D41E58061900616DCA /* Keys.swift in Sources */,
+				275133CE1E57629900616DCA /* cache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
