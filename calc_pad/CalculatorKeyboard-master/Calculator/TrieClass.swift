@@ -36,7 +36,7 @@ internal class TrieNode {
         return self.children[key]!
     }
     
-    // True is this node has a branch at this key
+    // True if this node has a branch at this key
     func hasChild(key: Int) -> Bool {
         return self.children[key] != nil
     }
@@ -90,12 +90,12 @@ public class Trie {
         
         // This string is the expected path of the dictionary file
         let dictionaryPath = fileManager.currentDirectoryPath + "/" +
-                             self.dictionaryFilename
+            self.dictionaryFilename
         
         // FIXME: Need better error management.
         if !fileManager.fileExists(atPath: dictionaryPath) {
             print("No dictionary named " + self.dictionaryFilename + " exists "
-                  + "at " + dictionaryPath + ".")
+                + "at " + dictionaryPath + ".")
             return
         }
         
@@ -107,7 +107,7 @@ public class Trie {
         
         // get the file to read from
         let fileHandle: FileHandle? = FileHandle(forReadingAtPath:
-                                                                dictionaryPath)
+            dictionaryPath)
         
         // if file exists and is readable then read from it
         if fileHandle == nil {
@@ -180,7 +180,7 @@ public class Trie {
                 else {
                     prefixExists = false
                     node = nil
-                    return (node!, prefixExists)
+                    return (node, prefixExists)
                 }
             }
         }
@@ -216,7 +216,7 @@ public class Trie {
                 // words of one character longer in length
                 self.getDeeperSuggestions(root: prefixNode!,
                                           maxDepth:
-                                          suggestionDepth,
+                    suggestionDepth,
                                           deeperSuggestions: deeperSuggestions)
                 
                 for level in deeperSuggestions.deeperSuggestions {
@@ -242,7 +242,7 @@ public class Trie {
     }
     
     internal func traverse(root : TrieNode, depth : Int, maxDepth : Int,
-                  deepSuggestions : DeeperSuggestion) {
+                           deepSuggestions : DeeperSuggestion) {
         if (depth < maxDepth && depth > 0) {
             for wordWeight in root.wordWeights {
                 deepSuggestions.deeperSuggestions[depth-1].append(wordWeight)
@@ -310,7 +310,7 @@ public class Trie {
         
         // get path to dictionary for inserting new word
         let dictionaryPath = fileManager.currentDirectoryPath + "/" +
-                                            self.dictionaryFilename
+            self.dictionaryFilename
         
         // check if the file is writable
         if fileManager.isWritableFile(atPath: dictionaryPath) {
