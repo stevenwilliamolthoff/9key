@@ -53,59 +53,59 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var one: RoundButton!{
         didSet{
             one.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-            one.titleLabel!.font =  UIFont(name: "one", size: 18)
+//            one.titleLabel!.font =  UIFont(name: "one", size: 18)
         }
     }
     @IBOutlet var two: RoundButton!{
         didSet{
             two.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-            two.titleLabel!.font =  UIFont(name: "two", size: 18)
+//             two.titleLabel!.font =  UIFont(name: "two", size: 18)
 
         }
     }
     @IBOutlet var three: RoundButton!{
         didSet{
             three.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-            three.titleLabel!.font =  UIFont(name: "three", size: 18)
+ //            three.titleLabel!.font =  UIFont(name: "three", size: 18)
         }
     }
     @IBOutlet var four: RoundButton!{
         didSet{
             four.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-            four.titleLabel!.font =  UIFont(name: "four", size: 18)
+//             four.titleLabel!.font =  UIFont(name: "four", size: 18)
         }
     }
     @IBOutlet var five: RoundButton!{
         didSet{
             five.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-            five.titleLabel!.font =  UIFont(name: "five", size: 18)
+//             five.titleLabel!.font =  UIFont(name: "five", size: 18)
         }
     }
     @IBOutlet var six: RoundButton!{
         didSet{
             six.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-            six.titleLabel!.font =  UIFont(name: "six", size: 18)
+ //            six.titleLabel!.font =  UIFont(name: "six", size: 18)
 
         }
     }
     @IBOutlet var seven: RoundButton!{
         didSet{
             seven.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-            seven.titleLabel!.font =  UIFont(name: "seven", size: 18)
+ //            seven.titleLabel!.font =  UIFont(name: "seven", size: 18)
 
         }
     }
     @IBOutlet var eight: RoundButton!{
         didSet{
             eight.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-            eight.titleLabel!.font =  UIFont(name: "eight", size: 18)
+ //            eight.titleLabel!.font =  UIFont(name: "eight", size: 18)
 
         }
     }
     @IBOutlet var nine: RoundButton!{
         didSet{
             nine.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-            nine.titleLabel!.font =  UIFont(name: "nine", size: 18)
+//             nine.titleLabel!.font =  UIFont(name: "nine", size: 18)
 
         }
     }
