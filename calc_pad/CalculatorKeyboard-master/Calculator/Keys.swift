@@ -13,6 +13,7 @@ let lettersToDigits = ["a" : 2, "b" : 2, "c" : 2,
 func getKeySequence(word: String) -> [Int] {
     var keySequence = [Int]()
     for char in word.characters {
+        assert(lettersToDigits[String(char)] != nil )
         keySequence.append(lettersToDigits[String(char)]!)
     }
     return keySequence
@@ -70,7 +71,7 @@ class KeysControl: NSObject {
         storedInputs = "Input will appear here..."
         storedKeySequence = ""
         numberJustPressed = ""
-        t9Communicator = T9(dictionaryFilename: "dict.txt", resetFilename: "dict.txt", suggestionDepth: 1, numResults: 4, numCacheResults: 0, cacheSize: 0)
+        t9Communicator = T9(dictionaryFilename: "dict.txt", resetFilename: "dict.txt", suggestionDepth: 5, numResults: 4, numCacheResults: 0, cacheSize: 0)
         super.init()
     }
     
