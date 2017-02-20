@@ -20,7 +20,7 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var dismissButton: IconButton!
     @IBOutlet var displayBackspace: IconButton!{
         didSet{
-            let gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.shouldClearPreviousWordInDisplay))
+            let gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.shouldClearPreviousWordInTextField))
             displayBackspace.addGestureRecognizer(gesture)
         }
     }
@@ -123,8 +123,18 @@ class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         loadInterface()
         updateViewConstraints()
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(KeyboardViewController.handleLongPress(_:)))
+        longPress.minimumPressDuration = 0.5
+        longPress.numberOfTouchesRequired = 1
+        longPress.allowableMovement = 0.1
+        mainBackspace.addGestureRecognizer(longPress)
     }
     
+    func handleLongPress(_ gestureRecognizer: UIGestureRecognizer) {
+        //this goes super fast so we can change it by maybe adding a delay or something
+        textDocumentProxy.deleteBackward()
+    }
+    //code above from: http://stackoverflow.com/questions/25633189/ios-8-custom-keyboard-hold-button-to-delete
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let expandedHeight:CGFloat = 270
@@ -326,7 +336,16 @@ extension KeyboardViewController {
     // that array and change the titles of the suggestion buttons on the keyboard to the suggestions.
     @IBAction func proceedNineKeyOperations(_ operation: RoundButton){
         if(operation.mode == "numbers"){
-            display.text = keyscontrol.toggle(mode: operation.mode, tag:operation.tag)
+            let proxy = textDocumentProxy as UITextDocumentProxy
+            
+            let input: String? = operation.currentTitle
+            
+            if input != nil {
+                //proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
+                
+                proxy.insertText(input!)
+                return
+            }
             return
         }
         var suggestionsToRender = keyscontrol.t9Toggle(mode: operation.mode, tag: operation.tag)
@@ -361,7 +380,16 @@ extension KeyboardViewController {
     
     @IBAction func punctuationKeys(_ operation: RoundButton){
         if(operation.mode == "numbers"){
-            display.text = keyscontrol.toggle(mode: operation.mode, tag:operation.tag)
+            let proxy = textDocumentProxy as UITextDocumentProxy
+            
+            let input: String? = operation.currentTitle
+            
+            if input != nil {
+                //proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
+                
+                proxy.insertText(input!)
+                return
+            }
             return
         }
         
@@ -495,13 +523,15 @@ extension KeyboardViewController {
         // render new suggestions in button
     }
     
-    func shouldClearPreviousWordInDisplay() {
-        if let lastWordRange = display.text?.range(of: " ") {
-            display.text?.removeSubrange(lastWordRange.lowerBound..<(display.text?.endIndex)!)
-        }else{
-            display.text = ""
-            keyscontrol.clear()
-        }
+    func shouldClearPreviousWordInTextField() {
+        let proxy = textDocumentProxy as UITextDocumentProxy
+//        if let lastWordRange = proxy. proxy.text?.range(of: " ") {
+//            proxy.text?.removeSubrange(lastWordRange.lowerBound..<(proxy.text?.endIndex)!)
+//        }else{
+//            proxy.text = ""
+//            keyscontrol.clear()
+//        }
+        proxy.deleteBackward()
     }
     
     //Insert symbols
