@@ -355,7 +355,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <action selector="proceedNineKeyOperations:" destination="-1" eventType="touchUpInside" id="b0i-n5-YTt"/>
+                        <action selector="punctuationKeys:" destination="-1" eventType="touchUpInside" id="f1Y-To-xdL"/>
                     </connections>
                 </button>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Laj-LQ-8UX" customClass="RoundButton" customModule="Calculator" customModuleProvider="target">

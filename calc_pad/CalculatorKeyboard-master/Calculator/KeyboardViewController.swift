@@ -367,6 +367,22 @@ extension KeyboardViewController {
         
     }
     
+    @IBAction func punctuationKeys(_ operation: RoundButton){
+        if(operation.mode == "numbers"){
+            display.text = keyscontrol.toggle(mode: operation.mode, tag:operation.tag)
+            return
+        }
+        
+        predict1.setTitle("@", for: .normal)
+        predict1.setTitleColor(Color.black, for: .normal)
+        predict2.setTitle("/", for: .normal)
+        predict2.setTitleColor(Color.black, for: .normal)
+        predict3.setTitle("!", for: .normal)
+        predict3.setTitleColor(Color.black, for: .normal)
+        predict4.setTitle(".", for: .normal)
+        predict4.setTitleColor(Color.black, for: .normal)
+    }
+    
     @IBAction func predictionSelect(_ operation: RoundButton){
         //effectively the same as spaceselect, right?
         //pasted below is the same code
@@ -374,7 +390,7 @@ extension KeyboardViewController {
         
         let input: String? = operation.currentTitle
         
-        if input != nil && predict1.currentTitle != "" {
+        if input != nil && predict1.currentTitle != "" && predict1.currentTitle != "@" {
             //proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
             
             keyscontrol.wordSelected(word: input!)
@@ -383,6 +399,10 @@ extension KeyboardViewController {
             proxy.insertText(input! + " ")
         }
         else {
+            if predict1.currentTitle == "@"{
+                inputSymbols(operation)
+            }
+            
             return
         }
         keyscontrol.clear()
@@ -399,7 +419,7 @@ extension KeyboardViewController {
     // word and keySequence (TODO: Still need a way to store this and communicate it to that level).
     @IBAction func spaceSelect(_ operation: RoundButton){
         let proxy = textDocumentProxy as UITextDocumentProxy
-        if predict1.currentTitle != "" {
+        if predict1.currentTitle != "" && predict1.currentTitle != "@" {
             predictionSelect(predict1)
         }
         else {
@@ -493,8 +513,44 @@ extension KeyboardViewController {
     }
     
     //Insert symbols
-    @IBAction func inputSymbols(_ sender: RaisedButton) {
-        display.text = display.text! + (sender.titleLabel?.text)!
+    @IBAction func inputSymbols(_ sender: AnyObject
+        ) {
+//        display.text = display.text! + (sender.titleLabel?.text)!
+        let proxy = textDocumentProxy as UITextDocumentProxy
+        
+        let input: String? = predict1.currentTitle
+        
+        if input != nil && predict1.currentTitle != "" && predict1.currentTitle != "@" {
+            //proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
+            
+            keyscontrol.wordSelected(word: input!)
+            //should we have a function that's like returnKeySequence?
+            keyscontrol.storedInputs.append(input! + sender.currentTitle!!)
+            proxy.insertText(input! + sender.currentTitle!!)
+        }
+        else if keyscontrol.storedKeySequence.length > 1 {
+            NSLog(String(keyscontrol.storedKeySequence))
+            keyscontrol.storedKeySequence.characters.removeLast()
+            var bs = [Bool]()
+            var intKS = [Int]()
+            for ch in keyscontrol.storedKeySequence.characters {
+                intKS.append(Int(String(ch))!)
+            }
+
+            var word = keyscontrol.t9Communicator.getSuggestions(keySequence: intKS, shiftSequence: bs)[0]
+            keyscontrol.wordSelected(word: word)
+            keyscontrol.storedInputs.append(word + sender.currentTitle!!)
+            proxy.insertText(word + sender.currentTitle!!)
+        } else {
+            proxy.insertText(sender.currentTitle!!) //prob don't want added space
+            return
+        }
+        keyscontrol.clear()
+        
+        predict1.setTitle("", for: .normal)
+        predict2.setTitle("", for: .normal)
+        predict3.setTitle("", for: .normal)
+        predict4.setTitle("", for: .normal)
     }
     
     //Send key
