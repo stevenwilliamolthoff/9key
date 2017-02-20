@@ -374,7 +374,7 @@ extension KeyboardViewController {
         
         let input: String? = operation.currentTitle
         
-        if input != nil {
+        if input != nil && predict1.currentTitle != "" {
             //proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
             
             keyscontrol.wordSelected(word: input!)
