@@ -16,7 +16,7 @@
 		194C961E1BF3585D000B3BA6 /* Calculator.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 194C96171BF3585D000B3BA6 /* Calculator.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2511431A1E4C7D2B003334E2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251143191E4C7D2B003334E2 /* Extensions.swift */; };
 		2511431C1E4C7D72003334E2 /* UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2511431B1E4C7D72003334E2 /* UIElements.swift */; };
-		2537DAF31E4A80580097C6C1 /* NumpadKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2537DAF21E4A80580097C6C1 /* NumpadKeyboard.xib */; };
+		2537DAF31E4A80580097C6C1 /* NinekeyKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2537DAF21E4A80580097C6C1 /* NinekeyKeyboard.xib */; };
 		2537DAFB1E4AE03E0097C6C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 194C96081BF3497E000B3BA6 /* Assets.xcassets */; };
 		2730776E1E5376E6003A37C3 /* T9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2730776D1E5376E6003A37C3 /* T9.swift */; };
 		2730777B1E5382DE003A37C3 /* TrieClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273077781E5382DE003A37C3 /* TrieClass.swift */; };
@@ -79,7 +79,7 @@
 		251143191E4C7D2B003334E2 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2511431B1E4C7D72003334E2 /* UIElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIElements.swift; sourceTree = "<group>"; };
 		2511431D1E4C805F003334E2 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
-		2537DAF21E4A80580097C6C1 /* NumpadKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NumpadKeyboard.xib; sourceTree = "<group>"; };
+		2537DAF21E4A80580097C6C1 /* NinekeyKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NinekeyKeyboard.xib; sourceTree = "<group>"; };
 		2730776D1E5376E6003A37C3 /* T9.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = T9.swift; sourceTree = "<group>"; };
 		273077761E5382DE003A37C3 /* cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cache.swift; sourceTree = "<group>"; };
 		273077781E5382DE003A37C3 /* TrieClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrieClass.swift; sourceTree = "<group>"; };
@@ -166,7 +166,7 @@
 				251143161E4C4137003334E2 /* Utils */,
 				194C96191BF3585D000B3BA6 /* KeyboardViewController.swift */,
 				194C961B1BF3585D000B3BA6 /* Info.plist */,
-				2537DAF21E4A80580097C6C1 /* NumpadKeyboard.xib */,
+				2537DAF21E4A80580097C6C1 /* NinekeyKeyboard.xib */,
 			);
 			path = Calculator;
 			sourceTree = "<group>";
@@ -350,7 +350,7 @@
 				27A315DC1E54F7AA00917329 /* Settings.bundle in Resources */,
 				2537DAFB1E4AE03E0097C6C1 /* Assets.xcassets in Resources */,
 				27A315D91E54E68800917329 /* dict.txt in Resources */,
-				2537DAF31E4A80580097C6C1 /* NumpadKeyboard.xib in Resources */,
+				2537DAF31E4A80580097C6C1 /* NinekeyKeyboard.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,7 +731,6 @@
 				CE57B9A01E59594800386028 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
