@@ -68,7 +68,7 @@ class KeysControl: NSObject {
     }
     override init() {
         lastKeyControlTime = Date()
-        storedInputs = "Input will appear here..."
+        storedInputs = ""
         storedKeySequence = ""
         numberJustPressed = ""
         t9Communicator = T9(dictionaryFilename: "dict.txt", resetFilename: "dict.txt", suggestionDepth: 5, numResults: 4, numCacheResults: 0, cacheSize: 0)

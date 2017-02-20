@@ -24,7 +24,7 @@
                 <outlet property="nine" destination="0ov-6p-ZqG" id="dAT-1r-hdo"/>
                 <outlet property="numberPadSwitcher" destination="KcW-pn-hMS" id="XVj-rJ-c6u"/>
                 <outlet property="one" destination="pdf-VD-ZKn" id="wVd-wo-TOU"/>
-                <outlet property="predict1" destination="23Z-tO-6CI" id="dJs-qT-lcu"/>
+                <outlet property="predict1" destination="23Z-tO-6CI" id="Ilb-do-Ltq"/>
                 <outlet property="predict2" destination="Zd0-kX-b08" id="vhI-A4-AxB"/>
                 <outlet property="predict3" destination="yyF-K0-jr9" id="JkI-Dc-tkJ"/>
                 <outlet property="predict4" destination="9ML-yK-l90" id="2LU-pX-r1C"/>
@@ -77,7 +77,7 @@
                                 <action selector="shouldDeleteTextInDisplay" destination="-1" eventType="touchUpInside" id="flj-4p-slm"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Input will appear here..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATz-Kd-4NS" customClass="RoundLabel" customModule="Calculator" customModuleProvider="target">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATz-Kd-4NS" customClass="RoundLabel" customModule="Calculator" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="206" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>

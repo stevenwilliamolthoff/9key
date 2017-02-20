@@ -112,9 +112,10 @@ class KeyboardViewController: UIInputViewController {
 
     //MARK: Variables
     var keyboardView: UIView!
-    var shouldClearDisplayBeforeInserting = true
+    var shouldClearDisplayBeforeInserting: Bool = true
     var keyscontrol = KeysControl()
-    var motherViewsHaveConstrainted = false
+    var motherViewsHaveConstrainted: Bool = false
+//    var predictionButtons: [RoundButton] = [RoundButton(predictionIndex: 0)]
     
     //MARK: Life Cycles
     
@@ -328,17 +329,33 @@ extension KeyboardViewController {
             display.text = keyscontrol.toggle(mode: operation.mode, tag:operation.tag)
             return
         }
-        var suggestionsToRender = [String]()
-        suggestionsToRender = keyscontrol.t9Toggle(mode: operation.mode, tag: operation.tag)
+        var suggestionsToRender = keyscontrol.t9Toggle(mode: operation.mode, tag: operation.tag)
+        let max = 4
+        if suggestionsToRender.count > max {
+            for _ in 0..<suggestionsToRender.count - max {
+                suggestionsToRender.removeLast()
+            }
+        }
+
+        
 //        for i in 0 ..< 3  {
 //            NSLog(suggestionsToRender[i])
 //            predict1.title = suggestionsToRender[i]
 //        }
         if suggestionsToRender.count > 3 {
-            predict1.renderSuggestions(sugg: suggestionsToRender[0])
-            predict2.renderSuggestions(sugg: suggestionsToRender[1])
-            predict3.renderSuggestions(sugg: suggestionsToRender[2])
-            predict4.renderSuggestions(sugg: suggestionsToRender[3])
+            predict1.setTitle(suggestionsToRender[0], for: .normal)
+            predict1.setTitleColor(Color.black, for: .normal)
+            predict2.setTitle(suggestionsToRender[1], for: .normal)
+            predict2.setTitleColor(Color.black, for: .normal)
+            predict3.setTitle(suggestionsToRender[2], for: .normal)
+            predict3.setTitleColor(Color.black, for: .normal)
+            predict4.setTitle(suggestionsToRender[3], for: .normal)
+            predict4.setTitleColor(Color.black, for: .normal)
+            
+//            predict1.renderSuggestions(sugg: suggestionsToRender[0])
+//            predict2.renderSuggestions(sugg: suggestionsToRender[1])
+//            predict3.renderSuggestions(sugg: suggestionsToRender[2])
+//            predict4.renderSuggestions(sugg: suggestionsToRender[3])
         } else {
             NSLog("Suggestions came back with less than 3")
             NSLog(String(suggestionsToRender.count))
@@ -355,15 +372,25 @@ extension KeyboardViewController {
         //pasted below is the same code
         let proxy = textDocumentProxy as UITextDocumentProxy
         
-        if let input = display?.text as String? {
-            proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
-            
-            keyscontrol.wordSelected(word: input)
-            //should we have a function that's like returnKeySequence?
-        }
+        let input: String? = operation.currentTitle
         
-        display.text = ""
+        if input != nil {
+            //proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
+            
+            keyscontrol.wordSelected(word: input!)
+            //should we have a function that's like returnKeySequence?
+            keyscontrol.storedInputs.append(input! + " ")
+            proxy.insertText(input! + " ")
+        }
+        else {
+            return
+        }
         keyscontrol.clear()
+        
+        predict1.setTitle("", for: .normal)
+        predict2.setTitle("", for: .normal)
+        predict3.setTitle("", for: .normal)
+        predict4.setTitle("", for: .normal)
     }
     
     // When space is pressed, the user effectively selects the first suggestion button's suggestion.
@@ -371,18 +398,13 @@ extension KeyboardViewController {
     // will be cleared. The function will also call t9Driver's updateWeights function with the correct
     // word and keySequence (TODO: Still need a way to store this and communicate it to that level).
     @IBAction func spaceSelect(_ operation: RoundButton){
-        //updates weight of the title of the first button
         let proxy = textDocumentProxy as UITextDocumentProxy
-        
-        if let input = display?.text as String? {
-            proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
-            
-            keyscontrol.wordSelected(word: input)
-            //should we have a function that's like returnKeySequence? 
+        if predict1.currentTitle != "" {
+            predictionSelect(predict1)
         }
-        
-        display.text = ""
-        keyscontrol.clear() //prob need to change this or keep another variable in case brad backspaces
+        else {
+            proxy.insertText(" ")
+        }
     }
     
     // below is the manual entry mode
@@ -432,10 +454,10 @@ extension KeyboardViewController {
     @IBAction func shouldDeleteTextInDisplay() {
         var suggestionsUpdate = [String]()
         suggestionsUpdate = keyscontrol.t9Backspace()
-        predict1.renderSuggestions(sugg: suggestionsUpdate[0])
-        predict2.renderSuggestions(sugg: suggestionsUpdate[1])
-        predict3.renderSuggestions(sugg: suggestionsUpdate[2])
-        predict4.renderSuggestions(sugg: suggestionsUpdate[3])
+//        predict1.renderSuggestions(sugg: suggestionsUpdate[0])
+//        predict2.renderSuggestions(sugg: suggestionsUpdate[1])
+//        predict3.renderSuggestions(sugg: suggestionsUpdate[2])
+//        predict4.renderSuggestions(sugg: suggestionsUpdate[3])
 //        predict2.title = suggestionsUpdate[1]
 //        predict3.title = suggestionsUpdate[2]
         // render new suggestions in button
