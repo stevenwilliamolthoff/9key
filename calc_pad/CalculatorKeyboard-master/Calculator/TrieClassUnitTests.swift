@@ -1,7 +1,9 @@
 //
 //  TrieClassUnitTests.swift
+//  CalculatorKeyboard
 //
 //  Created by Alex Hsieh on 2/18/17.
+//  Copyright © 2017 Visual Recruit Pty Ltd. All rights reserved.
 //
 
 import XCTest
@@ -22,7 +24,7 @@ class TrieClassUnitTests: XCTestCase {
     func testLoad() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        var tn = Trie(dictionaryFilename: "dict.txt")
+        var tn = Trie(filename: "dict.txt")
         tn.loadTrie()
         
     }

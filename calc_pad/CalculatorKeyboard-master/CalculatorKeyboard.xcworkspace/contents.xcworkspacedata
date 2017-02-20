@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/Kiki/College/EECS 481/9key/calc_pad/CalculatorKeyboard-master/NumpadKeyboard.xcodeproj">
+      location = "group:CalculatorKeyboard.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

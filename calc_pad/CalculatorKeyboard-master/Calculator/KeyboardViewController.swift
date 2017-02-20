@@ -1,8 +1,9 @@
 //
 //  KeyboardViewController.swift
-//  Numpad Keyboard
+//  Calculator
 //
-//  Created by 9-Key.2 / P-S02-G3
+//  Created by Shaun O'Reilly on 11/11/2015.
+//  Copyright © 2015 Visual Recruit Pty Ltd. All rights reserved.
 //
 
 import UIKit
@@ -310,7 +311,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func loadInterface() {
-        let calculatorNib = UINib(nibName: "NumpadKeyboard", bundle: nil)
+        let calculatorNib = UINib(nibName: "NinekeyKeyboard", bundle: nil)
         keyboardView = calculatorNib.instantiate(withOwner: self, options: nil)[0] as! UIView
         view.addSubview(keyboardView)
         view.backgroundColor = keyboardView.backgroundColor
