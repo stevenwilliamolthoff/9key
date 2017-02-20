@@ -21,19 +21,24 @@ class TrieClassUnitTests: XCTestCase {
         super.tearDown()
     }
     
-    func testLoad() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        var tn = Trie(dictionaryFilename: "dict.txt")
-        tn.loadTrie()
-        
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+//    // Functional test case for loadTrie()
+//    func testLoadFunctional() {
+//        // This is an example of a functional test case.
+//        // Use XCTAssert and related functions to verify your tests produce the correct results.
+//        let trie = Trie(dictionaryFilename: "dict.txt")
+//        trie.loadTrie()
+//        let node = trie.getPrefixNode(keySequence: [2])
+//        XCTAssertNotNil(node)
+//    }
+//    
+//    // Performance test case for loadTrie()
+//    func testLoadPerformance() {
+//        // This is an example of a performance test case.
+//        self.measure {
+//            // Put the code you want to measure the time of here.
+//            let trie = Trie(dictionaryFilename: "dict.txt")
+//            trie.loadTrie()
+//        }
+//    }
+//    
 }
