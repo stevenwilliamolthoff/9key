@@ -452,8 +452,28 @@ extension KeyboardViewController {
     // the keyscontrol.t9Backspace function. That function will get new suggestions which
     // will be returned here and rendered on the suggestion buttons.
     @IBAction func shouldDeleteTextInDisplay() {
+//        if (display?.text)! == "" && (predict1.currentTitle?.length)! <= 1 {
+//            keyscontrol.clear()
+//            predict1.setTitle("", for: .normal)
+//            predict2.setTitle("", for: .normal)
+//            predict3.setTitle("", for: .normal)
+//            predict4.setTitle("", for: .normal)
+//            return
+//        }
+        if keyscontrol.storedKeySequence.length == 0 {
+            return
+        }
         var suggestionsUpdate = [String]()
         suggestionsUpdate = keyscontrol.t9Backspace()
+        predict1.setTitle(suggestionsUpdate[0], for: .normal)
+        predict1.setTitleColor(Color.black, for: .normal)
+        predict2.setTitle(suggestionsUpdate[1], for: .normal)
+        predict2.setTitleColor(Color.black, for: .normal)
+        predict3.setTitle(suggestionsUpdate[2], for: .normal)
+        predict3.setTitleColor(Color.black, for: .normal)
+        predict4.setTitle(suggestionsUpdate[3], for: .normal)
+        predict4.setTitleColor(Color.black, for: .normal)
+        
 //        predict1.renderSuggestions(sugg: suggestionsUpdate[0])
 //        predict2.renderSuggestions(sugg: suggestionsUpdate[1])
 //        predict3.renderSuggestions(sugg: suggestionsUpdate[2])
