@@ -30,10 +30,10 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var spaceButton: RoundButton!{
         didSet{
             spaceButton.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-
+            
         }
     }
-
+    
     @IBOutlet var display: UILabel! {
         didSet{
             display.isUserInteractionEnabled = true
@@ -60,7 +60,7 @@ class KeyboardViewController: UIInputViewController {
         didSet{
             two.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
             two.titleLabel!.font =  UIFont(name: "two", size: 18)
-
+            
         }
     }
     @IBOutlet var three: RoundButton!{
@@ -85,37 +85,37 @@ class KeyboardViewController: UIInputViewController {
         didSet{
             six.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
             six.titleLabel!.font =  UIFont(name: "six", size: 18)
-
+            
         }
     }
     @IBOutlet var seven: RoundButton!{
         didSet{
             seven.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
             seven.titleLabel!.font =  UIFont(name: "seven", size: 18)
-
+            
         }
     }
     @IBOutlet var eight: RoundButton!{
         didSet{
             eight.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
             eight.titleLabel!.font =  UIFont(name: "eight", size: 18)
-
+            
         }
     }
     @IBOutlet var nine: RoundButton!{
         didSet{
             nine.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
             nine.titleLabel!.font =  UIFont(name: "nine", size: 18)
-
+            
         }
     }
-
+    
     //MARK: Variables
     var keyboardView: UIView!
     var shouldClearDisplayBeforeInserting: Bool = true
     var keyscontrol = KeysControl()
     var motherViewsHaveConstrainted: Bool = false
-//    var predictionButtons: [RoundButton] = [RoundButton(predictionIndex: 0)]
+    //    var predictionButtons: [RoundButton] = [RoundButton(predictionIndex: 0)]
     
     //MARK: Life Cycles
     
@@ -124,7 +124,7 @@ class KeyboardViewController: UIInputViewController {
         loadInterface()
         updateViewConstraints()
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let expandedHeight:CGFloat = 270
@@ -186,13 +186,13 @@ class KeyboardViewController: UIInputViewController {
                 .top(Padding().sidePanels.topRegion.buttonsLayouts(index: 2).top)
                 .bottom()
                 .width(Padding.SidePanels.TopRegion.buttonsDimensions.width)
-                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height)           
+                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height)
             topRegion.layout(displayBackspace)
                 .left(Padding().sidePanels.topRegion.buttonsLayouts(index: 3).left)
                 .top(Padding().sidePanels.topRegion.buttonsLayouts(index: 3).top)
                 .bottom()
                 .width(Padding.SidePanels.TopRegion.buttonsDimensions.width)
-                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height) 
+                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height)
             topRegion.layout(predict1)
                 .left()
                 .top(Padding().sidePanels.topRegion.predictLayouts(index: 4).top)
@@ -336,35 +336,27 @@ extension KeyboardViewController {
                 suggestionsToRender.removeLast()
             }
         }
-
-        
-//        for i in 0 ..< 3  {
-//            NSLog(suggestionsToRender[i])
-//            predict1.title = suggestionsToRender[i]
-//        }
-        if suggestionsToRender.count > 3 {
+        else if suggestionsToRender.count < max {
+            for _ in 0..<max - suggestionsToRender.count {
+                suggestionsToRender.append("")
+            }
+        }
+        if suggestionsToRender[0] != "" {
             predict1.setTitle(suggestionsToRender[0], for: .normal)
             predict1.setTitleColor(Color.black, for: .normal)
+        }
+        if suggestionsToRender[1] != "" {
             predict2.setTitle(suggestionsToRender[1], for: .normal)
             predict2.setTitleColor(Color.black, for: .normal)
+        }
+        if suggestionsToRender[2] != "" {
             predict3.setTitle(suggestionsToRender[2], for: .normal)
             predict3.setTitleColor(Color.black, for: .normal)
+        }
+        if suggestionsToRender[3] != "" {
             predict4.setTitle(suggestionsToRender[3], for: .normal)
             predict4.setTitleColor(Color.black, for: .normal)
-            
-//            predict1.renderSuggestions(sugg: suggestionsToRender[0])
-//            predict2.renderSuggestions(sugg: suggestionsToRender[1])
-//            predict3.renderSuggestions(sugg: suggestionsToRender[2])
-//            predict4.renderSuggestions(sugg: suggestionsToRender[3])
-        } else {
-            NSLog("Suggestions came back with less than 3")
-            NSLog(String(suggestionsToRender.count))
         }
-//        predict1.title = suggestionsToRender[0]
-//        predict2.title = suggestionsToRender[1]
-//        predict3.title = suggestionsToRender[2]
-        // render in scroll area that will show the rest of the suggestions
-        
     }
     
     @IBAction func punctuationKeys(_ operation: RoundButton){
@@ -428,9 +420,9 @@ extension KeyboardViewController {
     }
     
     // below is the manual entry mode
-//    @IBAction func proceedNineKeyOperations(_ operation: RoundButton) {
-//        display.text = keyscontrol.toggle(mode: operation.mode, tag: operation.tag)
-//    }
+    //    @IBAction func proceedNineKeyOperations(_ operation: RoundButton) {
+    //        display.text = keyscontrol.toggle(mode: operation.mode, tag: operation.tag)
+    //    }
     
     
     // Number-Alphabet switcher
@@ -449,7 +441,7 @@ extension KeyboardViewController {
     //Backspace in active textfield
     @IBAction func shouldDeleteText(_ backspaceKey: RaisedButton){
         // Pass textfield controller back to keyboard so keyboard can control active textfield in any apps
-         (textDocumentProxy as UIKeyInput).deleteBackward()
+        (textDocumentProxy as UIKeyInput).deleteBackward()
     }
     //Dismiss keyboard
     @IBAction func shouldDismissKeyboard() {
@@ -472,14 +464,14 @@ extension KeyboardViewController {
     // the keyscontrol.t9Backspace function. That function will get new suggestions which
     // will be returned here and rendered on the suggestion buttons.
     @IBAction func shouldDeleteTextInDisplay() {
-//        if (display?.text)! == "" && (predict1.currentTitle?.length)! <= 1 {
-//            keyscontrol.clear()
-//            predict1.setTitle("", for: .normal)
-//            predict2.setTitle("", for: .normal)
-//            predict3.setTitle("", for: .normal)
-//            predict4.setTitle("", for: .normal)
-//            return
-//        }
+        //        if (display?.text)! == "" && (predict1.currentTitle?.length)! <= 1 {
+        //            keyscontrol.clear()
+        //            predict1.setTitle("", for: .normal)
+        //            predict2.setTitle("", for: .normal)
+        //            predict3.setTitle("", for: .normal)
+        //            predict4.setTitle("", for: .normal)
+        //            return
+        //        }
         if keyscontrol.storedKeySequence.length == 0 {
             return
         }
@@ -494,12 +486,12 @@ extension KeyboardViewController {
         predict4.setTitle(suggestionsUpdate[3], for: .normal)
         predict4.setTitleColor(Color.black, for: .normal)
         
-//        predict1.renderSuggestions(sugg: suggestionsUpdate[0])
-//        predict2.renderSuggestions(sugg: suggestionsUpdate[1])
-//        predict3.renderSuggestions(sugg: suggestionsUpdate[2])
-//        predict4.renderSuggestions(sugg: suggestionsUpdate[3])
-//        predict2.title = suggestionsUpdate[1]
-//        predict3.title = suggestionsUpdate[2]
+        //        predict1.renderSuggestions(sugg: suggestionsUpdate[0])
+        //        predict2.renderSuggestions(sugg: suggestionsUpdate[1])
+        //        predict3.renderSuggestions(sugg: suggestionsUpdate[2])
+        //        predict4.renderSuggestions(sugg: suggestionsUpdate[3])
+        //        predict2.title = suggestionsUpdate[1]
+        //        predict3.title = suggestionsUpdate[2]
         // render new suggestions in button
     }
     
