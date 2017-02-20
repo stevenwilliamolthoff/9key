@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Numpad_keyboard
+//  9key_keyboard
 //
 //
 
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
             let baseY: CGFloat = 0.0
             
             var views: [UIView] = []
-            var tutorialTexts = ["1. Go to Settings", "2. Navigate to General", "3. Navigate to Keyboard", "4. Navigate to Keyboards", "5. Click Add New Keyboard and add \"Numpad_keyboard\" in the list"]
+            var tutorialTexts = ["1. Go to Settings", "2. Navigate to General", "3. Navigate to Keyboard", "4. Navigate to Keyboards", "5. Click Add New Keyboard and add \"9key_keyboard\" in the list"]
             // Config images positions
             for i in 0..<tutorialImages.count {
                 tutorialImages[i].contentMode = .scaleAspectFit
