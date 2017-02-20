@@ -1,9 +1,8 @@
 //
 //  AppDelegate.swift
-//  CalculatorKeyboard
+//  NumpadKeyboard
 //
-//  Created by Shaun O'Reilly on 11/11/2015.
-//  Copyright © 2015 Visual Recruit Pty Ltd. All rights reserved.
+//  Created by 9-Key.2 / P-S02-G3
 //
 
 import UIKit
