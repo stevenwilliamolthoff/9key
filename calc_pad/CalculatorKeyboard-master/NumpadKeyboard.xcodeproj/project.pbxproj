@@ -28,7 +28,7 @@
 		27E7E1071E5948A600656CF9 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251143171E4C417B003334E2 /* Constraints.swift */; };
 		2EA9C972B098AB31A3283865 /* Pods_Calculator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD89E4713D71A36A60F4107 /* Pods_Calculator.framework */; };
 		7D96A12E7D259750DBFEFE84 /* Pods_CalculatorKeyboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF4A4821220E790EBC85431D /* Pods_CalculatorKeyboard.framework */; };
-		CE57B99A1E59594800386028 /* NumpadKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57B9991E59594800386028 /* NumpadKeyboardTests.swift */; };
+		CE57B99A1E59594800386028 /* CalculatorKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57B9991E59594800386028 /* CalculatorKeyboardTests.swift */; };
 		CE57B9A21E59596B00386028 /* TrieClassUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57B9A11E59596B00386028 /* TrieClassUnitTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,7 +65,7 @@
 
 /* Begin PBXFileReference section */
 		18C02517E3B6DC980AC26456 /* Pods-Calculator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calculator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Calculator/Pods-Calculator.release.xcconfig"; sourceTree = "<group>"; };
-		194C95FE1BF3497E000B3BA6 /* NumpadKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NumpadKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		194C95FE1BF3497E000B3BA6 /* CalculatorKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalculatorKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		194C96011BF3497E000B3BA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		194C96031BF3497E000B3BA6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		194C96061BF3497E000B3BA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -88,8 +88,8 @@
 		27A315DB1E54F7AA00917329 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		33361EA13745D648E970E0CE /* Pods-CalculatorKeyboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CalculatorKeyboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-CalculatorKeyboard/Pods-CalculatorKeyboard.release.xcconfig"; sourceTree = "<group>"; };
 		AE5C339894F6328A0BA01938 /* Pods-CalculatorKeyboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CalculatorKeyboard.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CalculatorKeyboard/Pods-CalculatorKeyboard.debug.xcconfig"; sourceTree = "<group>"; };
-		CE57B9971E59594800386028 /* NumpadKeyboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NumpadKeyboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE57B9991E59594800386028 /* NumpadKeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumpadKeyboardTests.swift; sourceTree = "<group>"; };
+		CE57B9971E59594800386028 /* CalculatorKeyboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalculatorKeyboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE57B9991E59594800386028 /* CalculatorKeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorKeyboardTests.swift; sourceTree = "<group>"; };
 		CE57B99B1E59594800386028 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE57B9A11E59596B00386028 /* TrieClassUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrieClassUnitTests.swift; sourceTree = "<group>"; };
 		D72D5A88386A233EC086DACF /* Pods-Calculator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calculator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Calculator/Pods-Calculator.debug.xcconfig"; sourceTree = "<group>"; };
@@ -127,9 +127,9 @@
 		194C95F51BF3497E000B3BA6 = {
 			isa = PBXGroup;
 			children = (
-				194C96001BF3497E000B3BA6 /* NumpadKeyboard */,
-				194C96181BF3585D000B3BA6 /* Numpad */,
-				CE57B9981E59594800386028 /* NumpadKeyboardTests */,
+				194C96001BF3497E000B3BA6 /* CalculatorKeyboard */,
+				194C96181BF3585D000B3BA6 /* Calculator */,
+				CE57B9981E59594800386028 /* CalculatorKeyboardTests */,
 				194C95FF1BF3497E000B3BA6 /* Products */,
 				DF9233C1F55CC5FE5AF181EC /* Pods */,
 				F2AF7ABC54B1585A792422CF /* Frameworks */,
@@ -139,14 +139,14 @@
 		194C95FF1BF3497E000B3BA6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				194C95FE1BF3497E000B3BA6 /* NumpadKeyboard.app */,
+				194C95FE1BF3497E000B3BA6 /* CalculatorKeyboard.app */,
 				194C96171BF3585D000B3BA6 /* Calculator.appex */,
-				CE57B9971E59594800386028 /* NumpadKeyboardTests.xctest */,
+				CE57B9971E59594800386028 /* CalculatorKeyboardTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		194C96001BF3497E000B3BA6 /* NumpadKeyboard */ = {
+		194C96001BF3497E000B3BA6 /* CalculatorKeyboard */ = {
 			isa = PBXGroup;
 			children = (
 				194C96011BF3497E000B3BA6 /* AppDelegate.swift */,
@@ -156,11 +156,10 @@
 				194C960A1BF3497E000B3BA6 /* LaunchScreen.storyboard */,
 				194C960D1BF3497E000B3BA6 /* Info.plist */,
 			);
-			name = NumpadKeyboard;
 			path = CalculatorKeyboard;
 			sourceTree = "<group>";
 		};
-		194C96181BF3585D000B3BA6 /* Numpad */ = {
+		194C96181BF3585D000B3BA6 /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
 				273077751E5382BA003A37C3 /* t9 */,
@@ -169,7 +168,6 @@
 				194C961B1BF3585D000B3BA6 /* Info.plist */,
 				2537DAF21E4A80580097C6C1 /* NumpadKeyboard.xib */,
 			);
-			name = Numpad;
 			path = Calculator;
 			sourceTree = "<group>";
 		};
@@ -198,13 +196,12 @@
 			name = t9;
 			sourceTree = "<group>";
 		};
-		CE57B9981E59594800386028 /* NumpadKeyboardTests */ = {
+		CE57B9981E59594800386028 /* CalculatorKeyboardTests */ = {
 			isa = PBXGroup;
 			children = (
-				CE57B9991E59594800386028 /* NumpadKeyboardTests.swift */,
+				CE57B9991E59594800386028 /* CalculatorKeyboardTests.swift */,
 				CE57B99B1E59594800386028 /* Info.plist */,
 			);
-			name = NumpadKeyboardTests;
 			path = CalculatorKeyboardTests;
 			sourceTree = "<group>";
 		};
@@ -231,9 +228,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		194C95FD1BF3497E000B3BA6 /* NumpadKeyboard */ = {
+		194C95FD1BF3497E000B3BA6 /* CalculatorKeyboard */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 194C96101BF3497E000B3BA6 /* Build configuration list for PBXNativeTarget "NumpadKeyboard" */;
+			buildConfigurationList = 194C96101BF3497E000B3BA6 /* Build configuration list for PBXNativeTarget "CalculatorKeyboard" */;
 			buildPhases = (
 				09ABDF8F97F93DD1B0E2AB7F /* [CP] Check Pods Manifest.lock */,
 				194C95FA1BF3497E000B3BA6 /* Sources */,
@@ -248,9 +245,9 @@
 			dependencies = (
 				194C961D1BF3585D000B3BA6 /* PBXTargetDependency */,
 			);
-			name = NumpadKeyboard;
+			name = CalculatorKeyboard;
 			productName = CalculatorKeyboard;
-			productReference = 194C95FE1BF3497E000B3BA6 /* NumpadKeyboard.app */;
+			productReference = 194C95FE1BF3497E000B3BA6 /* CalculatorKeyboard.app */;
 			productType = "com.apple.product-type.application";
 		};
 		194C96161BF3585D000B3BA6 /* Calculator */ = {
@@ -272,9 +269,9 @@
 			productReference = 194C96171BF3585D000B3BA6 /* Calculator.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		CE57B9961E59594800386028 /* NumpadKeyboardTests */ = {
+		CE57B9961E59594800386028 /* CalculatorKeyboardTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE57B99E1E59594800386028 /* Build configuration list for PBXNativeTarget "NumpadKeyboardTests" */;
+			buildConfigurationList = CE57B99E1E59594800386028 /* Build configuration list for PBXNativeTarget "CalculatorKeyboardTests" */;
 			buildPhases = (
 				CE57B9931E59594800386028 /* Sources */,
 				CE57B9941E59594800386028 /* Frameworks */,
@@ -285,9 +282,9 @@
 			dependencies = (
 				CE57B99D1E59594800386028 /* PBXTargetDependency */,
 			);
-			name = NumpadKeyboardTests;
+			name = CalculatorKeyboardTests;
 			productName = CalculatorKeyboardTests;
-			productReference = CE57B9971E59594800386028 /* NumpadKeyboardTests.xctest */;
+			productReference = CE57B9971E59594800386028 /* CalculatorKeyboardTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -315,7 +312,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 194C95F91BF3497E000B3BA6 /* Build configuration list for PBXProject "NumpadKeyboard" */;
+			buildConfigurationList = 194C95F91BF3497E000B3BA6 /* Build configuration list for PBXProject "CalculatorKeyboard" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -328,9 +325,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				194C95FD1BF3497E000B3BA6 /* NumpadKeyboard */,
+				194C95FD1BF3497E000B3BA6 /* CalculatorKeyboard */,
 				194C96161BF3585D000B3BA6 /* Calculator */,
-				CE57B9961E59594800386028 /* NumpadKeyboardTests */,
+				CE57B9961E59594800386028 /* CalculatorKeyboardTests */,
 			);
 		};
 /* End PBXProject section */
@@ -475,7 +472,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE57B9A21E59596B00386028 /* TrieClassUnitTests.swift in Sources */,
-				CE57B99A1E59594800386028 /* NumpadKeyboardTests.swift in Sources */,
+				CE57B99A1E59594800386028 /* CalculatorKeyboardTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,7 +486,7 @@
 		};
 		CE57B99D1E59594800386028 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 194C95FD1BF3497E000B3BA6 /* NumpadKeyboard */;
+			target = 194C95FD1BF3497E000B3BA6 /* CalculatorKeyboard */;
 			targetProxy = CE57B99C1E59594800386028 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -674,7 +671,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NumpadKeyboard.app/NumpadKeyboard";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CalculatorKeyboard.app/CalculatorKeyboard";
 			};
 			name = Debug;
 		};
@@ -693,14 +690,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NumpadKeyboard.app/NumpadKeyboard";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CalculatorKeyboard.app/CalculatorKeyboard";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		194C95F91BF3497E000B3BA6 /* Build configuration list for PBXProject "NumpadKeyboard" */ = {
+		194C95F91BF3497E000B3BA6 /* Build configuration list for PBXProject "CalculatorKeyboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				194C960E1BF3497E000B3BA6 /* Debug */,
@@ -709,7 +706,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		194C96101BF3497E000B3BA6 /* Build configuration list for PBXNativeTarget "NumpadKeyboard" */ = {
+		194C96101BF3497E000B3BA6 /* Build configuration list for PBXNativeTarget "CalculatorKeyboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				194C96111BF3497E000B3BA6 /* Debug */,
@@ -727,7 +724,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE57B99E1E59594800386028 /* Build configuration list for PBXNativeTarget "NumpadKeyboardTests" */ = {
+		CE57B99E1E59594800386028 /* Build configuration list for PBXNativeTarget "CalculatorKeyboardTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE57B99F1E59594800386028 /* Debug */,
