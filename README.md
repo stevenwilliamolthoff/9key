@@ -10,11 +10,11 @@
 ## Key bindings should change if caps lock is on
 
 INSTRUCTIONS:
-1. Go to the link we provided for you and download the zip file
-2. After opening the zip file, navigate to 9key-Alpha/calc_pad/CalculatorKeyboard-master folder and click CalculatorKeyboard.xcworkspace (NOT CalculatorKeyboard.xcodeproj)
-3. Compile and run - simulator will open
-4. If steps 2-3 do not work as instructed, try opening the entire CalculatorKeyboard-master directory from the XCode project selection menu and build using this (redo step 3 after opening this directory).
-5. Follow the app’s instructions for adding the keyboard
-6. Navigate to our app or to another text-entry app
-7. Click the globe button to switch to our keyboard
-8. Use our keyboard
+### 1. Go to the link we provided for you and download the zip file
+### 2. After opening the zip file, navigate to 9key-Alpha/calc_pad/CalculatorKeyboard-master folder and click CalculatorKeyboard.xcworkspace (NOT CalculatorKeyboard.xcodeproj)
+### 3. Compile and run - simulator will open
+### 4. If steps 2-3 do not work as instructed, try opening the entire CalculatorKeyboard-master directory from the XCode project selection menu and build using this (redo step 3 after opening this directory).
+### 5. Follow the app’s instructions for adding the keyboard
+### 6. Navigate to our app or to another text-entry app
+### 7. Click the globe button to switch to our keyboard
+### 8. Use our keyboard
