@@ -9,7 +9,7 @@
 ## Detection of when a word ends by selection of suggestion or select first suggestion if punctuation or space hit
 ## Key bindings should change if caps lock is on
 
-INSTRUCTIONS:
+#### INSTRUCTIONS:
 ### 1. Go to the link we provided for you and download the zip file
 ### 2. After opening the zip file, navigate to 9key-Alpha/calc_pad/CalculatorKeyboard-master folder and click CalculatorKeyboard.xcworkspace (NOT CalculatorKeyboard.xcodeproj)
 ### 3. Compile and run - simulator will open
