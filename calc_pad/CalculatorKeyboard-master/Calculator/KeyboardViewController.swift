@@ -2,8 +2,6 @@
 //  KeyboardViewController.swift
 //  Calculator
 //
-//  Created by Shaun O'Reilly on 11/11/2015.
-//  Copyright © 2015 Visual Recruit Pty Ltd. All rights reserved.
 //
 
 import UIKit
