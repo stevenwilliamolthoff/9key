@@ -1,7 +1,9 @@
 //
 //  KeyboardViewController.swift
-//  9key
+//  Calculator
 //
+//  Created by Shaun O'Reilly on 11/11/2015.
+//  Copyright © 2015 Visual Recruit Pty Ltd. All rights reserved.
 //
 
 import UIKit
@@ -18,7 +20,7 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var dismissButton: IconButton!
     @IBOutlet var displayBackspace: IconButton!{
         didSet{
-            let gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.shouldClearPreviousWordInDisplay))
+            let gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.shouldClearPreviousWordInTextField))
             displayBackspace.addGestureRecognizer(gesture)
         }
     }
@@ -28,16 +30,17 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var spaceButton: RoundButton!{
         didSet{
             spaceButton.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-
+            
         }
     }
-
-    @IBOutlet var display: UILabel! {
+    
+    var display: UILabel! {
         didSet{
             display.isUserInteractionEnabled = true
             display.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.shouldInsertText)))
         }
     }
+    
     @IBOutlet var syms_1: RaisedButton!
     @IBOutlet var syms_2: RaisedButton!
     @IBOutlet var syms_3: RaisedButton!
@@ -48,71 +51,78 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var predict3: RoundButton!
     @IBOutlet var predict4: RoundButton!
     
+    @IBOutlet weak var char1: UIButton!
+    @IBOutlet weak var char2: UIButton!
+    @IBOutlet weak var char3: UIButton!    
+    @IBOutlet weak var char4: UIButton!
+    
+    
     @IBOutlet var one: RoundButton!{
         didSet{
             one.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-//            one.titleLabel!.font =  UIFont(name: "one", size: 18)
+            one.titleLabel!.font =  UIFont(name: "one", size: 18)
         }
     }
     @IBOutlet var two: RoundButton!{
         didSet{
             two.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-//             two.titleLabel!.font =  UIFont(name: "two", size: 18)
-
+            two.titleLabel!.font =  UIFont(name: "two", size: 18)
+            
         }
     }
     @IBOutlet var three: RoundButton!{
         didSet{
             three.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
- //            three.titleLabel!.font =  UIFont(name: "three", size: 18)
+            three.titleLabel!.font =  UIFont(name: "three", size: 18)
         }
     }
     @IBOutlet var four: RoundButton!{
         didSet{
             four.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-//             four.titleLabel!.font =  UIFont(name: "four", size: 18)
+            four.titleLabel!.font =  UIFont(name: "four", size: 18)
         }
     }
     @IBOutlet var five: RoundButton!{
         didSet{
             five.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-//             five.titleLabel!.font =  UIFont(name: "five", size: 18)
+            five.titleLabel!.font =  UIFont(name: "five", size: 18)
         }
     }
     @IBOutlet var six: RoundButton!{
         didSet{
             six.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
- //            six.titleLabel!.font =  UIFont(name: "six", size: 18)
-
+            six.titleLabel!.font =  UIFont(name: "six", size: 18)
+            
         }
     }
     @IBOutlet var seven: RoundButton!{
         didSet{
             seven.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
- //            seven.titleLabel!.font =  UIFont(name: "seven", size: 18)
-
+            seven.titleLabel!.font =  UIFont(name: "seven", size: 18)
+            
         }
     }
     @IBOutlet var eight: RoundButton!{
         didSet{
             eight.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
- //            eight.titleLabel!.font =  UIFont(name: "eight", size: 18)
-
+            eight.titleLabel!.font =  UIFont(name: "eight", size: 18)
+            
         }
     }
     @IBOutlet var nine: RoundButton!{
         didSet{
             nine.setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
-//             nine.titleLabel!.font =  UIFont(name: "nine", size: 18)
-
+            nine.titleLabel!.font =  UIFont(name: "nine", size: 18)
+            
         }
     }
-
+    
     //MARK: Variables
     var keyboardView: UIView!
-    var shouldClearDisplayBeforeInserting = true
+    var shouldClearDisplayBeforeInserting: Bool = true
     var keyscontrol = KeysControl()
-    var motherViewsHaveConstrainted = false
+    var motherViewsHaveConstrainted: Bool = false
+    //    var predictionButtons: [RoundButton] = [RoundButton(predictionIndex: 0)]
     
     //MARK: Life Cycles
     
@@ -120,8 +130,18 @@ class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         loadInterface()
         updateViewConstraints()
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(KeyboardViewController.handleLongPress(_:)))
+        longPress.minimumPressDuration = 0.5
+        longPress.numberOfTouchesRequired = 1
+        longPress.allowableMovement = 0.1
+        mainBackspace.addGestureRecognizer(longPress)
     }
-
+    
+    func handleLongPress(_ gestureRecognizer: UIGestureRecognizer) {
+        //this goes super fast so we can change it by maybe adding a delay or something
+        textDocumentProxy.deleteBackward()
+    }
+    //code above from: http://stackoverflow.com/questions/25633189/ios-8-custom-keyboard-hold-button-to-delete
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let expandedHeight:CGFloat = 270
@@ -172,24 +192,42 @@ class KeyboardViewController: UIInputViewController {
                 .top(Padding().sidePanels.rightRegion.forButton(withIndex: 3).top)
                 .height(Padding.SidePanels.RightRegion.returnButtonDimensions.height)
                 .width(Padding.SidePanels.RightRegion.returnButtonDimensions.width)
-            topRegion.layout(display)
-                .left()
-                .top()
+            topRegion.layout(char1)
+                .left(Padding().sidePanels.topRegion.charLayouts(index: 1).left)
+                .top(Padding().sidePanels.topRegion.charLayouts(index: 1).top)
                 .bottom()
-                .width(Padding().sidePanels.topRegion.displayWidth)
-                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height)
+                .width(Padding.SidePanels.TopRegion.charDimensions.width)
+                .height(Padding.SidePanels.TopRegion.charDimensions.height)
+            topRegion.layout(char2)
+                .left(Padding().sidePanels.topRegion.charLayouts(index: 2).left)
+                .top(Padding().sidePanels.topRegion.charLayouts(index: 2).top)
+                .bottom()
+                .width(Padding.SidePanels.TopRegion.charDimensions.width)
+                .height(Padding.SidePanels.TopRegion.charDimensions.height)
+            topRegion.layout(char3)
+                .left(Padding().sidePanels.topRegion.charLayouts(index: 3).left)
+                .top(Padding().sidePanels.topRegion.charLayouts(index: 3).top)
+                .bottom()
+                .width(Padding.SidePanels.TopRegion.charDimensions.width)
+                .height(Padding.SidePanels.TopRegion.charDimensions.height)
+            topRegion.layout(char4)
+                .left(Padding().sidePanels.topRegion.charLayouts(index: 4).left)
+                .top(Padding().sidePanels.topRegion.charLayouts(index: 4).top)
+                .bottom()
+                .width(Padding.SidePanels.TopRegion.charDimensions.width)
+                .height(Padding.SidePanels.TopRegion.charDimensions.height)
             topRegion.layout(dismissButton)
+                .left(Padding().sidePanels.topRegion.buttonsLayouts(index: 1).left)
+                .top(Padding().sidePanels.topRegion.buttonsLayouts(index: 1).top)
+                .bottom()
+                .width(Padding.SidePanels.TopRegion.buttonsDimensions.width)
+                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height)
+            topRegion.layout(displayBackspace)
                 .left(Padding().sidePanels.topRegion.buttonsLayouts(index: 2).left)
                 .top(Padding().sidePanels.topRegion.buttonsLayouts(index: 2).top)
                 .bottom()
                 .width(Padding.SidePanels.TopRegion.buttonsDimensions.width)
-                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height)           
-            topRegion.layout(displayBackspace)
-                .left(Padding().sidePanels.topRegion.buttonsLayouts(index: 3).left)
-                .top(Padding().sidePanels.topRegion.buttonsLayouts(index: 3).top)
-                .bottom()
-                .width(Padding.SidePanels.TopRegion.buttonsDimensions.width)
-                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height) 
+                .height(Padding.SidePanels.TopRegion.buttonsDimensions.height)
             topRegion.layout(predict1)
                 .left()
                 .top(Padding().sidePanels.topRegion.predictLayouts(index: 4).top)
@@ -323,29 +361,71 @@ extension KeyboardViewController {
     // that array and change the titles of the suggestion buttons on the keyboard to the suggestions.
     @IBAction func proceedNineKeyOperations(_ operation: RoundButton){
         if(operation.mode == "numbers"){
-            display.text = keyscontrol.toggle(mode: operation.mode, tag:operation.tag)
+            let proxy = textDocumentProxy as UITextDocumentProxy
+            
+            let input: String? = operation.currentTitle
+            
+            if input != nil {
+                //proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
+                
+                proxy.insertText(input!)
+                return
+            }
             return
         }
-        var suggestionsToRender = [String]()
-        suggestionsToRender = keyscontrol.t9Toggle(mode: operation.mode, tag: operation.tag)
-//        for i in 0 ..< 3  {
-//            NSLog(suggestionsToRender[i])
-//            predict1.title = suggestionsToRender[i]
-//        }
-        if suggestionsToRender.count > 3 {
-            predict1.renderSuggestions(sugg: suggestionsToRender[0])
-            predict2.renderSuggestions(sugg: suggestionsToRender[1])
-            predict3.renderSuggestions(sugg: suggestionsToRender[2])
-            predict4.renderSuggestions(sugg: suggestionsToRender[3])
-        } else {
-            NSLog("Suggestions came back with less than 3")
-            NSLog(String(suggestionsToRender.count))
+        var suggestionsToRender = keyscontrol.t9Toggle(mode: operation.mode, tag: operation.tag)
+        let max = 4
+        if suggestionsToRender.count > max {
+            for _ in 0..<suggestionsToRender.count - max {
+                suggestionsToRender.removeLast()
+            }
         }
-//        predict1.title = suggestionsToRender[0]
-//        predict2.title = suggestionsToRender[1]
-//        predict3.title = suggestionsToRender[2]
-        // render in scroll area that will show the rest of the suggestions
+        else if suggestionsToRender.count < max {
+            for _ in 0..<max - suggestionsToRender.count {
+                suggestionsToRender.append("")
+            }
+        }
+        if suggestionsToRender[0] != "" {
+            predict1.setTitle(suggestionsToRender[0], for: .normal)
+            predict1.setTitleColor(Color.black, for: .normal)
+        }
+        if suggestionsToRender[1] != "" {
+            predict2.setTitle(suggestionsToRender[1], for: .normal)
+            predict2.setTitleColor(Color.black, for: .normal)
+        }
+        if suggestionsToRender[2] != "" {
+            predict3.setTitle(suggestionsToRender[2], for: .normal)
+            predict3.setTitleColor(Color.black, for: .normal)
+        }
+        if suggestionsToRender[3] != "" {
+            predict4.setTitle(suggestionsToRender[3], for: .normal)
+            predict4.setTitleColor(Color.black, for: .normal)
+        }
+    }
+    
+    @IBAction func punctuationKeys(_ operation: RoundButton){
+        if(operation.mode == "numbers"){
+            let proxy = textDocumentProxy as UITextDocumentProxy
+            
+            let input: String? = operation.currentTitle
+            
+            if input != nil {
+                //proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
+                
+                proxy.insertText(input!)
+                return
+            }
+            return
+        }
         
+        predict1.setTitle("@", for: .normal)
+        predict1.setTitleColor(Color.black, for: .normal)
+        predict2.setTitle("/", for: .normal)
+        predict2.setTitleColor(Color.black, for: .normal)
+        predict3.setTitle("!", for: .normal)
+        predict3.setTitleColor(Color.black, for: .normal)
+        predict4.setTitle(".", for: .normal)
+        predict4.setTitleColor(Color.black, for: .normal)
     }
     
     @IBAction func predictionSelect(_ operation: RoundButton){
@@ -353,15 +433,29 @@ extension KeyboardViewController {
         //pasted below is the same code
         let proxy = textDocumentProxy as UITextDocumentProxy
         
-        if let input = display?.text as String? {
-            proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
-            
-            keyscontrol.wordSelected(word: input)
-            //should we have a function that's like returnKeySequence?
-        }
+        let input: String? = operation.currentTitle
         
-        display.text = ""
+        if input != nil && predict1.currentTitle != "" && predict1.currentTitle != "@" {
+            //proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
+            
+            keyscontrol.wordSelected(word: input!)
+            //should we have a function that's like returnKeySequence?
+            keyscontrol.storedInputs.append(input! + " ")
+            proxy.insertText(input! + " ")
+        }
+        else {
+            if predict1.currentTitle == "@"{
+                inputSymbols(operation)
+            }
+            
+            return
+        }
         keyscontrol.clear()
+        
+        predict1.setTitle("", for: .normal)
+        predict2.setTitle("", for: .normal)
+        predict3.setTitle("", for: .normal)
+        predict4.setTitle("", for: .normal)
     }
     
     // When space is pressed, the user effectively selects the first suggestion button's suggestion.
@@ -369,24 +463,19 @@ extension KeyboardViewController {
     // will be cleared. The function will also call t9Driver's updateWeights function with the correct
     // word and keySequence (TODO: Still need a way to store this and communicate it to that level).
     @IBAction func spaceSelect(_ operation: RoundButton){
-        //updates weight of the title of the first button
         let proxy = textDocumentProxy as UITextDocumentProxy
-        
-        if let input = display?.text as String? {
-            proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
-            
-            keyscontrol.wordSelected(word: input)
-            //should we have a function that's like returnKeySequence? 
+        if predict1.currentTitle != "" && predict1.currentTitle != "@" {
+            predictionSelect(predict1)
         }
-        
-        display.text = ""
-        keyscontrol.clear() //prob need to change this or keep another variable in case brad backspaces
+        else {
+            proxy.insertText(" ")
+        }
     }
     
     // below is the manual entry mode
-//    @IBAction func proceedNineKeyOperations(_ operation: RoundButton) {
-//        display.text = keyscontrol.toggle(mode: operation.mode, tag: operation.tag)
-//    }
+    //    @IBAction func proceedNineKeyOperations(_ operation: RoundButton) {
+    //        display.text = keyscontrol.toggle(mode: operation.mode, tag: operation.tag)
+    //    }
     
     
     // Number-Alphabet switcher
@@ -405,7 +494,7 @@ extension KeyboardViewController {
     //Backspace in active textfield
     @IBAction func shouldDeleteText(_ backspaceKey: RaisedButton){
         // Pass textfield controller back to keyboard so keyboard can control active textfield in any apps
-         (textDocumentProxy as UIKeyInput).deleteBackward()
+        (textDocumentProxy as UIKeyInput).deleteBackward()
     }
     //Dismiss keyboard
     @IBAction func shouldDismissKeyboard() {
@@ -428,29 +517,87 @@ extension KeyboardViewController {
     // the keyscontrol.t9Backspace function. That function will get new suggestions which
     // will be returned here and rendered on the suggestion buttons.
     @IBAction func shouldDeleteTextInDisplay() {
+        //        if (display?.text)! == "" && (predict1.currentTitle?.length)! <= 1 {
+        //            keyscontrol.clear()
+        //            predict1.setTitle("", for: .normal)
+        //            predict2.setTitle("", for: .normal)
+        //            predict3.setTitle("", for: .normal)
+        //            predict4.setTitle("", for: .normal)
+        //            return
+        //        }
+        if keyscontrol.storedKeySequence.length == 0 {
+            return
+        }
         var suggestionsUpdate = [String]()
         suggestionsUpdate = keyscontrol.t9Backspace()
-        predict1.renderSuggestions(sugg: suggestionsUpdate[0])
-        predict2.renderSuggestions(sugg: suggestionsUpdate[1])
-        predict3.renderSuggestions(sugg: suggestionsUpdate[2])
-        predict4.renderSuggestions(sugg: suggestionsUpdate[3])
-//        predict2.title = suggestionsUpdate[1]
-//        predict3.title = suggestionsUpdate[2]
+        predict1.setTitle(suggestionsUpdate[0], for: .normal)
+        predict1.setTitleColor(Color.black, for: .normal)
+        predict2.setTitle(suggestionsUpdate[1], for: .normal)
+        predict2.setTitleColor(Color.black, for: .normal)
+        predict3.setTitle(suggestionsUpdate[2], for: .normal)
+        predict3.setTitleColor(Color.black, for: .normal)
+        predict4.setTitle(suggestionsUpdate[3], for: .normal)
+        predict4.setTitleColor(Color.black, for: .normal)
+        
+        //        predict1.renderSuggestions(sugg: suggestionsUpdate[0])
+        //        predict2.renderSuggestions(sugg: suggestionsUpdate[1])
+        //        predict3.renderSuggestions(sugg: suggestionsUpdate[2])
+        //        predict4.renderSuggestions(sugg: suggestionsUpdate[3])
+        //        predict2.title = suggestionsUpdate[1]
+        //        predict3.title = suggestionsUpdate[2]
         // render new suggestions in button
     }
     
-    func shouldClearPreviousWordInDisplay() {
-        if let lastWordRange = display.text?.range(of: " ") {
-            display.text?.removeSubrange(lastWordRange.lowerBound..<(display.text?.endIndex)!)
-        }else{
-            display.text = ""
-            keyscontrol.clear()
-        }
+    func shouldClearPreviousWordInTextField() {
+        let proxy = textDocumentProxy as UITextDocumentProxy
+//        if let lastWordRange = proxy. proxy.text?.range(of: " ") {
+//            proxy.text?.removeSubrange(lastWordRange.lowerBound..<(proxy.text?.endIndex)!)
+//        }else{
+//            proxy.text = ""
+//            keyscontrol.clear()
+//        }
+        proxy.deleteBackward()
     }
     
     //Insert symbols
-    @IBAction func inputSymbols(_ sender: RaisedButton) {
-        display.text = display.text! + (sender.titleLabel?.text)!
+    @IBAction func inputSymbols(_ sender: AnyObject
+        ) {
+//        display.text = display.text! + (sender.titleLabel?.text)!
+        let proxy = textDocumentProxy as UITextDocumentProxy
+        
+        let input: String? = predict1.currentTitle
+        
+        if input != nil && predict1.currentTitle != "" && predict1.currentTitle != "@" {
+            //proxy.insertText(input + " ") //this line inserts the text into the field (with a space)
+            
+            keyscontrol.wordSelected(word: input!)
+            //should we have a function that's like returnKeySequence?
+            keyscontrol.storedInputs.append(input! + sender.currentTitle!!)
+            proxy.insertText(input! + sender.currentTitle!!)
+        }
+        else if keyscontrol.storedKeySequence.length > 1 {
+            NSLog(String(keyscontrol.storedKeySequence))
+            keyscontrol.storedKeySequence.characters.removeLast()
+            var bs = [Bool]()
+            var intKS = [Int]()
+            for ch in keyscontrol.storedKeySequence.characters {
+                intKS.append(Int(String(ch))!)
+            }
+
+            var word = keyscontrol.t9Communicator.getSuggestions(keySequence: intKS, shiftSequence: bs)[0]
+            keyscontrol.wordSelected(word: word)
+            keyscontrol.storedInputs.append(word + sender.currentTitle!!)
+            proxy.insertText(word + sender.currentTitle!!)
+        } else {
+            proxy.insertText(sender.currentTitle!!) //prob don't want added space
+            return
+        }
+        keyscontrol.clear()
+        
+        predict1.setTitle("", for: .normal)
+        predict2.setTitle("", for: .normal)
+        predict3.setTitle("", for: .normal)
+        predict4.setTitle("", for: .normal)
     }
     
     //Send key
