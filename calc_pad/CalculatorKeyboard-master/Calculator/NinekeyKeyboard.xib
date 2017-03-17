@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -11,8 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="KeyboardViewController" customModule="Calculator" customModuleProvider="target">
             <connections>
+                <outlet property="char1" destination="9Uz-Rd-vmf" id="uEC-KA-Pxd"/>
+                <outlet property="char2" destination="cN8-AT-kLc" id="769-5v-pXL"/>
+                <outlet property="char3" destination="3FB-w2-Vxs" id="eVi-gi-mD4"/>
+                <outlet property="char4" destination="qNR-Lp-cS8" id="NfH-2L-Odl"/>
                 <outlet property="dismissButton" destination="Sxm-XW-bZH" id="CxL-xw-NQu"/>
-                <outlet property="display" destination="ATz-Kd-4NS" id="cwX-XK-pPU"/>
                 <outlet property="displayBackspace" destination="Shp-hw-SDg" id="4uc-5z-xG2"/>
                 <outlet property="eight" destination="96x-dF-cfp" id="WGg-Ot-2Ng"/>
                 <outlet property="five" destination="2O9-Y3-npc" id="mJ6-3b-TdI"/>
@@ -24,7 +27,7 @@
                 <outlet property="nine" destination="0ov-6p-ZqG" id="dAT-1r-hdo"/>
                 <outlet property="numberPadSwitcher" destination="KcW-pn-hMS" id="XVj-rJ-c6u"/>
                 <outlet property="one" destination="pdf-VD-ZKn" id="wVd-wo-TOU"/>
-                <outlet property="predict1" destination="23Z-tO-6CI" id="dJs-qT-lcu"/>
+                <outlet property="predict1" destination="23Z-tO-6CI" id="Ilb-do-Ltq"/>
                 <outlet property="predict2" destination="Zd0-kX-b08" id="vhI-A4-AxB"/>
                 <outlet property="predict3" destination="yyF-K0-jr9" id="JkI-Dc-tkJ"/>
                 <outlet property="predict4" destination="9ML-yK-l90" id="2LU-pX-r1C"/>
@@ -52,7 +55,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sxm-XW-bZH" customClass="IconButton" customModule="Material">
-                            <rect key="frame" x="243" y="1" width="38" height="35"/>
+                            <rect key="frame" x="234" y="0.0" width="40" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="image" keyPath="image" value="arrow_down"/>
@@ -65,7 +68,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Shp-hw-SDg" customClass="IconButton" customModule="Material">
-                            <rect key="frame" x="282" y="1" width="38" height="35"/>
+                            <rect key="frame" x="282" y="1" width="40" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="image" keyPath="image" value="arrow_left"/>
@@ -77,19 +80,6 @@
                                 <action selector="shouldDeleteTextInDisplay" destination="-1" eventType="touchUpInside" id="flj-4p-slm"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Input will appear here..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATz-Kd-4NS" customClass="RoundLabel" customModule="Calculator" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="206" height="35"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="_cornerRadius">
-                                    <real key="value" value="5"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </label>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="23Z-tO-6CI">
                             <rect key="frame" x="0.0" y="35" width="80" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -157,6 +147,56 @@
                             <connections>
                                 <action selector="predictionSelect:" destination="-1" eventType="touchUpInside" id="Wrm-Oo-Mx2"/>
                             </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Uz-Rd-vmf" userLabel="char1">
+                            <rect key="frame" x="0.0" y="0.0" width="60" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cN8-AT-kLc" userLabel="char2">
+                            <rect key="frame" x="60" y="1" width="60" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3FB-w2-Vxs" userLabel="char3">
+                            <rect key="frame" x="128" y="0.0" width="60" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qNR-Lp-cS8" userLabel="char4">
+                            <rect key="frame" x="188" y="1" width="60" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -355,7 +395,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <action selector="proceedNineKeyOperations:" destination="-1" eventType="touchUpInside" id="b0i-n5-YTt"/>
+                        <action selector="punctuationKeys:" destination="-1" eventType="touchUpInside" id="f1Y-To-xdL"/>
                     </connections>
                 </button>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Laj-LQ-8UX" customClass="RoundButton" customModule="Calculator" customModuleProvider="target">
@@ -525,7 +565,7 @@
             <color key="backgroundColor" red="0.82895482512953367" green="0.82895482512953367" blue="0.82895482512953367" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-298" y="43"/>
+            <point key="canvasLocation" x="63" y="-258"/>
         </view>
     </objects>
     <resources>
