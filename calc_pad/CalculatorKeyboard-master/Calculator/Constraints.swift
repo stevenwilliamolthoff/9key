@@ -74,7 +74,7 @@ struct Padding {
         struct TopRegion {
             var displayWidth: CGFloat {
                 get{
-                    return UIScreen.main.bounds.width - 3 * TopRegion.buttonsDimensions.width
+                    return (240.0/320.0) * UIScreen.main.bounds.width
                 }
             }
             
@@ -84,15 +84,21 @@ struct Padding {
                 }
             }
 
-            static let buttonsDimensions: (width: CGFloat, height: CGFloat) = (width: (38.0/320.0)*UIScreen.main.bounds.width, height: SidePanels.topRegionHeight / 2)
+            static let buttonsDimensions: (width: CGFloat, height: CGFloat) = (width: (40.0/320.0)*UIScreen.main.bounds.width, height: SidePanels.topRegionHeight / 2)
             static let predictDimensions: (width: CGFloat, height: CGFloat) = (width: (80.0/320.0)*UIScreen.main.bounds.width, height: SidePanels.topRegionHeight / 2)
+            static let charDimensions: (width: CGFloat, height: CGFloat) = (width: (60.0/320.0)*UIScreen.main.bounds.width, height: SidePanels.topRegionHeight / 2)
             
+            func charLayouts(index: Int) -> (left: CGFloat, top: CGFloat) {
+                return (left:  CGFloat(index - 1) * TopRegion.charDimensions.width, top: 0)
+            }
             func buttonsLayouts(index: Int) -> (left: CGFloat, top: CGFloat){
-                return (left: displayWidth + CGFloat(index - 1) * TopRegion.buttonsDimensions.width, top: 0)
+                return (left: displayWidth + CGFloat(index - 1) * TopRegion.buttonsDimensions.width,
+                        top: 0)
             }
             func predictLayouts(index: Int) -> (left: CGFloat, top: CGFloat){
                 return (left: CGFloat(index - 4) * predictWidth, top: SidePanels.topRegionHeight / 2)
             }
+            
         }
         
         struct LeftRegion {
